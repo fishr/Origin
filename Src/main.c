@@ -55,7 +55,11 @@
 uint32_t hello=0;
 
 char cmdData[]="helloworld0";
-char inData[32];
+//uint16_t cmdData[]={9,2,2,7,2,1,0,1,8};
+uint8_t mpuCmd = 0x71;
+char inImu[32];
+char inData[64];
+//uint16_t inData[32];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -102,7 +106,6 @@ int main(void)
 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_SET);  //osc enable
 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_SET); //xbee reset
 HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
-HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET); //gps enable
 
   GPIO_InitTypeDef init;
     init.Pin = GPIO_PIN_3;
@@ -113,26 +116,83 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET); //gps enable
     init.Pin=GPIO_PIN_2;
     HAL_GPIO_Init(GPIOA, &init);
     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
-    
+   
     uint32_t ticks = HAL_GetTick();
+
+    /*
+    //===========RAM==========================
+    uint32_t wraddress = 0x0010;
+    HAL_SDRAM_Write_16b(&hsdram1, &wraddress, cmdData, sizeof(cmdData)/sizeof(cmdData[0]));
+    HAL_SDRAM_Read_16b(&hsdram1, &wraddress, inData, 32);
+    hello=4;
+    //==================RAM==========================
+   */
     
-    HAL_UART_Transmit(&huart5, cmdData, sizeof(cmdData)/sizeof(cmdData[0]), 5000);
+    
+    //LCD ===============================================
+    	
+/*
+    BSP_LCD_Init();
+    BSP_LCD_LayerDefaultInit(0, (uint32_t) LCD_FRAME_BUFFER);
+    BSP_LCD_SetLayerVisible(0, ENABLE);
+     
+    BSP_LCD_LayerDefaultInit(0, (uint32_t) LCD_FRAME_BUFFER);
+    BSP_LCD_SetLayerVisible(0, ENABLE);
+    BSP_LCD_LayerDefaultInit(1, (uint32_t) LCD_FRAME_BUFFER+76800);
+    BSP_LCD_SelectLayer(1);
+    BSP_LCD_SetLayerVisible(1, DISABLE);
+     
+    BSP_LCD_SelectLayer(0);
+    BSP_LCD_Clear(BRED);
+    BSP_LCD_DisplayOn();
+*/
+
+    //END LCD============================================
     
   /* USER CODE END 2 */
 
+    ticks = HAL_GetTick();
+    while(HAL_GetTick()<ticks+1100){
+      hello = 0;
+    }
+    
+HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET); //gps on/off
   /* USER CODE BEGIN 3 */
   /* Infinite loop */
   while (1)
   {
-    
+   
     if(inData[0]!=0)
-      hello=1;
+    {
+      int i = 0;
+      while((inData[i]!=0x0D)&&(i<61))
+      {
+        i++;
+      }
+      inData[i]=0x0D;
+      inData[i+1]=0x0A;
+      HAL_UART_Transmit(&huart5, inData, i+2, 500);
+    }
+      
     ticks = HAL_GetTick();
-    HAL_UART_Receive(&huart5, inData, 32, 500);
-    HAL_UART_Transmit(&huart5, cmdData, sizeof(cmdData)/sizeof(cmdData[0]), 500);
-    while(HAL_GetTick()<ticks+1100){}
-      HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);
-      HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
+    inData[0]=0;
+    HAL_UART_Receive(&huart4, inData, 64, 500);
+    //__HAL_I2C_CLEAR_FLAG(&hi2c3, I2C_FLAG_BUSY);
+    //while(__HAL_I2C_GET_FLAG(&hi2c3, I2C_FLAG_BUSY) == SET){}
+    
+    //HAL_StatusTypeDef halp = HAL_I2C_Master_Transmit(&hi2c3, 0x68, &mpuCmd, 1, 500);
+    //HAL_StatusTypeDef halpme = HAL_I2C_Master_Receive(&hi2c3,  0x68, inImu, 2, 500);
+    
+    
+    while(HAL_GetTick()<ticks+100){
+      hello = 0;
+    }
+    
+    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);
+    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
+
+    //if(inImu[0]!=0)
+      //hello=1;
   }
   /* USER CODE END 3 */
 

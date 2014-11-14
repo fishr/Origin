@@ -1,0 +1,1318 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.30.1.7746/W32 for ARM        10/Nov/2014  21:28:13
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\User\src\main.c
+#    Command line =  
+#        "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\User\src\main.c"
+#        -D USE_STDPERIPH_DRIVER -D USE_DMP -D MPL_LOG_NDEBUG=1 -D EMPL -D
+#        MPU9250 -D EMPL_TARGET_STM32F4 -lcN "C:\Users\Ryan\Documents\IAR
+#        Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\"
+#        -o "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\"
+#        --no_cse --no_unroll --no_inline --no_code_motion --no_tbaa
+#        --no_clustering --no_scheduling --debug --endian=little
+#        --cpu=Cortex-M4F -e --fpu=VFPv4_sp --dlib_config
+#        P:\IARWorkbench\arm\INC\c\DLib_Config_Normal.h -I
+#        "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\..\User\inc\"
+#        -I "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\..\User\src\"
+#        -I "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\inc\"
+#        -I "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\src\"
+#        -I "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\inc\"
+#        -I "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\src\"
+#        -I "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\"
+#        -I "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\"
+#        -I "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\include\"
+#        -I "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\eMPL\"
+#        -I "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\stm32l\"
+#        -I "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mllite\"
+#        -I "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mpl\"
+#        -I "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\..\core\eMPL-hal\"
+#        -Ol -I P:\IARWorkbench\arm\CMSIS\Include\
+#    List file    =  
+#        C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\main.lst
+#    Object file  =  
+#        C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\main.o
+#
+###############################################################################
+
+C:\Users\Ryan\Documents\IAR Embedded Workbench\Origin\motion_driver_6.1\arm\STM32F4_MD6\Projects\eMD6\User\src\main.c
+      1          /**
+      2           *   @defgroup  eMPL
+      3           *   @brief     Embedded Motion Processing Library
+      4           *
+      5           *   @{
+      6           *       @file      main.c
+      7           *       @brief     Test app for eMPL using the Motion Driver DMP image.
+      8           */
+      9           
+     10          /* Includes ------------------------------------------------------------------*/
+     11          #include "stm32f4xx.h"
+     12          #include "stdio.h"
+     13          
+     14          #include "uart.h"
+     15          #include "i2c.h"
+     16          #include "gpio.h"
+     17          #include "main.h"
+     18          #include "board-st_discovery.h"
+     19              
+     20          #include "inv_mpu.h"
+     21          #include "inv_mpu_dmp_motion_driver.h"
+     22          #include "invensense.h"
+     23          #include "invensense_adv.h"
+     24          #include "eMPL_outputs.h"
+     25          #include "mltypes.h"
+     26          #include "mpu.h"
+     27          #include "log.h"
+     28          #include "packet.h"
+     29          /* Private typedef -----------------------------------------------------------*/
+     30          /* Data read from MPL. */
+     31          #define PRINT_ACCEL     (0x01)
+     32          #define PRINT_GYRO      (0x02)
+     33          #define PRINT_QUAT      (0x04)
+     34          #define PRINT_COMPASS   (0x08)
+     35          #define PRINT_EULER     (0x10)
+     36          #define PRINT_ROT_MAT   (0x20)
+     37          #define PRINT_HEADING   (0x40)
+     38          #define PRINT_PEDO      (0x80)
+     39          #define PRINT_LINEAR_ACCEL (0x100)
+     40          
+     41          volatile uint32_t hal_timestamp = 0;
+     42          #define ACCEL_ON        (0x01)
+     43          #define GYRO_ON         (0x02)
+     44          #define COMPASS_ON      (0x04)
+     45          
+     46          #define MOTION          (0)
+     47          #define NO_MOTION       (1)
+     48          
+     49          /* Starting sampling rate. */
+     50          #define DEFAULT_MPU_HZ  (20)
+     51          
+     52          #define FLASH_SIZE      (512)
+     53          #define FLASH_MEM_START ((void*)0x1800)
+     54          
+     55          #define PEDO_READ_MS    (1000)
+     56          #define TEMP_READ_MS    (500)
+     57          #define COMPASS_READ_MS (100)
+     58          struct rx_s {
+     59              unsigned char header[3];
+     60              unsigned char cmd;
+     61          };
+     62          struct hal_s {
+     63              unsigned char lp_accel_mode;
+     64              unsigned char sensors;
+     65              unsigned char dmp_on;
+     66              unsigned char wait_for_tap;
+     67              volatile unsigned char new_gyro;
+     68              unsigned char motion_int_mode;
+     69              unsigned long no_dmp_hz;
+     70              unsigned long next_pedo_ms;
+     71              unsigned long next_temp_ms;
+     72              unsigned long next_compass_ms;
+     73              unsigned int report;
+     74              unsigned short dmp_features;
+     75              struct rx_s rx;
+     76          };
+     77          static struct hal_s hal = {0};
+     78          
+     79          /* USB RX binary semaphore. Actually, it's just a flag. Not included in struct
+     80           * because it's declared extern elsewhere.
+     81           */
+     82          volatile unsigned char rx_new;
+     83          
+     84          unsigned char *mpl_key = (unsigned char*)"eMPL 5.1";
+     85          
+     86          /* Platform-specific information. Kinda like a boardfile. */
+     87          struct platform_data_s {
+     88              signed char orientation[9];
+     89          };
+     90          
+     91          /* The sensors can be mounted onto the board in any orientation. The mounting
+     92           * matrix seen below tells the MPL how to rotate the raw data from the
+     93           * driver(s).
+     94           * TODO: The following matrices refer to the configuration on internal test
+     95           * boards at Invensense. If needed, please modify the matrices to match the
+     96           * chip-to-body matrix for your particular set up.
+     97           */
+     98          static struct platform_data_s gyro_pdata = {
+     99              .orientation = { 1, 0, 0,
+    100                               0, 1, 0,
+    101                               0, 0, 1}
+    102          };
+    103          
+    104          #if defined MPU9150 || defined MPU9250
+    105          static struct platform_data_s compass_pdata = {
+    106              .orientation = { 0, 1, 0,
+    107                               1, 0, 0,
+    108                               0, 0, -1}
+    109          };
+    110          #define COMPASS_ENABLED 1
+    111          #elif defined AK8975_SECONDARY
+    112          static struct platform_data_s compass_pdata = {
+    113              .orientation = {-1, 0, 0,
+    114                               0, 1, 0,
+    115                               0, 0,-1}
+    116          };
+    117          #define COMPASS_ENABLED 1
+    118          #elif defined AK8963_SECONDARY
+    119          static struct platform_data_s compass_pdata = {
+    120              .orientation = {-1, 0, 0,
+    121                               0,-1, 0,
+    122                               0, 0, 1}
+    123          };
+    124          #define COMPASS_ENABLED 1
+    125          #endif
+    126          
+    127          
+    128          /* Private define ------------------------------------------------------------*/
+    129          
+    130          /* Private macro -------------------------------------------------------------*/
+    131          /* Private variables ---------------------------------------------------------*/
+    132          /* Private function prototypes -----------------------------------------------*/
+    133          /* ---------------------------------------------------------------------------*/
+    134          /* Get data from MPL.
+    135           * TODO: Add return values to the inv_get_sensor_type_xxx APIs to differentiate
+    136           * between new and stale data.
+    137           */
+    138          static void read_from_mpl(void)
+    139          {
+    140              long msg, data[9];
+    141              int8_t accuracy;
+    142              unsigned long timestamp;
+    143              float float_data[3] = {0};
+    144          
+    145              if (inv_get_sensor_type_quat(data, &accuracy, (inv_time_t*)&timestamp)) {
+    146                 /* Sends a quaternion packet to the PC. Since this is used by the Python
+    147                  * test app to visually represent a 3D quaternion, it's sent each time
+    148                  * the MPL has new data.
+    149                  */
+    150                  eMPL_send_quat(data);
+    151          
+    152                  /* Specific data packets can be sent or suppressed using USB commands. */
+    153                  if (hal.report & PRINT_QUAT)
+    154                      eMPL_send_data(PACKET_DATA_QUAT, data);
+    155              }
+    156          
+    157              if (hal.report & PRINT_ACCEL) {
+    158                  if (inv_get_sensor_type_accel(data, &accuracy,
+    159                      (inv_time_t*)&timestamp))
+    160                      eMPL_send_data(PACKET_DATA_ACCEL, data);
+    161              }
+    162              if (hal.report & PRINT_GYRO) {
+    163                  if (inv_get_sensor_type_gyro(data, &accuracy,
+    164                      (inv_time_t*)&timestamp))
+    165                      eMPL_send_data(PACKET_DATA_GYRO, data);
+    166              }
+    167          #ifdef COMPASS_ENABLED
+    168              if (hal.report & PRINT_COMPASS) {
+    169                  if (inv_get_sensor_type_compass(data, &accuracy,
+    170                      (inv_time_t*)&timestamp))
+    171                      eMPL_send_data(PACKET_DATA_COMPASS, data);
+    172              }
+    173          #endif
+    174              if (hal.report & PRINT_EULER) {
+    175                  if (inv_get_sensor_type_euler(data, &accuracy,
+    176                      (inv_time_t*)&timestamp))
+    177                      eMPL_send_data(PACKET_DATA_EULER, data);
+    178              }
+    179              if (hal.report & PRINT_ROT_MAT) {
+    180                  if (inv_get_sensor_type_rot_mat(data, &accuracy,
+    181                      (inv_time_t*)&timestamp))
+    182                      eMPL_send_data(PACKET_DATA_ROT, data);
+    183              }
+    184              if (hal.report & PRINT_HEADING) {
+    185                  if (inv_get_sensor_type_heading(data, &accuracy,
+    186                      (inv_time_t*)&timestamp))
+    187                      eMPL_send_data(PACKET_DATA_HEADING, data);
+    188              }
+    189              if (hal.report & PRINT_LINEAR_ACCEL) {
+    190                  if (inv_get_sensor_type_linear_acceleration(float_data, &accuracy, (inv_time_t*)&timestamp)) {
+    191                  	MPL_LOGI("Linear Accel: %7.5f %7.5f %7.5f\r\n",
+    192                  			float_data[0], float_data[1], float_data[2]);                                        
+    193                   }
+    194              }
+    195              if (hal.report & PRINT_PEDO) {
+    196                  unsigned long timestamp;
+    197                  get_tick_count(&timestamp);
+    198                  if (timestamp > hal.next_pedo_ms) {
+    199                      hal.next_pedo_ms = timestamp + PEDO_READ_MS;
+    200                      unsigned long step_count, walk_time;
+    201                      dmp_get_pedometer_step_count(&step_count);
+    202                      dmp_get_pedometer_walk_time(&walk_time);
+    203                      MPL_LOGI("Walked %ld steps over %ld milliseconds..\n", step_count,
+    204                      walk_time);
+    205                  }
+    206              }
+    207          
+    208              /* Whenever the MPL detects a change in motion state, the application can
+    209               * be notified. For this example, we use an LED to represent the current
+    210               * motion state.
+    211               */
+    212              msg = inv_get_message_level_0(INV_MSG_MOTION_EVENT |
+    213                      INV_MSG_NO_MOTION_EVENT);
+    214              if (msg) {
+    215                  if (msg & INV_MSG_MOTION_EVENT) {
+    216                      MPL_LOGI("Motion!\n");
+    217                  } else if (msg & INV_MSG_NO_MOTION_EVENT) {
+    218                      MPL_LOGI("No motion!\n");
+    219                  }
+    220              }
+    221          }
+    222          
+    223          #ifdef COMPASS_ENABLED
+    224          void send_status_compass() {
+    225          	long data[3] = { 0 };
+    226          	int8_t accuracy = { 0 };
+    227          	unsigned long timestamp;
+    228          	inv_get_compass_set(data, &accuracy, (inv_time_t*) &timestamp);
+    229          	MPL_LOGI("Compass: %7.4f %7.4f %7.4f ",
+    230          			data[0]/65536.f, data[1]/65536.f, data[2]/65536.f);
+    231          	MPL_LOGI("Accuracy= %d\r\n", accuracy);
+    232          
+    233          }
+    234          #endif
+    235          
+    236          /* Handle sensor on/off combinations. */
+    237          static void setup_gyro(void)
+    238          {
+    239              unsigned char mask = 0, lp_accel_was_on = 0;
+    240              if (hal.sensors & ACCEL_ON)
+    241                  mask |= INV_XYZ_ACCEL;
+    242              if (hal.sensors & GYRO_ON) {
+    243                  mask |= INV_XYZ_GYRO;
+    244                  lp_accel_was_on |= hal.lp_accel_mode;
+    245              }
+    246          #ifdef COMPASS_ENABLED
+    247              if (hal.sensors & COMPASS_ON) {
+    248                  mask |= INV_XYZ_COMPASS;
+    249                  lp_accel_was_on |= hal.lp_accel_mode;
+    250              }
+    251          #endif
+    252              /* If you need a power transition, this function should be called with a
+    253               * mask of the sensors still enabled. The driver turns off any sensors
+    254               * excluded from this mask.
+    255               */
+    256              mpu_set_sensors(mask);
+    257              mpu_configure_fifo(mask);
+    258              if (lp_accel_was_on) {
+    259                  unsigned short rate;
+    260                  hal.lp_accel_mode = 0;
+    261                  /* Switching out of LP accel, notify MPL of new accel sampling rate. */
+    262                  mpu_get_sample_rate(&rate);
+    263                  inv_set_accel_sample_rate(1000000L / rate);
+    264              }
+    265          }
+    266          
+    267          static void tap_cb(unsigned char direction, unsigned char count)
+    268          {
+    269              switch (direction) {
+    270              case TAP_X_UP:
+    271                  MPL_LOGI("Tap X+ ");
+    272                  break;
+    273              case TAP_X_DOWN:
+    274                  MPL_LOGI("Tap X- ");
+    275                  break;
+    276              case TAP_Y_UP:
+    277                  MPL_LOGI("Tap Y+ ");
+    278                  break;
+    279              case TAP_Y_DOWN:
+    280                  MPL_LOGI("Tap Y- ");
+    281                  break;
+    282              case TAP_Z_UP:
+    283                  MPL_LOGI("Tap Z+ ");
+    284                  break;
+    285              case TAP_Z_DOWN:
+    286                  MPL_LOGI("Tap Z- ");
+    287                  break;
+    288              default:
+    289                  return;
+    290              }
+    291              MPL_LOGI("x%d\n", count);
+    292              return;
+    293          }
+    294          
+    295          static void android_orient_cb(unsigned char orientation)
+    296          {
+    297          	switch (orientation) {
+    298          	case ANDROID_ORIENT_PORTRAIT:
+    299                  MPL_LOGI("Portrait\n");
+    300                  break;
+    301          	case ANDROID_ORIENT_LANDSCAPE:
+    302                  MPL_LOGI("Landscape\n");
+    303                  break;
+    304          	case ANDROID_ORIENT_REVERSE_PORTRAIT:
+    305                  MPL_LOGI("Reverse Portrait\n");
+    306                  break;
+    307          	case ANDROID_ORIENT_REVERSE_LANDSCAPE:
+    308                  MPL_LOGI("Reverse Landscape\n");
+    309                  break;
+    310          	default:
+    311          		return;
+    312          	}
+    313          }
+    314          
+    315          
+    316          static inline void run_self_test(void)
+    317          {
+    318              int result;
+    319              long gyro[3], accel[3];
+    320          
+    321          #if defined (MPU6500) || defined (MPU9250)
+    322              result = mpu_run_6500_self_test(gyro, accel, 0);
+    323          #elif defined (MPU6050) || defined (MPU9150)
+    324              result = mpu_run_self_test(gyro, accel);
+    325          #endif
+    326              if (result == 0x7) {
+    327          	MPL_LOGI("Passed!\n");
+    328                  MPL_LOGI("accel: %7.4f %7.4f %7.4f\n",
+    329                              accel[0]/65536.f,
+    330                              accel[1]/65536.f,
+    331                              accel[2]/65536.f);
+    332                  MPL_LOGI("gyro: %7.4f %7.4f %7.4f\n",
+    333                              gyro[0]/65536.f,
+    334                              gyro[1]/65536.f,
+    335                              gyro[2]/65536.f);
+    336                  /* Test passed. We can trust the gyro data here, so now we need to update calibrated data*/
+    337          
+    338          #ifdef USE_CAL_HW_REGISTERS
+    339                  /*
+    340                   * This portion of the code uses the HW offset registers that are in the MPUxxxx devices
+    341                   * instead of pushing the cal data to the MPL software library
+    342                   */
+    343                  unsigned char i = 0;
+    344          
+    345                  for(i = 0; i<3; i++) {
+    346                  	gyro[i] = (long)(gyro[i] * 32.8f); //convert to +-1000dps
+    347                  	accel[i] *= 4096.f; //convert to +-8G
+    348                  	accel[i] = accel[i] >> 16;
+    349                  	gyro[i] = (long)(gyro[i] >> 16);
+    350                  }
+    351          
+    352                  mpu_set_gyro_bias_reg(gyro);
+    353          
+    354          #if defined (MPU6500) || defined (MPU9250)
+    355                  mpu_set_accel_bias_6500_reg(accel);
+    356          #elif defined (MPU6050) || defined (MPU9150)
+    357                  mpu_set_accel_bias_6050_reg(accel);
+    358          #endif
+    359          #else
+    360                  /* Push the calibrated data to the MPL library.
+    361                   *
+    362                   * MPL expects biases in hardware units << 16, but self test returns
+    363          		 * biases in g's << 16.
+    364          		 */
+    365              	unsigned short accel_sens;
+    366              	float gyro_sens;
+    367          
+    368          		mpu_get_accel_sens(&accel_sens);
+    369          		accel[0] *= accel_sens;
+    370          		accel[1] *= accel_sens;
+    371          		accel[2] *= accel_sens;
+    372          		inv_set_accel_bias(accel, 3);
+    373          		mpu_get_gyro_sens(&gyro_sens);
+    374          		gyro[0] = (long) (gyro[0] * gyro_sens);
+    375          		gyro[1] = (long) (gyro[1] * gyro_sens);
+    376          		gyro[2] = (long) (gyro[2] * gyro_sens);
+    377          		inv_set_gyro_bias(gyro, 3);
+    378          #endif
+    379              }
+    380              else {
+    381                      if (!(result & 0x1))
+    382                          MPL_LOGE("Gyro failed.\n");
+    383                      if (!(result & 0x2))
+    384                          MPL_LOGE("Accel failed.\n");
+    385                      if (!(result & 0x4))
+    386                          MPL_LOGE("Compass failed.\n");
+    387               }
+    388          
+    389          }
+    390          
+    391          static void handle_input(void)
+    392          {
+    393            
+    394              char c = USART_ReceiveData(USART2);
+    395          
+    396              switch (c) {
+    397              /* These commands turn off individual sensors. */
+    398              case '8':
+    399                  hal.sensors ^= ACCEL_ON;
+    400                  setup_gyro();
+    401                  if (!(hal.sensors & ACCEL_ON))
+    402                      inv_accel_was_turned_off();
+    403                  break;
+    404              case '9':
+    405                  hal.sensors ^= GYRO_ON;
+    406                  setup_gyro();
+    407                  if (!(hal.sensors & GYRO_ON))
+    408                      inv_gyro_was_turned_off();
+    409                  break;
+    410          #ifdef COMPASS_ENABLED
+    411              case '0':
+    412                  hal.sensors ^= COMPASS_ON;
+    413                  setup_gyro();
+    414                  if (!(hal.sensors & COMPASS_ON))
+    415                      inv_compass_was_turned_off();
+    416                  break;
+    417          #endif
+    418              /* The commands send individual sensor data or fused data to the PC. */
+    419              case 'a':
+    420                  hal.report ^= PRINT_ACCEL;
+    421                  break;
+    422              case 'g':
+    423                  hal.report ^= PRINT_GYRO;
+    424                  break;
+    425          #ifdef COMPASS_ENABLED
+    426              case 'c':
+    427                  hal.report ^= PRINT_COMPASS;
+    428                  break;
+    429          #endif
+    430              case 'e':
+    431                  hal.report ^= PRINT_EULER;
+    432                  break;
+    433              case 'r':
+    434                  hal.report ^= PRINT_ROT_MAT;
+    435                  break;
+    436              case 'q':
+    437                  hal.report ^= PRINT_QUAT;
+    438                  break;
+    439              case 'h':
+    440                  hal.report ^= PRINT_HEADING;
+    441                  break;
+    442              case 'i':
+    443                  hal.report ^= PRINT_LINEAR_ACCEL;
+    444                  break;
+    445          #ifdef COMPASS_ENABLED
+    446          	case 'w':
+    447          		send_status_compass();
+    448          		break;
+    449          #endif
+    450              /* This command prints out the value of each gyro register for debugging.
+    451               * If logging is disabled, this function has no effect.
+    452               */
+    453              case 'd':
+    454                  mpu_reg_dump();
+    455                  break;
+    456              /* Test out low-power accel mode. */
+    457              case 'p':
+    458                  if (hal.dmp_on)
+    459                      /* LP accel is not compatible with the DMP. */
+    460                      break;
+    461                  mpu_lp_accel_mode(20);
+    462                  /* When LP accel mode is enabled, the driver automatically configures
+    463                   * the hardware for latched interrupts. However, the MCU sometimes
+    464                   * misses the rising/falling edge, and the hal.new_gyro flag is never
+    465                   * set. To avoid getting locked in this state, we're overriding the
+    466                   * driver's configuration and sticking to unlatched interrupt mode.
+    467                   *
+    468                   * TODO: The MCU supports level-triggered interrupts.
+    469                   */
+    470                  mpu_set_int_latched(0);
+    471                  hal.sensors &= ~(GYRO_ON|COMPASS_ON);
+    472                  hal.sensors |= ACCEL_ON;
+    473                  hal.lp_accel_mode = 1;
+    474                  inv_gyro_was_turned_off();
+    475                  inv_compass_was_turned_off();
+    476                  break;
+    477              /* The hardware self test can be run without any interaction with the
+    478               * MPL since it's completely localized in the gyro driver. Logging is
+    479               * assumed to be enabled; otherwise, a couple LEDs could probably be used
+    480               * here to display the test results.
+    481               */
+    482              case 't':
+    483                  run_self_test();
+    484                  /* Let MPL know that contiguity was broken. */
+    485                  inv_accel_was_turned_off();
+    486                  inv_gyro_was_turned_off();
+    487                  inv_compass_was_turned_off();
+    488                  break;
+    489              /* Depending on your application, sensor data may be needed at a faster or
+    490               * slower rate. These commands can speed up or slow down the rate at which
+    491               * the sensor data is pushed to the MPL.
+    492               *
+    493               * In this example, the compass rate is never changed.
+    494               */
+    495              case '1':
+    496                  if (hal.dmp_on) {
+    497                      dmp_set_fifo_rate(10);
+    498                      inv_set_quat_sample_rate(100000L);
+    499                  } else
+    500                      mpu_set_sample_rate(10);
+    501                  inv_set_gyro_sample_rate(100000L);
+    502                  inv_set_accel_sample_rate(100000L);
+    503                  break;
+    504              case '2':
+    505                  if (hal.dmp_on) {
+    506                      dmp_set_fifo_rate(20);
+    507                      inv_set_quat_sample_rate(50000L);
+    508                  } else
+    509                      mpu_set_sample_rate(20);
+    510                  inv_set_gyro_sample_rate(50000L);
+    511                  inv_set_accel_sample_rate(50000L);
+    512                  break;
+    513              case '3':
+    514                  if (hal.dmp_on) {
+    515                      dmp_set_fifo_rate(40);
+    516                      inv_set_quat_sample_rate(25000L);
+    517                  } else
+    518                      mpu_set_sample_rate(40);
+    519                  inv_set_gyro_sample_rate(25000L);
+    520                  inv_set_accel_sample_rate(25000L);
+    521                  break;
+    522              case '4':
+    523                  if (hal.dmp_on) {
+    524                      dmp_set_fifo_rate(50);
+    525                      inv_set_quat_sample_rate(20000L);
+    526                  } else
+    527                      mpu_set_sample_rate(50);
+    528                  inv_set_gyro_sample_rate(20000L);
+    529                  inv_set_accel_sample_rate(20000L);
+    530                  break;
+    531              case '5':
+    532                  if (hal.dmp_on) {
+    533                      dmp_set_fifo_rate(100);
+    534                      inv_set_quat_sample_rate(10000L);
+    535                  } else
+    536                      mpu_set_sample_rate(100);
+    537                  inv_set_gyro_sample_rate(10000L);
+    538                  inv_set_accel_sample_rate(10000L);
+    539                  break;
+    540          	case ',':
+    541                  /* Set hardware to interrupt on gesture event only. This feature is
+    542                   * useful for keeping the MCU asleep until the DMP detects as a tap or
+    543                   * orientation event.
+    544                   */
+    545                  dmp_set_interrupt_mode(DMP_INT_GESTURE);
+    546                  break;
+    547              case '.':
+    548                  /* Set hardware to interrupt periodically. */
+    549                  dmp_set_interrupt_mode(DMP_INT_CONTINUOUS);
+    550                  break;
+    551              case '6':
+    552                  /* Toggle pedometer display. */
+    553                  hal.report ^= PRINT_PEDO;
+    554                  break;
+    555              case '7':
+    556                  /* Reset pedometer. */
+    557                  dmp_set_pedometer_step_count(0);
+    558                  dmp_set_pedometer_walk_time(0);
+    559                  break;
+    560              case 'f':
+    561                  if (hal.lp_accel_mode)
+    562                      /* LP accel is not compatible with the DMP. */
+    563                      return;
+    564                  /* Toggle DMP. */
+    565                  if (hal.dmp_on) {
+    566                      unsigned short dmp_rate;
+    567                      unsigned char mask = 0;
+    568                      hal.dmp_on = 0;
+    569                      mpu_set_dmp_state(0);
+    570                      /* Restore FIFO settings. */
+    571                      if (hal.sensors & ACCEL_ON)
+    572                          mask |= INV_XYZ_ACCEL;
+    573                      if (hal.sensors & GYRO_ON)
+    574                          mask |= INV_XYZ_GYRO;
+    575                      if (hal.sensors & COMPASS_ON)
+    576                          mask |= INV_XYZ_COMPASS;
+    577                      mpu_configure_fifo(mask);
+    578                      /* When the DMP is used, the hardware sampling rate is fixed at
+    579                       * 200Hz, and the DMP is configured to downsample the FIFO output
+    580                       * using the function dmp_set_fifo_rate. However, when the DMP is
+    581                       * turned off, the sampling rate remains at 200Hz. This could be
+    582                       * handled in inv_mpu.c, but it would need to know that
+    583                       * inv_mpu_dmp_motion_driver.c exists. To avoid this, we'll just
+    584                       * put the extra logic in the application layer.
+    585                       */
+    586                      dmp_get_fifo_rate(&dmp_rate);
+    587                      mpu_set_sample_rate(dmp_rate);
+    588                      inv_quaternion_sensor_was_turned_off();
+    589                      MPL_LOGI("DMP disabled.\n");
+    590                  } else {
+    591                      unsigned short sample_rate;
+    592                      hal.dmp_on = 1;
+    593                      /* Preserve current FIFO rate. */
+    594                      mpu_get_sample_rate(&sample_rate);
+    595                      dmp_set_fifo_rate(sample_rate);
+    596                      inv_set_quat_sample_rate(1000000L / sample_rate);
+    597                      mpu_set_dmp_state(1);
+    598                      MPL_LOGI("DMP enabled.\n");
+    599                  }
+    600                  break;
+    601              case 'm':
+    602                  /* Test the motion interrupt hardware feature. */
+    603          	#ifndef MPU6050 // not enabled for 6050 product
+    604          	hal.motion_int_mode = 1;
+    605          	#endif 
+    606                  break;
+    607          
+    608              case 'v':
+    609                  /* Toggle LP quaternion.
+    610                   * The DMP features can be enabled/disabled at runtime. Use this same
+    611                   * approach for other features.
+    612                   */
+    613                  hal.dmp_features ^= DMP_FEATURE_6X_LP_QUAT;
+    614                  dmp_enable_feature(hal.dmp_features);
+    615                  if (!(hal.dmp_features & DMP_FEATURE_6X_LP_QUAT)) {
+    616                      inv_quaternion_sensor_was_turned_off();
+    617                      MPL_LOGI("LP quaternion disabled.\n");
+    618                  } else
+    619                      MPL_LOGI("LP quaternion enabled.\n");
+    620                  break;
+    621              default:
+    622                  break;
+    623              }
+    624              hal.rx.cmd = 0;
+    625          }
+    626          
+    627          /* Every time new gyro data is available, this function is called in an
+    628           * ISR context. In this example, it sets a flag protecting the FIFO read
+    629           * function.
+    630           */
+    631          void gyro_data_ready_cb(void)
+    632          {
+    633              hal.new_gyro = 1;
+    634          }
+    635          /*******************************************************************************/
+    636          
+    637          /**
+    638            * @brief main entry point.
+    639            * @par Parameters None
+    640            * @retval void None
+    641            * @par Required preconditions: None
+    642            */
+    643                                            
+    644          int main(void)
+    645          { 
+    646            
+    647            inv_error_t result;
+    648              unsigned char accel_fsr,  new_temp = 0;
+    649              unsigned short gyro_rate, gyro_fsr;
+    650              unsigned long timestamp;
+    651              struct int_param_s int_param;
+    652          
+    653          #ifdef COMPASS_ENABLED
+    654              unsigned char new_compass = 0;
+    655              unsigned short compass_fsr;
+    656          #endif
+    657              board_init(); 
+    658           
+    659            result = mpu_init(&int_param);
+    660            if (result) {
+    661                MPL_LOGE("Could not initialize gyro.\n");
+    662            }
+    663            
+    664          
+    665              /* If you're not using an MPU9150 AND you're not using DMP features, this
+    666               * function will place all slaves on the primary bus.
+    667               * mpu_set_bypass(1);
+    668               */
+    669          
+    670            result = inv_init_mpl();
+    671            if (result) {
+    672                MPL_LOGE("Could not initialize MPL.\n");
+    673            }
+    674          
+    675              /* Compute 6-axis and 9-axis quaternions. */
+    676              inv_enable_quaternion();
+    677              inv_enable_9x_sensor_fusion();
+    678              /* The MPL expects compass data at a constant rate (matching the rate
+    679               * passed to inv_set_compass_sample_rate). If this is an issue for your
+    680               * application, call this function, and the MPL will depend on the
+    681               * timestamps passed to inv_build_compass instead.
+    682               *
+    683               * inv_9x_fusion_use_timestamps(1);
+    684               */
+    685          
+    686              /* This function has been deprecated.
+    687               * inv_enable_no_gyro_fusion();
+    688               */
+    689          
+    690              /* Update gyro biases when not in motion.
+    691               * WARNING: These algorithms are mutually exclusive.
+    692               */
+    693              inv_enable_fast_nomot();
+    694              /* inv_enable_motion_no_motion(); */
+    695              /* inv_set_no_motion_time(1000); */
+    696          
+    697              /* Update gyro biases when temperature changes. */
+    698              inv_enable_gyro_tc();
+    699          
+    700              /* This algorithm updates the accel biases when in motion. A more accurate
+    701               * bias measurement can be made when running the self-test (see case 't' in
+    702               * handle_input), but this algorithm can be enabled if the self-test can't
+    703               * be executed in your application.
+    704               *
+    705               * inv_enable_in_use_auto_calibration();
+    706               */
+    707          #ifdef COMPASS_ENABLED
+    708              /* Compass calibration algorithms. */
+    709              inv_enable_vector_compass_cal();
+    710              inv_enable_magnetic_disturbance();
+    711          #endif
+    712              /* If you need to estimate your heading before the compass is calibrated,
+    713               * enable this algorithm. It becomes useless after a good figure-eight is
+    714               * detected, so we'll just leave it out to save memory.
+    715               * inv_enable_heading_from_gyro();
+    716               */
+    717          
+    718              /* Allows use of the MPL APIs in read_from_mpl. */
+    719              inv_enable_eMPL_outputs();
+    720          
+    721            result = inv_start_mpl();
+    722            if (result == INV_ERROR_NOT_AUTHORIZED) {
+    723                while (1) {
+    724                    MPL_LOGE("Not authorized.\n");
+    725                }
+    726            }
+    727            if (result) {
+    728                MPL_LOGE("Could not start the MPL.\n");
+    729            }
+    730          
+    731              /* Get/set hardware configuration. Start gyro. */
+    732              /* Wake up all sensors. */
+    733          #ifdef COMPASS_ENABLED
+    734              mpu_set_sensors(INV_XYZ_GYRO | INV_XYZ_ACCEL | INV_XYZ_COMPASS);
+    735          #else
+    736              mpu_set_sensors(INV_XYZ_GYRO | INV_XYZ_ACCEL);
+    737          #endif
+    738              /* Push both gyro and accel data into the FIFO. */
+    739              mpu_configure_fifo(INV_XYZ_GYRO | INV_XYZ_ACCEL);
+    740              mpu_set_sample_rate(DEFAULT_MPU_HZ);
+    741          #ifdef COMPASS_ENABLED
+    742              /* The compass sampling rate can be less than the gyro/accel sampling rate.
+    743               * Use this function for proper power management.
+    744               */
+    745              mpu_set_compass_sample_rate(1000 / COMPASS_READ_MS);
+    746          #endif
+    747              /* Read back configuration in case it was set improperly. */
+    748              mpu_get_sample_rate(&gyro_rate);
+    749              mpu_get_gyro_fsr(&gyro_fsr);
+    750              mpu_get_accel_fsr(&accel_fsr);
+    751          #ifdef COMPASS_ENABLED
+    752              mpu_get_compass_fsr(&compass_fsr);
+    753          #endif
+    754              /* Sync driver configuration with MPL. */
+    755              /* Sample rate expected in microseconds. */
+    756              inv_set_gyro_sample_rate(1000000L / gyro_rate);
+    757              inv_set_accel_sample_rate(1000000L / gyro_rate);
+    758          #ifdef COMPASS_ENABLED
+    759              /* The compass rate is independent of the gyro and accel rates. As long as
+    760               * inv_set_compass_sample_rate is called with the correct value, the 9-axis
+    761               * fusion algorithm's compass correction gain will work properly.
+    762               */
+    763              inv_set_compass_sample_rate(COMPASS_READ_MS * 1000L);
+    764          #endif
+    765              /* Set chip-to-body orientation matrix.
+    766               * Set hardware units to dps/g's/degrees scaling factor.
+    767               */
+    768              inv_set_gyro_orientation_and_scale(
+    769                      inv_orientation_matrix_to_scalar(gyro_pdata.orientation),
+    770                      (long)gyro_fsr<<15);
+    771              inv_set_accel_orientation_and_scale(
+    772                      inv_orientation_matrix_to_scalar(gyro_pdata.orientation),
+    773                      (long)accel_fsr<<15);
+    774          #ifdef COMPASS_ENABLED
+    775              inv_set_compass_orientation_and_scale(
+    776                      inv_orientation_matrix_to_scalar(compass_pdata.orientation),
+    777                      (long)compass_fsr<<15);
+    778          #endif
+    779              /* Initialize HAL state variables. */
+    780          #ifdef COMPASS_ENABLED
+    781              hal.sensors = ACCEL_ON | GYRO_ON | COMPASS_ON;
+    782          #else
+    783              hal.sensors = ACCEL_ON | GYRO_ON;
+    784          #endif
+    785              hal.dmp_on = 0;
+    786              hal.report = 0;
+    787              hal.rx.cmd = 0;
+    788              hal.next_pedo_ms = 0;
+    789              hal.next_compass_ms = 0;
+    790              hal.next_temp_ms = 0;
+    791          
+    792            /* Compass reads are handled by scheduler. */
+    793            get_tick_count(&timestamp);
+    794          
+    795              /* To initialize the DMP:
+    796               * 1. Call dmp_load_motion_driver_firmware(). This pushes the DMP image in
+    797               *    inv_mpu_dmp_motion_driver.h into the MPU memory.
+    798               * 2. Push the gyro and accel orientation matrix to the DMP.
+    799               * 3. Register gesture callbacks. Don't worry, these callbacks won't be
+    800               *    executed unless the corresponding feature is enabled.
+    801               * 4. Call dmp_enable_feature(mask) to enable different features.
+    802               * 5. Call dmp_set_fifo_rate(freq) to select a DMP output rate.
+    803               * 6. Call any feature-specific control functions.
+    804               *
+    805               * To enable the DMP, just call mpu_set_dmp_state(1). This function can
+    806               * be called repeatedly to enable and disable the DMP at runtime.
+    807               *
+    808               * The following is a short summary of the features supported in the DMP
+    809               * image provided in inv_mpu_dmp_motion_driver.c:
+    810               * DMP_FEATURE_LP_QUAT: Generate a gyro-only quaternion on the DMP at
+    811               * 200Hz. Integrating the gyro data at higher rates reduces numerical
+    812               * errors (compared to integration on the MCU at a lower sampling rate).
+    813               * DMP_FEATURE_6X_LP_QUAT: Generate a gyro/accel quaternion on the DMP at
+    814               * 200Hz. Cannot be used in combination with DMP_FEATURE_LP_QUAT.
+    815               * DMP_FEATURE_TAP: Detect taps along the X, Y, and Z axes.
+    816               * DMP_FEATURE_ANDROID_ORIENT: Google's screen rotation algorithm. Triggers
+    817               * an event at the four orientations where the screen should rotate.
+    818               * DMP_FEATURE_GYRO_CAL: Calibrates the gyro data after eight seconds of
+    819               * no motion.
+    820               * DMP_FEATURE_SEND_RAW_ACCEL: Add raw accelerometer data to the FIFO.
+    821               * DMP_FEATURE_SEND_RAW_GYRO: Add raw gyro data to the FIFO.
+    822               * DMP_FEATURE_SEND_CAL_GYRO: Add calibrated gyro data to the FIFO. Cannot
+    823               * be used in combination with DMP_FEATURE_SEND_RAW_GYRO.
+    824               */
+    825              dmp_load_motion_driver_firmware();
+    826              dmp_set_orientation(
+    827                  inv_orientation_matrix_to_scalar(gyro_pdata.orientation));
+    828              dmp_register_tap_cb(tap_cb);
+    829              dmp_register_android_orient_cb(android_orient_cb);
+    830              /*
+    831               * Known Bug -
+    832               * DMP when enabled will sample sensor data at 200Hz and output to FIFO at the rate
+    833               * specified in the dmp_set_fifo_rate API. The DMP will then sent an interrupt once
+    834               * a sample has been put into the FIFO. Therefore if the dmp_set_fifo_rate is at 25Hz
+    835               * there will be a 25Hz interrupt from the MPU device.
+    836               *
+    837               * There is a known issue in which if you do not enable DMP_FEATURE_TAP
+    838               * then the interrupts will be at 200Hz even if fifo rate
+    839               * is set at a different rate. To avoid this issue include the DMP_FEATURE_TAP
+    840               *
+    841               * DMP sensor fusion works only with gyro at +-2000dps and accel +-2G
+    842               */
+    843              hal.dmp_features = DMP_FEATURE_6X_LP_QUAT | DMP_FEATURE_TAP |
+    844                  DMP_FEATURE_ANDROID_ORIENT | DMP_FEATURE_SEND_RAW_ACCEL | DMP_FEATURE_SEND_CAL_GYRO |
+    845                  DMP_FEATURE_GYRO_CAL;
+    846              dmp_enable_feature(hal.dmp_features);
+    847              dmp_set_fifo_rate(DEFAULT_MPU_HZ);
+    848              mpu_set_dmp_state(1);
+    849              hal.dmp_on = 1;
+    850          
+    851            while(1){
+    852              
+    853              unsigned long sensor_timestamp;
+    854              int new_data = 0;
+    855              if (USART_GetITStatus(USART2, USART_IT_RXNE)) {
+    856                  /* A byte has been received via USART. See handle_input for a list of
+    857                   * valid commands.
+    858                   */
+    859                  USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+    860                  handle_input();
+    861              }
+    862              get_tick_count(&timestamp);
+    863          
+    864          #ifdef COMPASS_ENABLED
+    865                  /* We're not using a data ready interrupt for the compass, so we'll
+    866                   * make our compass reads timer-based instead.
+    867                   */
+    868                  if ((timestamp > hal.next_compass_ms) && !hal.lp_accel_mode &&
+    869                      hal.new_gyro && (hal.sensors & COMPASS_ON)) {
+    870                      hal.next_compass_ms = timestamp + COMPASS_READ_MS;
+    871                      new_compass = 1;
+    872                  }
+    873          #endif
+    874                  /* Temperature data doesn't need to be read with every gyro sample.
+    875                   * Let's make them timer-based like the compass reads.
+    876                   */
+    877                  if (timestamp > hal.next_temp_ms) {
+    878                      hal.next_temp_ms = timestamp + TEMP_READ_MS;
+    879                      new_temp = 1;
+    880                  }
+    881          
+    882              if (hal.motion_int_mode) {
+    883                  /* Enable motion interrupt. */
+    884                  mpu_lp_motion_interrupt(500, 1, 5);
+    885                  /* Notify the MPL that contiguity was broken. */
+    886                  inv_accel_was_turned_off();
+    887                  inv_gyro_was_turned_off();
+    888                  inv_compass_was_turned_off();
+    889                  inv_quaternion_sensor_was_turned_off();
+    890                  /* Wait for the MPU interrupt. */
+    891                  while (!hal.new_gyro) {}
+    892                  /* Restore the previous sensor configuration. */
+    893                  mpu_lp_motion_interrupt(0, 0, 0);
+    894                  hal.motion_int_mode = 0;
+    895              }
+    896          
+    897              if (!hal.sensors || !hal.new_gyro) {
+    898                  continue;
+    899              }    
+    900          
+    901                  if (hal.new_gyro && hal.lp_accel_mode) {
+    902                      short accel_short[3];
+    903                      long accel[3];
+    904                      mpu_get_accel_reg(accel_short, &sensor_timestamp);
+    905                      accel[0] = (long)accel_short[0];
+    906                      accel[1] = (long)accel_short[1];
+    907                      accel[2] = (long)accel_short[2];
+    908                      inv_build_accel(accel, 0, sensor_timestamp);
+    909                      new_data = 1;
+    910                      hal.new_gyro = 0;
+    911                  } else if (hal.new_gyro && hal.dmp_on) {
+    912                      short gyro[3], accel_short[3], sensors;
+    913                      unsigned char more;
+    914                      long accel[3], quat[4], temperature;
+    915                      /* This function gets new data from the FIFO when the DMP is in
+    916                       * use. The FIFO can contain any combination of gyro, accel,
+    917                       * quaternion, and gesture data. The sensors parameter tells the
+    918                       * caller which data fields were actually populated with new data.
+    919                       * For example, if sensors == (INV_XYZ_GYRO | INV_WXYZ_QUAT), then
+    920                       * the FIFO isn't being filled with accel data.
+    921                       * The driver parses the gesture data to determine if a gesture
+    922                       * event has occurred; on an event, the application will be notified
+    923                       * via a callback (assuming that a callback function was properly
+    924                       * registered). The more parameter is non-zero if there are
+    925                       * leftover packets in the FIFO.
+    926                       */
+    927                      dmp_read_fifo(gyro, accel_short, quat, &sensor_timestamp, &sensors, &more);
+    928                      if (!more)
+    929                          hal.new_gyro = 0;
+    930                      if (sensors & INV_XYZ_GYRO) {
+    931                          /* Push the new data to the MPL. */
+    932                          inv_build_gyro(gyro, sensor_timestamp);
+    933                          new_data = 1;
+    934                          if (new_temp) {
+    935                              new_temp = 0;
+    936                              /* Temperature only used for gyro temp comp. */
+    937                              mpu_get_temperature(&temperature, &sensor_timestamp);
+    938                              inv_build_temp(temperature, sensor_timestamp);
+    939                          }
+    940                      }
+    941                      if (sensors & INV_XYZ_ACCEL) {
+    942                          accel[0] = (long)accel_short[0];
+    943                          accel[1] = (long)accel_short[1];
+    944                          accel[2] = (long)accel_short[2];
+    945                          inv_build_accel(accel, 0, sensor_timestamp);
+    946                          new_data = 1;
+    947                      }
+    948                      if (sensors & INV_WXYZ_QUAT) {
+    949                          inv_build_quat(quat, 0, sensor_timestamp);
+    950                          new_data = 1;
+    951                      }
+    952                  } else if (hal.new_gyro) {
+    953                      short gyro[3], accel_short[3];
+    954                      unsigned char sensors, more;
+    955                      long accel[3], temperature;
+    956                      /* This function gets new data from the FIFO. The FIFO can contain
+    957                       * gyro, accel, both, or neither. The sensors parameter tells the
+    958                       * caller which data fields were actually populated with new data.
+    959                       * For example, if sensors == INV_XYZ_GYRO, then the FIFO isn't
+    960                       * being filled with accel data. The more parameter is non-zero if
+    961                       * there are leftover packets in the FIFO. The HAL can use this
+    962                       * information to increase the frequency at which this function is
+    963                       * called.
+    964                       */
+    965                      hal.new_gyro = 0;
+    966                      mpu_read_fifo(gyro, accel_short, &sensor_timestamp,
+    967                          &sensors, &more);
+    968                      if (more)
+    969                          hal.new_gyro = 1;
+    970                      if (sensors & INV_XYZ_GYRO) {
+    971                          /* Push the new data to the MPL. */
+    972                          inv_build_gyro(gyro, sensor_timestamp);
+    973                          new_data = 1;
+    974                          if (new_temp) {
+    975                              new_temp = 0;
+    976                              /* Temperature only used for gyro temp comp. */
+    977                              mpu_get_temperature(&temperature, &sensor_timestamp);
+    978                              inv_build_temp(temperature, sensor_timestamp);
+    979                          }
+    980                      }
+    981                      if (sensors & INV_XYZ_ACCEL) {
+    982                          accel[0] = (long)accel_short[0];
+    983                          accel[1] = (long)accel_short[1];
+    984                          accel[2] = (long)accel_short[2];
+    985                          inv_build_accel(accel, 0, sensor_timestamp);
+    986                          new_data = 1;
+    987                      }
+    988                  }
+    989          #ifdef COMPASS_ENABLED
+    990                  if (new_compass) {
+    991                      short compass_short[3];
+    992                      long compass[3];
+    993                      new_compass = 0;
+    994                      /* For any MPU device with an AKM on the auxiliary I2C bus, the raw
+    995                       * magnetometer registers are copied to special gyro registers.
+    996                       */
+    997                      if (!mpu_get_compass_reg(compass_short, &sensor_timestamp)) {
+    998                          compass[0] = (long)compass_short[0];
+    999                          compass[1] = (long)compass_short[1];
+   1000                          compass[2] = (long)compass_short[2];
+   1001                          /* NOTE: If using a third-party compass calibration library,
+   1002                           * pass in the compass data in uT * 2^16 and set the second
+   1003                           * parameter to INV_CALIBRATED | acc, where acc is the
+   1004                           * accuracy from 0 to 3.
+   1005                           */
+   1006                          inv_build_compass(compass, 0, sensor_timestamp);
+   1007                      }
+   1008                      new_data = 1;
+   1009                  }
+   1010          #endif
+   1011                  if (new_data) {
+   1012                      inv_execute_on_data();
+   1013                      /* This function reads bias-compensated sensor data and sensor
+   1014                       * fusion outputs from the MPL. The outputs are formatted as seen
+   1015                       * in eMPL_outputs.c. This function only needs to be called at the
+   1016                       * rate requested by the host.
+   1017                       */
+   1018                      read_from_mpl();
+   1019                  }
+   1020              }
+   1021          }
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   android_orient_cb
+         8   -> _MLPrintLog
+       0   gyro_data_ready_cb
+      16   handle_input
+        16   -> USART_ReceiveData
+        16   -> _MLPrintLog
+        16   -> dmp_enable_feature
+        16   -> dmp_get_fifo_rate
+        16   -> dmp_set_fifo_rate
+        16   -> dmp_set_interrupt_mode
+        16   -> dmp_set_pedometer_step_count
+        16   -> dmp_set_pedometer_walk_time
+        16   -> inv_accel_was_turned_off
+        16   -> inv_compass_was_turned_off
+        16   -> inv_gyro_was_turned_off
+        16   -> inv_quaternion_sensor_was_turned_off
+        16   -> inv_set_accel_sample_rate
+        16   -> inv_set_gyro_sample_rate
+        16   -> inv_set_quat_sample_rate
+        16   -> mpu_configure_fifo
+        16   -> mpu_get_sample_rate
+        16   -> mpu_lp_accel_mode
+        16   -> mpu_reg_dump
+        16   -> mpu_set_dmp_state
+        16   -> mpu_set_int_latched
+        16   -> mpu_set_sample_rate
+        16   -> run_self_test
+        16   -> send_status_compass
+        16   -> setup_gyro
+     168   main
+       168   -> USART_ClearITPendingBit
+       168   -> USART_GetITStatus
+       168   -> _MLPrintLog
+       168   -> board_init
+       168   -> dmp_enable_feature
+       168   -> dmp_load_motion_driver_firmware
+       168   -> dmp_read_fifo
+       168   -> dmp_register_android_orient_cb
+       168   -> dmp_register_tap_cb
+       168   -> dmp_set_fifo_rate
+       168   -> dmp_set_orientation
+       168   -> get_tick_count
+       168   -> handle_input
+       168   -> inv_accel_was_turned_off
+       168   -> inv_build_accel
+       168   -> inv_build_compass
+       168   -> inv_build_gyro
+       168   -> inv_build_quat
+       168   -> inv_build_temp
+       168   -> inv_compass_was_turned_off
+       168   -> inv_enable_9x_sensor_fusion
+       168   -> inv_enable_eMPL_outputs
+       168   -> inv_enable_fast_nomot
+       168   -> inv_enable_gyro_tc
+       168   -> inv_enable_magnetic_disturbance
+       168   -> inv_enable_quaternion
+       168   -> inv_enable_vector_compass_cal
+       168   -> inv_execute_on_data
+       168   -> inv_gyro_was_turned_off
+       168   -> inv_init_mpl
+       168   -> inv_orientation_matrix_to_scalar
+       168   -> inv_quaternion_sensor_was_turned_off
+       168   -> inv_set_accel_orientation_and_scale
+       168   -> inv_set_accel_sample_rate
+       168   -> inv_set_compass_orientation_and_scale
+       168   -> inv_set_compass_sample_rate
+       168   -> inv_set_gyro_orientation_and_scale
+       168   -> inv_set_gyro_sample_rate
+       168   -> inv_start_mpl
+       168   -> mpu_configure_fifo
+       168   -> mpu_get_accel_fsr
+       168   -> mpu_get_accel_reg
+       168   -> mpu_get_compass_fsr
+       168   -> mpu_get_compass_reg
+       168   -> mpu_get_gyro_fsr
+       168   -> mpu_get_sample_rate
+       168   -> mpu_get_temperature
+       168   -> mpu_init
+       168   -> mpu_lp_motion_interrupt
+       168   -> mpu_read_fifo
+       168   -> mpu_set_compass_sample_rate
+       168   -> mpu_set_dmp_state
+       168   -> mpu_set_sample_rate
+       168   -> mpu_set_sensors
+       168   -> read_from_mpl
+      88   read_from_mpl
+        88   -> _MLPrintLog
+        88   -> __aeabi_f2d
+        88   -> dmp_get_pedometer_step_count
+        88   -> dmp_get_pedometer_walk_time
+        88   -> eMPL_send_data
+        88   -> eMPL_send_quat
+        88   -> get_tick_count
+        88   -> inv_get_message_level_0
+        88   -> inv_get_sensor_type_accel
+        88   -> inv_get_sensor_type_compass
+        88   -> inv_get_sensor_type_euler
+        88   -> inv_get_sensor_type_gyro
+        88   -> inv_get_sensor_type_heading
+        88   -> inv_get_sensor_type_linear_acceleration
+        88   -> inv_get_sensor_type_quat
+        88   -> inv_get_sensor_type_rot_mat
+      56   run_self_test
+        56   -> _MLPrintLog
+        56   -> __aeabi_f2d
+        56   -> inv_set_accel_bias
+        56   -> inv_set_gyro_bias
+        56   -> mpu_get_accel_sens
+        56   -> mpu_get_gyro_sens
+        56   -> mpu_run_6500_self_test
+      48   send_status_compass
+        48   -> _MLPrintLog
+        48   -> __aeabi_f2d
+        48   -> inv_get_compass_set
+      16   setup_gyro
+        16   -> inv_set_accel_sample_rate
+        16   -> mpu_configure_fifo
+        16   -> mpu_get_sample_rate
+        16   -> mpu_set_sensors
+       8   tap_cb
+         8   -> _MLPrintLog
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable4
+       4  ??DataTable5
+       4  ??DataTable8
+       4  ??DataTable8_1
+       4  ??DataTable8_10
+       4  ??DataTable8_11
+       4  ??DataTable8_12
+       4  ??DataTable8_13
+       4  ??DataTable8_14
+       4  ??DataTable8_15
+       4  ??DataTable8_16
+       4  ??DataTable8_17
+       4  ??DataTable8_18
+       4  ??DataTable8_19
+       4  ??DataTable8_2
+       4  ??DataTable8_20
+       4  ??DataTable8_21
+       4  ??DataTable8_22
+       4  ??DataTable8_23
+       4  ??DataTable8_24
+       4  ??DataTable8_25
+       4  ??DataTable8_26
+       4  ??DataTable8_27
+       4  ??DataTable8_28
+       4  ??DataTable8_29
+       4  ??DataTable8_3
+       4  ??DataTable8_30
+       4  ??DataTable8_31
+       4  ??DataTable8_32
+       4  ??DataTable8_33
+       4  ??DataTable8_34
+       4  ??DataTable8_35
+       4  ??DataTable8_36
+       4  ??DataTable8_37
+       4  ??DataTable8_38
+       4  ??DataTable8_4
+       4  ??DataTable8_5
+       4  ??DataTable8_6
+       4  ??DataTable8_7
+       4  ??DataTable8_8
+       4  ??DataTable8_9
+      12  ?_0
+      36  ?_1
+       8  ?_10
+       8  ?_11
+       8  ?_12
+       8  ?_13
+      12  ?_14
+      12  ?_15
+      20  ?_16
+      20  ?_17
+      12  ?_18
+      28  ?_19
+      44  ?_2
+      28  ?_20
+      16  ?_21
+      16  ?_22
+      20  ?_23
+      16  ?_24
+      16  ?_25
+      28  ?_26
+      24  ?_27
+      28  ?_28
+      28  ?_29
+      12  ?_3
+      20  ?_30
+      28  ?_31
+      12  ?_32
+      12  ?_33
+      12  ?_4
+      28  ?_5
+      16  ?_6
+       8  ?_7
+       8  ?_8
+       8  ?_9
+      78  android_orient_cb
+      12  compass_pdata
+      10  gyro_data_ready_cb
+      12  gyro_pdata
+      36  hal
+       4  hal_timestamp
+    1084  handle_input
+     970  main
+       4  mpl_key
+     430  read_from_mpl
+     410  run_self_test
+       1  rx_new
+     148  send_status_compass
+     118  setup_gyro
+     132  tap_cb
+
+ 
+    41 bytes in section .bss
+    28 bytes in section .data
+   612 bytes in section .rodata
+ 3 544 bytes in section .text
+ 
+ 3 544 bytes of CODE  memory
+   612 bytes of CONST memory
+    69 bytes of DATA  memory
+
+Errors: none
+Warnings: none
