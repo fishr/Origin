@@ -40,6 +40,8 @@
 
 /* USER CODE BEGIN 0 */
 
+int hello_rx_flag = 0;
+
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart4;
@@ -58,8 +60,56 @@ void MX_UART4_Init(void)
   huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
   huart4.Init.OverSampling = UART_OVERSAMPLING_16;
   HAL_UART_Init(&huart4);
+}
+
+void UART4_IRQHandler(void)
+{
+  hello_rx_flag = 1;
+  //UART_FLAG_RXNE
+  if(__HAL_UART_GET_FLAG(&huart4, UART_FLAG_RXNE)){
+      __HAL_UART_CLEAR_FLAG(&huart4, UART_FLAG_RXNE);
+      hello_rx_flag = 2;
+  }
+  
+/*
+  volatile unsigned int IIR;
+  struct buf_st *p;
+
+    IIR = USART4->SR;
+    if (IIR & USART_SR_RXNE) {                  // read interrupt
+      USART4->SR &= ~USART_FLAG_RXNE;	          // clear interrupt
+
+      p = &rbuf;
+
+      if (((p->in - p->out) & ~(RBUF_SIZE-1)) == 0) {
+        p->buf [p->in & (RBUF_SIZE-1)] = (USART1->DR & 0x1FF);
+        p->in++;
+      }
+    }
+
+    if (IIR & USART_FLAG_TXE) {
+      USART1->SR &= ~USART_FLAG_TXE;	          // clear interrupt
+
+      p = &tbuf;
+
+      if (p->in != p->out) {
+        USART1->DR = (p->buf [p->out & (TBUF_SIZE-1)] & 0x1FF);
+        p->out++;
+        tx_restart = 0;
+      }
+      else {
+        tx_restart = 1;
+		USART1->CR1 &= ~USART_FLAG_TXE;		      // disable TX interrupt if nothing to send
+
+      }
+    }
 
 }
+*/
+  
+}
+
+
 /* UART5 init function */
 void MX_UART5_Init(void)
 {
@@ -129,8 +179,11 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     GPIO_InitStruct.Alternate = GPIO_AF8_UART5;
     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  /* USER CODE BEGIN UART5_MspInit 1 */
-
+  /* USER CODE BEGIN UART5_MspInit 1 */  
+    HAL_NVIC_SetPriorityGrouping(4);
+  HAL_NVIC_SetPriority(UART4_IRQn, 3, 0);
+  HAL_NVIC_EnableIRQ(UART4_IRQn);
+ //__HAL_UART_ENABLE_IT(&huart4, UART_IT_RXNE);
   /* USER CODE END UART5_MspInit 1 */
   }
 }

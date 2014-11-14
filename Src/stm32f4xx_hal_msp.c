@@ -48,7 +48,7 @@ void HAL_MspInit(void)
 
   /* USER CODE END MspInit 0 */
 
-  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4); //4 bits for preemption, 0 for subpriority
 
   /* System interrupt init*/
 /* SysTick_IRQn interrupt configuration */

@@ -48,6 +48,7 @@
 
 void SysTick_Handler(void);
 void OTG_HS_WKUP_IRQHandler(void);
+void UART4_IRQHandler(void);
 
 #ifdef __cplusplus
 }

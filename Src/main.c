@@ -44,7 +44,7 @@
 #include "fmc.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "stm32f4xx_it.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -116,9 +116,9 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
     init.Mode = GPIO_MODE_OUTPUT_PP;
     init.Pull = GPIO_NOPULL;
     init.Speed = GPIO_SPEED_HIGH;
-    HAL_GPIO_Init(GPIOC, &init);
+    HAL_GPIO_Init(GPIOC, &init);  //led1
     init.Pin=GPIO_PIN_2;
-    HAL_GPIO_Init(GPIOA, &init);
+    HAL_GPIO_Init(GPIOA, &init);  //led2
     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
    
     uint32_t ticks = HAL_GetTick();
@@ -160,7 +160,9 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
       hello = 0;
     }
     
-HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET); //gps on/off
+    HAL_UART_Receive_IT(&huart4, inData, 64);
+
+    HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET); //gps on/off
   /* USER CODE BEGIN 3 */
   /* Infinite loop */
   while (1)
@@ -180,7 +182,6 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET); //gps on/off
       
     ticks = HAL_GetTick();
     inData[0]=0;
-    HAL_UART_Receive(&huart4, inData, 64, 500);
     //__HAL_I2C_CLEAR_FLAG(&hi2c3, I2C_FLAG_BUSY);
     //while(__HAL_I2C_GET_FLAG(&hi2c3, I2C_FLAG_BUSY) == SET){}
     
@@ -191,8 +192,7 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET); //gps on/off
     while(HAL_GetTick()<ticks+100){
       hello = 0;
     }
-    
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);
+   
     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
 
     //if(inImu[0]!=0)
@@ -200,6 +200,13 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET); //gps on/off
   }
   /* USER CODE END 3 */
 
+}
+
+
+
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+  hello_rx_flag = 1;
 }
 
 /** System Clock Configuration

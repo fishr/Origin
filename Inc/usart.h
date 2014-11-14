@@ -41,6 +41,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
+   
+extern int hello_rx_flag;
 
 extern UART_HandleTypeDef huart4;
 extern UART_HandleTypeDef huart5;
