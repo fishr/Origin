@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * File Name          : LTDC.c
-  * Date               : 08/11/2014 22:55:37
+  * Date               : 11/11/2014 12:01:27
   * Description        : This file provides code for the configuration
   *                      of the LTDC instances.
   ******************************************************************************
@@ -53,15 +53,15 @@ void MX_LTDC_Init(void)
   hltdc.Init.VSPolarity = LTDC_VSPOLARITY_AL;
   hltdc.Init.DEPolarity = LTDC_DEPOLARITY_AL;
   hltdc.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
-  hltdc.Init.HorizontalSync = 7;
+  hltdc.Init.HorizontalSync = 9;
   hltdc.Init.VerticalSync = 3;
-  hltdc.Init.AccumulatedHBP = 14;
+  hltdc.Init.AccumulatedHBP = 29;
   hltdc.Init.AccumulatedVBP = 5;
-  hltdc.Init.AccumulatedActiveW = 654;
-  hltdc.Init.AccumulatedActiveH = 485;
-  hltdc.Init.TotalWidth = 660;
-  hltdc.Init.TotalHeigh = 487;
-  hltdc.Init.Backcolor.Blue = 0;
+  hltdc.Init.AccumulatedActiveW = 269;
+  hltdc.Init.AccumulatedActiveH = 325;
+  hltdc.Init.TotalWidth = 279;
+  hltdc.Init.TotalHeigh = 329;
+  hltdc.Init.Backcolor.Blue = 255;
   hltdc.Init.Backcolor.Green = 0;
   hltdc.Init.Backcolor.Red = 0;
   HAL_LTDC_Init(&hltdc);

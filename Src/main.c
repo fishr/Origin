@@ -87,6 +87,9 @@ int main(void)
 
   /* Configure the system clock */
   SystemClock_Config();
+  
+HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET); //screen reset
+HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, GPIO_PIN_RESET); //screen chip enable
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
@@ -106,6 +109,7 @@ int main(void)
 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_SET);  //osc enable
 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_SET); //xbee reset
 HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
+
 
   GPIO_InitTypeDef init;
     init.Pin = GPIO_PIN_3;
