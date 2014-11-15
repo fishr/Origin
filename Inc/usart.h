@@ -41,11 +41,24 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
+
+#define UART_BUFF_LEN 128
+#define ORIGIN_ID '5'
    
 extern int hello_rx_flag;
 
 extern UART_HandleTypeDef huart4;
 extern UART_HandleTypeDef huart5;
+
+typedef struct RX_Buff{
+  uint8_t newData;
+  uint8_t valid;
+  uint16_t length;
+  uint16_t pointer;
+  char buffer[UART_BUFF_LEN];
+};
+
+extern struct RX_Buff rx_buff;
 
 void MX_UART4_Init(void);
 void MX_UART5_Init(void);

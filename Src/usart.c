@@ -41,6 +41,7 @@
 /* USER CODE BEGIN 0 */
 
 int hello_rx_flag = 0;
+struct RX_Buff rx_buff;
 
 /* USER CODE END 0 */
 
@@ -63,50 +64,30 @@ void MX_UART4_Init(void)
 }
 
 void UART4_IRQHandler(void)
-{
-  hello_rx_flag = 1;
-  //UART_FLAG_RXNE
+{ 
+    HAL_NVIC_DisableIRQ(UART4_IRQn);
   if(__HAL_UART_GET_FLAG(&huart4, UART_FLAG_RXNE)){
       __HAL_UART_CLEAR_FLAG(&huart4, UART_FLAG_RXNE);
-      hello_rx_flag = 2;
+      char input = __HAL_UART_FLUSH_DRREGISTER(&huart4);
+      if(input=='$'){
+        rx_buff.buffer[0]=ORIGIN_ID;
+        rx_buff.valid=0;
+        rx_buff.newData=0;
+        rx_buff.pointer=1;
+        rx_buff.buffer[rx_buff.pointer] = input;
+        rx_buff.pointer++;
+      }else if(input==0x0A){
+        rx_buff.valid=1;
+        rx_buff.newData=1;
+        rx_buff.buffer[rx_buff.pointer] = input;
+        rx_buff.length = rx_buff.pointer+1;    
+        rx_buff.pointer=1;    
+      }else{
+        rx_buff.buffer[rx_buff.pointer] = input; 
+        (rx_buff.pointer)++;
+      }
   }
-  
-/*
-  volatile unsigned int IIR;
-  struct buf_st *p;
-
-    IIR = USART4->SR;
-    if (IIR & USART_SR_RXNE) {                  // read interrupt
-      USART4->SR &= ~USART_FLAG_RXNE;	          // clear interrupt
-
-      p = &rbuf;
-
-      if (((p->in - p->out) & ~(RBUF_SIZE-1)) == 0) {
-        p->buf [p->in & (RBUF_SIZE-1)] = (USART1->DR & 0x1FF);
-        p->in++;
-      }
-    }
-
-    if (IIR & USART_FLAG_TXE) {
-      USART1->SR &= ~USART_FLAG_TXE;	          // clear interrupt
-
-      p = &tbuf;
-
-      if (p->in != p->out) {
-        USART1->DR = (p->buf [p->out & (TBUF_SIZE-1)] & 0x1FF);
-        p->out++;
-        tx_restart = 0;
-      }
-      else {
-        tx_restart = 1;
-		USART1->CR1 &= ~USART_FLAG_TXE;		      // disable TX interrupt if nothing to send
-
-      }
-    }
-
-}
-*/
-  
+  HAL_NVIC_EnableIRQ(UART4_IRQn);  
 }
 
 
@@ -180,10 +161,9 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /* USER CODE BEGIN UART5_MspInit 1 */  
-    HAL_NVIC_SetPriorityGrouping(4);
+  HAL_NVIC_SetPriorityGrouping(4);
   HAL_NVIC_SetPriority(UART4_IRQn, 3, 0);
   HAL_NVIC_EnableIRQ(UART4_IRQn);
- //__HAL_UART_ENABLE_IT(&huart4, UART_IT_RXNE);
   /* USER CODE END UART5_MspInit 1 */
   }
 }

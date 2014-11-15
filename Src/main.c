@@ -55,10 +55,11 @@
 uint32_t hello=0;
 
 char cmdData[]="helloworld0";
-//uint16_t cmdData[]={9,2,2,7,2,1,0,1,8};
+//uint16_t cmdData[]={9,2,5,7,2,1,0,1,8};
 uint8_t mpuCmd = 0x71;
 char inImu[32];
-char inData[64];
+char inData[UART_BUFF_LEN];
+uint16_t len=0;
 //uint16_t inData[32];
 /* USER CODE END PV */
 
@@ -77,7 +78,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-//cmdData[10]=0x0D;
+  //cmdData[10]=0x0D;
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -167,7 +168,7 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
   /* Infinite loop */
   while (1)
   {
-   
+   /*
     if(inData[0]!=0)
     {
       int i = 0;
@@ -178,25 +179,34 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
       inData[i]=0x0D;
       inData[i+1]=0x0A;
       HAL_UART_Transmit(&huart5, inData, i+2, 500);
+    }*/
+    
+    if(rx_buff.newData){
+      memcpy(inData, rx_buff.buffer, rx_buff.length);
+      len = rx_buff.length;
+      HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);
+      rx_buff.newData=0;
+      HAL_UART_Transmit(&huart5, inData, len, 500);
     }
+
       
     ticks = HAL_GetTick();
     inData[0]=0;
     //__HAL_I2C_CLEAR_FLAG(&hi2c3, I2C_FLAG_BUSY);
     //while(__HAL_I2C_GET_FLAG(&hi2c3, I2C_FLAG_BUSY) == SET){}
     
-    //HAL_StatusTypeDef halp = HAL_I2C_Master_Transmit(&hi2c3, 0x68, &mpuCmd, 1, 500);
-    //HAL_StatusTypeDef halpme = HAL_I2C_Master_Receive(&hi2c3,  0x68, inImu, 2, 500);
+    HAL_StatusTypeDef halp = HAL_I2C_Master_Transmit(&hi2c3, 0xD0, &mpuCmd, 1, 500);
+    HAL_StatusTypeDef halpme = HAL_I2C_Master_Receive(&hi2c3,  0xD0, inImu, 1, 500);
     
     
     while(HAL_GetTick()<ticks+100){
       hello = 0;
     }
-   
+    
     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
 
-    //if(inImu[0]!=0)
-      //hello=1;
+    if(inImu[0]!=0)
+      hello=1;
   }
   /* USER CODE END 3 */
 
