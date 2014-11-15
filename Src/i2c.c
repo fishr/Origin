@@ -59,6 +59,7 @@ void MX_I2C3_Init(void)
   hi2c3.Init.NoStretchMode = I2C_NOSTRETCH_DISABLED;
   HAL_I2C_Init(&hi2c3);
 
+  __HAL_I2C_CLEAR_FLAG(&hi2c3, I2C_FLAG_BUSY);
 }
 
 void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)

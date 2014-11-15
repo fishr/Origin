@@ -56,7 +56,7 @@ uint32_t hello=0;
 
 char cmdData[]="helloworld0";
 //uint16_t cmdData[]={9,2,5,7,2,1,0,1,8};
-uint8_t mpuCmd = 0x71;
+uint8_t mpuCmd = 0x75;
 char inImu[32];
 char inData[UART_BUFF_LEN];
 uint16_t len=0;
