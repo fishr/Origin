@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * File Name          : SPI.c
-  * Date               : 08/11/2014 22:55:37
+  * Date               : 14/11/2014 14:18:01
   * Description        : This file provides code for the configuration
   *                      of the SPI instances.
   ******************************************************************************
@@ -60,6 +60,7 @@ void MX_SPI1_Init(void)
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLED;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLED;
+
   HAL_SPI_Init(&hspi1);
 
 }
@@ -77,7 +78,8 @@ void MX_SPI5_Init(void)
   hspi5.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
   hspi5.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi5.Init.TIMode = SPI_TIMODE_DISABLED;
-  hspi5.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLED;
+  hspi5.Init.CRCCalculation = SPI_CRCCALCULATION_ENABLED;
+  hspi5.Init.CRCPolynomial = 7;
   HAL_SPI_Init(&hspi5);
 
 }
@@ -129,15 +131,20 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
     PF7     ------> SPI5_SCK
     PF9     ------> SPI5_MOSI 
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_7|GPIO_PIN_9;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-    GPIO_InitStruct.Alternate = GPIO_AF5_SPI5;
-    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+//    GPIO_InitStruct.Pin = GPIO_PIN_7|GPIO_PIN_9;
+//    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+//    GPIO_InitStruct.Pull = GPIO_NOPULL;
+//    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
+//    GPIO_InitStruct.Alternate = GPIO_AF5_SPI5;
+//    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
   /* USER CODE BEGIN SPI5_MspInit 1 */
-
+    GPIO_InitStruct.Pin = GPIO_PIN_7|GPIO_PIN_9;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+    GPIO_InitStruct.Speed = GPIO_SPEED_MEDIUM;
+    GPIO_InitStruct.Alternate = GPIO_AF5_SPI5;
+    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
   /* USER CODE END SPI5_MspInit 1 */
   }
 }
