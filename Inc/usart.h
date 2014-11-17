@@ -58,10 +58,22 @@ typedef struct RX_Buff{
   char buffer[UART_BUFF_LEN];
 };
 
+typedef struct TX_Buff{
+  int8_t rxID;
+  uint8_t newData;
+  uint8_t valid;
+  uint16_t length;
+  uint16_t pointer;
+  char buffer[UART_BUFF_LEN];
+};
+
 extern struct RX_Buff rx_buff;
+//extern struct TX_Buff tx_buff;
+extern struct TX_Buff *friends[10];
 
 void MX_UART4_Init(void);
 void MX_UART5_Init(void);
+void buff_copy(struct TX_Buff* dest, struct TX_Buff* input);
 
 #ifdef __cplusplus
 }

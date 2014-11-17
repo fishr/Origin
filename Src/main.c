@@ -162,6 +162,7 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
     }
     
     HAL_UART_Receive_IT(&huart4, inData, 64);
+    HAL_UART_Receive_IT(&huart5, inData, 64);
 
     HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET); //gps on/off
   /* USER CODE BEGIN 3 */
@@ -188,6 +189,18 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
       rx_buff.newData=0;
       HAL_UART_Transmit(&huart5, inData, len, 500);
     }
+    for(int i =0; i<10; i++){
+      if(friends[i]!=0){
+        if(friends[i]->newData!=0){
+          uint8_t tempIdMsg[3];
+          tempIdMsg[0]=friends[i]->rxID;
+          tempIdMsg[1]=0x0D;
+          tempIdMsg[2]=0x0A;
+          friends[i]->newData=0;
+          HAL_UART_Transmit(&huart5, tempIdMsg, 3, 500);
+        }
+      }
+    }
 
       
     ticks = HAL_GetTick();
@@ -210,13 +223,6 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
   }
   /* USER CODE END 3 */
 
-}
-
-
-
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
-  hello_rx_flag = 1;
 }
 
 /** System Clock Configuration
