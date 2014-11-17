@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<workspace>
+  <project>
+    <path>$WS_DIR$\LTDC_ColorKeying.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$\..\..\..\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$\..\..\..\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_Display_2Layers\EWARM\LTDC_Display_2Layers.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$\..\..\Projects\EWARM\STM32 pin mapping.ewp</path>
+  </project>
+  <batchBuild/>
+</workspace>
+
+
