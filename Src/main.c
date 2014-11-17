@@ -42,6 +42,7 @@
 #include "usb_otg.h"
 #include "gpio.h"
 #include "fmc.h"
+#include "stdlib.h"
 
 /* USER CODE BEGIN Includes */
 #include "stm32f4xx_it.h"
@@ -65,6 +66,7 @@ uint16_t len=0;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void parseGPS(char *, double *, double *);
 
 /* USER CODE BEGIN PFP */
 
@@ -198,6 +200,9 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
           tempIdMsg[2]=0x0A;
           friends[i]->newData=0;
           HAL_UART_Transmit(&huart5, tempIdMsg, 3, 500);
+          double lat;
+          double longi;
+          parseGPS(friends[i]->buffer, &lat, &longi);
         }
       }
     }
@@ -224,6 +229,38 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
   /* USER CODE END 3 */
 
 }
+
+void parseGPS(char *nmea_string, double *lat, double *longi){
+  char nmea_copy[UART_BUFF_LEN];
+  strcpy(nmea_copy, nmea_string+2);
+  
+  char* token;
+  const char delim[1] = {','};
+  int i =0;
+  *lat=0.0;
+  *longi=0.0;
+  token = (char*)strtok (nmea_copy, delim);
+  
+  //first field is communication type
+  if(strcmp(token, "GPRMC"))
+    return;
+  
+  //4 and 6 are lat long respectively, they are both 
+  //followed by a cardinal direction
+  while (token != (char*) 0){
+    i++;
+
+    token = (char*)strtok ((char *) 0, delim);
+    if(i==3){
+      *lat=(double) atof(token);
+    }else if(i==5){
+      *longi = (double) atof(token);
+    }
+  }
+  
+  
+}
+  
 
 /** System Clock Configuration
 */
