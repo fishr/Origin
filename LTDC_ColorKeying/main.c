@@ -51,6 +51,9 @@ uint8_t ubPressedButton = PRESSED_1;
 
 LTDC_ColorKeying_InitTypeDef   LTDC_colorkeying_InitStruct;
 /* Private function prototypes -----------------------------------------------*/
+#ifndef USE_Delay
+static void delay(__IO uint32_t nCount);
+#endif /* USE_Delay*/
 static void LCD_Config(void);
 static void LCD_AF_GPIOConfig(void);
 
@@ -70,21 +73,21 @@ int main(void)
   system_stm32f4xx.c file
   */      
   
-  //PE4 PE5 buttons
+  delay(10000000);
   
-  /* User button will be used */
-  STM_EVAL_PBInit(BUTTON_USER, BUTTON_MODE_GPIO);
   
-  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
-  
-  GPIO_InitTypeDef GPIO_InitStructure;
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_Init(GPIOC, &GPIO_InitStructure);
-  GPIO_WriteBit(GPIOC, GPIO_Pin_1, Bit_SET);  //osc enable
+//  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+////    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+//    
+//  GPIO_InitTypeDef GPIO_InitStructure;
+//  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+//  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+//  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+//  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+//  GPIO_Init(GPIOC, &GPIO_InitStructure);
+//
+//  GPIO_WriteBit(GPIOC, GPIO_Pin_1, Bit_SET);  //osc enable
   
   /* LCD Configuration */
   LCD_Config();
@@ -100,58 +103,18 @@ int main(void)
   
   while (1)
   {
-    /* Wait for User push-button is pressed */
-    while (STM_EVAL_PBGetState(BUTTON_USER) != Bit_RESET)
-    {
-    }
+    LCD_Clear(0xf81f);  //PINK  
+    LCD_SetLayer(LCD_FOREGROUND_LAYER);
+    uint8_t aTextBuffer[50];
+    sprintf((char*)aTextBuffer, "     %s      ", "Hans"); 
+    LCD_DisplayStringLine(LINE(4), (uint8_t*)aTextBuffer);
+    sprintf((char*)aTextBuffer, "  is awesome   "); 
+    LCD_DisplayStringLine(LINE(8), (uint8_t*)aTextBuffer);
+//    LCD_SetLayer(LCD_BACKGROUND_LAYER);
+    delay(10000000);
+    LCD_Clear(0x001f);  //BLUE
+    delay(10000000);
     
-    /* Wait for User push-button is released */
-    while (STM_EVAL_PBGetState(BUTTON_USER) != Bit_SET)
-    {
-    }
-    
-    if(ubPressedButton == PRESSED_1)
-    {
-      /* Set Color Keying to red (RGB = 0xFF0000) */
-      LCD_SetColorKeying(0xFF0000);
-      
-      ubPressedButton = PRESSED_2;  
-    }
-    else if(ubPressedButton == PRESSED_2) 
-    {
-      /* Set Color Keying to blue (RGB = 0x0000FF) */
-      LCD_SetColorKeying(0xFF);
-      
-      ubPressedButton = PRESSED_3; 
-    }
-    else if(ubPressedButton == PRESSED_3) 
-    {
-      /* Set Color Keying to green (RGB = 0x00FF00) */
-      LCD_SetColorKeying(0xFF00);
-      
-      ubPressedButton = PRESSED_4; 
-    }
-    else if(ubPressedButton == PRESSED_4) 
-    {
-      /* Set Color Keying to blue and green (RGB = 0x00FFFF) */
-      LCD_SetColorKeying(0xFFFF);
-      
-      ubPressedButton = PRESSED_5; 
-    }
-    else if(ubPressedButton == PRESSED_5) 
-    {
-      /* Set Color Keying to red and green (RGB = 0x00FFFF) */
-      LCD_SetColorKeying(0xFFFF00);
-      
-      ubPressedButton = PRESSED_6; 
-    }
-    else
-    {
-      /* Set Color Keying to blue and red (RGB = 0x00FFFF) */ 
-      LCD_SetColorKeying(0xFF00FF);
-      
-      ubPressedButton = PRESSED_1; 
-    }      
   }
 }
 /**
@@ -203,8 +166,8 @@ static void LCD_Config(void)
   /* Configure the LCD Control pins */
   LCD_AF_GPIOConfig();  
   
-//  /* Configure the FMC Parallel interface : SDRAM is used as Frame Buffer for LCD */
-//  SDRAM_Init();
+  /* Configure the FMC Parallel interface : SDRAM is used as Frame Buffer for LCD */
+  SDRAM_Init();
   
 /* Enable Pixel Clock --------------------------------------------------------*/
 
@@ -263,55 +226,7 @@ static void LCD_Config(void)
   
 /* LTDC initialization end ---------------------------------------------------*/
 
-/* Layer1 Configuration ------------------------------------------------------*/  
-    
-  /* Windowing configuration */ 
-  /* In this case all the active display area is used to display a picture then :
-     Horizontal start = horizontal synchronization + Horizontal back porch = 30 
-     Horizontal stop = Horizontal start + window width -1 = 30 + 240 -1
-     Vertical start   = vertical synchronization + vertical back porch     = 4
-     Vertical stop   = Vertical start + window height -1  = 4 + 320 -1      */ 
-  LTDC_Layer_InitStruct.LTDC_HorizontalStart = 30;
-  LTDC_Layer_InitStruct.LTDC_HorizontalStop = (240 + 30 - 1); 
-  LTDC_Layer_InitStruct.LTDC_VerticalStart = 4;
-  LTDC_Layer_InitStruct.LTDC_VerticalStop = (320 + 4 - 1);
-  
-  /* Pixel Format configuration*/           
-  LTDC_Layer_InitStruct.LTDC_PixelFormat = LTDC_Pixelformat_RGB565;
-  
-  /* Alpha constant (255 totally opaque) */
-  LTDC_Layer_InitStruct.LTDC_ConstantAlpha = 255; 
-  
-  /* Configure blending factors */       
-  LTDC_Layer_InitStruct.LTDC_BlendingFactor_1 = LTDC_BlendingFactor1_CA;    
-  LTDC_Layer_InitStruct.LTDC_BlendingFactor_2 = LTDC_BlendingFactor2_CA;  
-  
-  /* Default Color configuration (configure A,R,G,B component values) */          
-  LTDC_Layer_InitStruct.LTDC_DefaultColorBlue = 0;        
-  LTDC_Layer_InitStruct.LTDC_DefaultColorGreen = 0;       
-  LTDC_Layer_InitStruct.LTDC_DefaultColorRed = 0;         
-  LTDC_Layer_InitStruct.LTDC_DefaultColorAlpha = 0;   
-   
-  /* Input Address configuration */    
-  LTDC_Layer_InitStruct.LTDC_CFBStartAdress = (uint32_t)&RGB565_240x320;
- 
-  /* the length of one line of pixels in bytes + 3 then :
-     Line Lenth = Active high width x number of bytes per pixel + 3 
-     Active high width         = 240 
-     number of bytes per pixel = 2    (pixel_format : RGB565) 
-  */
-  LTDC_Layer_InitStruct.LTDC_CFBLineLength = ((240 * 2) + 3);
-  
-  /*  the pitch is the increment from the start of one line of pixels to the 
-      start of the next line in bytes, then :
-      Pitch = Active high width x number of bytes per pixel     
-  */
-  LTDC_Layer_InitStruct.LTDC_CFBPitch = (240 * 2);  
-  
-  /* configure the number of lines */
-  LTDC_Layer_InitStruct.LTDC_CFBLineNumber = 320;
-   
-  LTDC_LayerInit(LTDC_Layer1, &LTDC_Layer_InitStruct);
+  LCD_LayerInit();
   
   LTDC_DitherCmd(ENABLE);
 }
@@ -379,9 +294,9 @@ static void LCD_AF_GPIOConfig(void)
  /* GPIOC configuration */
   GPIO_PinAFConfig(GPIOC, GPIO_PinSource6, GPIO_AF_LTDC);
   GPIO_PinAFConfig(GPIOC, GPIO_PinSource7, GPIO_AF_LTDC);
-  GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_LTDC);
+//  GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_LTDC);
   
-  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_10;
+  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;// | GPIO_Pin_10;
                              
   GPIO_Init(GPIOC, &GPIO_InitStruct);
 
@@ -433,7 +348,20 @@ void assert_failed(uint8_t* file, uint32_t line)
   }
 }
 #endif
-
+#ifndef USE_Delay
+/**
+  * @brief  Inserts a delay time.
+  * @param  nCount: specifies the delay time length.
+  * @retval None
+  */
+static void delay(__IO uint32_t nCount)
+{
+  __IO uint32_t index = 0; 
+  for(index = nCount; index != 0; index--)
+  {
+  }
+}
+#endif /* USE_Delay*/
 /**
   * @}
   */ 

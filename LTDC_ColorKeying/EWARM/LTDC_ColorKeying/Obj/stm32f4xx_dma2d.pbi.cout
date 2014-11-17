@@ -1,16 +1,16 @@
-"C:\Users\Hans Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dma2d.c"
+"C:\Users\Hans Susilo\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dma2d.c"
 -std=c99
 -ferror-limit=100
 -I
-C:\Users\Hans Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\..
+C:\Users\Hans Susilo\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\..
 -I
-C:\Users\Hans Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include
+C:\Users\Hans Susilo\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include
 -I
-C:\Users\Hans Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\..\..\..\..\Libraries\CMSIS\Include
+C:\Users\Hans Susilo\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\..\..\..\..\Libraries\CMSIS\Include
 -I
-C:\Users\Hans Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc
+C:\Users\Hans Susilo\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc
 -I
-C:\Users\Hans Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\..\..\..\..\Utilities\STM32F429I-Discovery
+C:\Users\Hans Susilo\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\..\..\..\..\Utilities\STM32F429I-Discovery
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\CMSIS\Include
 -I
@@ -18,15 +18,15 @@ C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\inc\c
 -I
-C:\Users\Hans Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying
+C:\Users\Hans Susilo\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying
 -I
-C:\Users\Hans Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Libraries\CMSIS\Device\ST\STM32F4xx\Include
+C:\Users\Hans Susilo\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Libraries\CMSIS\Device\ST\STM32F4xx\Include
 -I
-C:\Users\Hans Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Libraries\CMSIS\Include
+C:\Users\Hans Susilo\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Libraries\CMSIS\Include
 -I
-C:\Users\Hans Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Libraries\STM32F4xx_StdPeriph_Driver\inc
+C:\Users\Hans Susilo\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Libraries\STM32F4xx_StdPeriph_Driver\inc
 -I
-C:\Users\Hans Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Utilities\STM32F429I-Discovery
+C:\Users\Hans Susilo\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Utilities\STM32F429I-Discovery
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\CMSIS\Include
 -DUSE_STDPERIPH_DRIVER=1
@@ -235,8 +235,8 @@ C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\CMSIS\Include
 -D__HAS_LOCATED_WITH_INIT__=1
 -D__IAR_COMPILERBASE__=594176
 -D_GOANNA=1
--D__DATE__="Nov 15 2014"
--D__TIME__="15:31:28"
+-D__DATE__="Nov 17 2014"
+-D__TIME__="00:50:37"
 -D__STDC__=1
 -D__STDC_VERSION__=199901L
 -D__STDC_HOSTED__=1

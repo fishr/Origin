@@ -1,3 +1,13 @@
+[stlink]
+stlinkserialNo=DE880046
+stlinkfoundProbes=
+[DebugChecksum]
+Checksum=-1398040534
+[Exceptions]
+StopOnUncaught=_ 0
+StopOnThrow=_ 0
+[CodeCoverage]
+Enabled=_ 0
 [Stack]
 FillEnabled=0
 OverflowWarningsEnabled=1
@@ -8,16 +18,6 @@ UseTrigger=1
 TriggerName=main
 LimitSize=0
 ByteLimit=50
-[stlink]
-stlinkserialNo=2798FD0D
-stlinkfoundProbes=
-[DebugChecksum]
-Checksum=-1497425809
-[Exceptions]
-StopOnUncaught=_ 0
-StopOnThrow=_ 0
-[CodeCoverage]
-Enabled=_ 0
 [CallStack]
 ShowArgs=0
 [Disassembly]
@@ -67,9 +67,7 @@ SumSortOrder=0
 [Disassemble mode]
 mode=0
 [Breakpoints2]
-Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\..\..\..\..\..\origin\Src\stm32f429i_discovery_lcd.c}.1540.1" 0 0 1 "" 0 "" 0
-Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\..\..\..\..\..\origin\Src\stm32f429i_discovery_lcd.c}.1515.1" 0 0 1 "" 0 "" 0
-Count=2
+Count=0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""

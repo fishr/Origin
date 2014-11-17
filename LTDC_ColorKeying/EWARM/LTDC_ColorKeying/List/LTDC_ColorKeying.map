@@ -1,58 +1,58 @@
 ###############################################################################
 #
-# IAR ELF Linker V7.30.1.7746/W32 for ARM                 16/Nov/2014  21:38:53
+# IAR ELF Linker V7.30.1.7746/W32 for ARM                 17/Nov/2014  03:51:51
 # Copyright 2007-2014 IAR Systems AB.
 #
 #    Output file  =  
-#        C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Exe\LTDC_ColorKeying.out
+#        C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Exe\LTDC_ColorKeying.out
 #    Map file     =  
-#        C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\List\LTDC_ColorKeying.map
+#        C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\List\LTDC_ColorKeying.map
 #    Command line =  
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\main.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\misc.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\startup_stm32f429_439xx.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f429i_discovery.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f429i_discovery_lcd.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f429i_discovery_sdram.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_adc.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_dma.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_dma2d.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_exti.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_fmc.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_gpio.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_it.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_ltdc.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_rcc.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_spi.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_syscfg.o"
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\system_stm32f4xx.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\main.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\misc.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\startup_stm32f429_439xx.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f429i_discovery.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f429i_discovery_lcd.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f429i_discovery_sdram.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_adc.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_dma.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_dma2d.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_exti.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_fmc.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_gpio.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_it.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_ltdc.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_rcc.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_spi.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\stm32f4xx_syscfg.o"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj\system_stm32f4xx.o"
 #        --redirect _Printf=_PrintfSmall --redirect _Scanf=_ScanfSmall -o
-#        "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Exe\LTDC_ColorKeying.out"
-#        --map "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\List\LTDC_ColorKeying.map"
-#        --config "C:\Users\Hans
-#        Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\stm32f4xx_flash.icf"
+#        "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Exe\LTDC_ColorKeying.out"
+#        --map "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\List\LTDC_ColorKeying.map"
+#        --config "C:\Users\Hans Susilo\Downloads\stsw-stm32138
+#        (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\stm32f4xx_flash.icf"
 #        --semihosting --entry __iar_program_start --vfe
 #
 ###############################################################################
@@ -73,151 +73,151 @@ __SystemLibrary = DLib
 "P1":  place in [from 0x08000000 to 0x081fffff] { ro };
 "P2":  place in [from 0x20000000 to 0x2002ffff] { rw, block CSTACK, block HEAP };
 
-  Section            Kind        Address     Size  Object
-  -------            ----        -------     ----  ------
-"A1":                                       0x1ac
-  .intvec            ro code  0x08000000    0x1ac  startup_stm32f429_439xx.o [1]
-                            - 0x080001ac    0x1ac
+  Section            Kind        Address    Size  Object
+  -------            ----        -------    ----  ------
+"A1":                                      0x1ac
+  .intvec            ro code  0x08000000   0x1ac  startup_stm32f429_439xx.o [1]
+                            - 0x080001ac   0x1ac
 
-"P1":                                     0x27b44
-  .text              ro code  0x080001ac  0x25b18  main.o [1]
-  .text              ro code  0x08025cc4     0xd1  stm32f429i_discovery.o [1]
-  .text              ro code  0x08025d96     0x2e  copy_init3.o [5]
-  .text              ro code  0x08025dc4     0xb0  stm32f4xx_rcc.o [1]
-  .text              ro code  0x08025e74     0xb4  stm32f4xx_gpio.o [1]
-  .text              ro code  0x08025f28    0x1c0  stm32f4xx_ltdc.o [1]
-  .text              ro code  0x080260e8    0x468  stm32f429i_discovery_lcd.o [1]
-  .text              ro code  0x08026550     0x28  stm32f4xx_syscfg.o [1]
-  .text              ro code  0x08026578     0x6c  stm32f4xx_exti.o [1]
-  .text              ro code  0x080265e4     0x68  misc.o [1]
-  .text              ro code  0x0802664c    0x116  stm32f4xx_spi.o [1]
-  .text              ro code  0x08026762     0x22  zero_init3.o [5]
-  .rodata            const    0x08026784   0x11d0  stm32f429i_discovery_lcd.o [1]
-  .text              ro code  0x08027954    0x10c  system_stm32f4xx.o [1]
-  .text              ro code  0x08027a60     0x28  data_init.o [5]
-  .text              ro code  0x08027a88     0x22  fpinit_M.o [4]
-  .iar.init_table    const    0x08027aac     0x24  - Linker created -
-  .text              ro code  0x08027ad0     0x1a  cmain.o [5]
-  .text              ro code  0x08027aea      0x4  low_level_init.o [3]
-  .text              ro code  0x08027aee      0x4  exit.o [3]
-  .text              ro code  0x08027af4      0xa  cexit.o [5]
-  .text              ro code  0x08027b00     0x14  exit.o [6]
-  .text              ro code  0x08027b14     0x12  stm32f4xx_it.o [1]
-  .text              ro code  0x08027b28     0x10  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b38      0xc  cstartup_M.o [5]
-  .text              ro code  0x08027b44      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b48      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b4c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b50      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b54      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b58      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b5c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b60      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b64      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b68      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b6c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b70      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b74      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b78      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b7c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b80      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b84      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b88      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b8c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b90      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b94      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b98      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027b9c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027ba0      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027ba4      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027ba8      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bac      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bb0      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bb4      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bb8      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bbc      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bc0      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bc4      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bc8      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bcc      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bd0      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bd4      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bd8      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bdc      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027be0      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027be4      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027be8      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bec      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bf0      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bf4      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bf8      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027bfc      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c00      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c04      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c08      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c0c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c10      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c14      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c18      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c1c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c20      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c24      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c28      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c2c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c30      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c34      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c38      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c3c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c40      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c44      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c48      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c4c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c50      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c54      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c58      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c5c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c60      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c64      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c68      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c6c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c70      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c74      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c78      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c7c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c80      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c84      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c88      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c8c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c90      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c94      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c98      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027c9c      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027ca0      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027ca4      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027ca8      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027cac      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027cb0      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027cb4      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027cb8      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027cbc      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027cc0      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027cc4      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027cc8      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027ccc      0x4  startup_stm32f429_439xx.o [1]
-  .text              ro code  0x08027cd0      0x4  startup_stm32f429_439xx.o [1]
-  .rodata            const    0x08027cd4      0x0  zero_init3.o [5]
-  .rodata            const    0x08027cd4      0x0  copy_init3.o [5]
-  Initializer bytes  ro data  0x08027cd4     0x1c  <for P2 s0>
-                            - 0x08027cf0  0x27b44
+"P1":                                     0x2bc4
+  .rodata            const    0x080001ac  0x11d0  stm32f429i_discovery_lcd.o [1]
+  .text              ro code  0x0800137c   0x5d8  stm32f429i_discovery_lcd.o [1]
+  .text              ro code  0x08001954    0xa6  stm32f4xx_gpio.o [1]
+  .text              ro code  0x080019fa    0x2e  copy_init3.o [5]
+  .text              ro code  0x08001a28   0x184  stm32f4xx_ltdc.o [1]
+  .text              ro code  0x08001bac   0x116  stm32f4xx_spi.o [1]
+  .text              ro code  0x08001cc2     0xa  xsprout.o [3]
+  .text              ro code  0x08001ccc    0xc8  stm32f4xx_rcc.o [1]
+  .text              ro code  0x08001d94   0x4d8  xprintfsmall.o [3]
+  .text              ro code  0x0800226c    0x16  strchr.o [5]
+  .text              ro code  0x08002284    0x36  strlen.o [5]
+  .text              ro code  0x080022bc    0x58  memchr.o [5]
+  .text              ro code  0x08002314   0x2c4  main.o [1]
+  .text              ro code  0x080025d8    0x34  sprintf.o [3]
+  .text              ro code  0x0800260c   0x2be  stm32f429i_discovery_sdram.o [1]
+  .text              ro code  0x080028cc   0x11c  stm32f4xx_fmc.o [1]
+  .text              ro code  0x080029e8   0x10c  system_stm32f4xx.o [1]
+  .text              ro code  0x08002af4    0x28  data_init.o [5]
+  .text              ro code  0x08002b1c    0x22  fpinit_M.o [4]
+  .iar.init_table    const    0x08002b40    0x14  - Linker created -
+  .text              ro code  0x08002b54    0x1a  cmain.o [5]
+  .text              ro code  0x08002b6e     0x4  low_level_init.o [3]
+  .text              ro code  0x08002b72     0x4  exit.o [3]
+  .text              ro code  0x08002b78     0xa  cexit.o [5]
+  .text              ro code  0x08002b84    0x14  exit.o [6]
+  .text              ro code  0x08002b98    0x12  stm32f4xx_it.o [1]
+  .text              ro code  0x08002bac    0x10  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002bbc     0xc  cstartup_M.o [5]
+  .text              ro code  0x08002bc8     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002bcc     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002bd0     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002bd4     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002bd8     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002bdc     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002be0     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002be4     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002be8     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002bec     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002bf0     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002bf4     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002bf8     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002bfc     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c00     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c04     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c08     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c0c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c10     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c14     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c18     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c1c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c20     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c24     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c28     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c2c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c30     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c34     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c38     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c3c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c40     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c44     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c48     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c4c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c50     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c54     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c58     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c5c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c60     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c64     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c68     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c6c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c70     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c74     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c78     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c7c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c80     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c84     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c88     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c8c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c90     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c94     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c98     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002c9c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002ca0     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002ca4     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002ca8     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cac     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cb0     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cb4     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cb8     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cbc     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cc0     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cc4     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cc8     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002ccc     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cd0     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cd4     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cd8     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cdc     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002ce0     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002ce4     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002ce8     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cec     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cf0     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cf4     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cf8     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002cfc     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d00     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d04     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d08     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d0c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d10     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d14     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d18     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d1c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d20     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d24     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d28     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d2c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d30     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d34     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d38     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d3c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d40     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d44     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d48     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d4c     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d50     0x4  startup_stm32f429_439xx.o [1]
+  .text              ro code  0x08002d54     0x4  startup_stm32f429_439xx.o [1]
+  .rodata            const    0x08002d58     0x0  copy_init3.o [5]
+  Initializer bytes  ro data  0x08002d58    0x18  <for P2 s0>
+                            - 0x08002d70  0x2bc4
 
-"P2":                                       0x420
-  P2 s0                       0x20000000     0x1c  <Init block>
-    .data            inited   0x20000000     0x18  stm32f429i_discovery_lcd.o [1]
-    .data            inited   0x20000018      0x4  stm32f429i_discovery.o [1]
-  .bss               zero     0x2000001c      0x1  main.o [1]
-  CSTACK                      0x20000020    0x400  <Block>
-    CSTACK           uninit   0x20000020    0x400  <Block tail>
-                            - 0x20000420    0x420
+"P2":                                      0x418
+  P2 s0                       0x20000000    0x18  <Init block>
+    .data            inited   0x20000000    0x18  stm32f429i_discovery_lcd.o [1]
+  CSTACK                      0x20000018   0x400  <Block>
+    CSTACK           uninit   0x20000018   0x400  <Block tail>
+                            - 0x20000418   0x418
 
 
 *******************************************************************************
@@ -226,15 +226,11 @@ __SystemLibrary = DLib
 
           Address     Size
           -------     ----
-Zero (__iar_zero_init3)
-    1 destination range, total size 0x1:
-          0x2000001c   0x1
-
 Copy (__iar_copy_init3)
-    1 source range, total size 0x1c:
-          0x08027cd4  0x1c
-    1 destination range, total size 0x1c:
-          0x20000000  0x1c
+    1 source range, total size 0x18:
+          0x08002d58  0x18
+    1 destination range, total size 0x18:
+          0x20000000  0x18
 
 
 
@@ -242,166 +238,178 @@ Copy (__iar_copy_init3)
 *** MODULE SUMMARY
 ***
 
-    Module                      ro code  ro data  rw data
-    ------                      -------  -------  -------
-C:\Users\Hans Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj: [1]
-    main.o                      154 392                 1
-    misc.o                          104
-    startup_stm32f429_439xx.o       844
-    stm32f429i_discovery.o          209        4        4
-    stm32f429i_discovery_lcd.o    1 128    4 584       24
-    stm32f4xx_exti.o                108
-    stm32f4xx_gpio.o                180
-    stm32f4xx_it.o                   18
-    stm32f4xx_ltdc.o                448
-    stm32f4xx_rcc.o                 176
-    stm32f4xx_spi.o                 278
-    stm32f4xx_syscfg.o               40
-    system_stm32f4xx.o              268
-    -----------------------------------------------------
-    Total:                      158 193    4 588       29
+    Module                        ro code  ro data  rw data
+    ------                        -------  -------  -------
+C:\Users\Hans Susilo\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj: [1]
+    main.o                            708
+    startup_stm32f429_439xx.o         844
+    stm32f429i_discovery_lcd.o      1 496    4 584       24
+    stm32f429i_discovery_sdram.o      702
+    stm32f4xx_fmc.o                   284
+    stm32f4xx_gpio.o                  166
+    stm32f4xx_it.o                     18
+    stm32f4xx_ltdc.o                  388
+    stm32f4xx_rcc.o                   200
+    stm32f4xx_spi.o                   278
+    system_stm32f4xx.o                268
+    -------------------------------------------------------
+    Total:                          5 352    4 584       24
 
 command line: [2]
-    -----------------------------------------------------
+    -------------------------------------------------------
     Total:
 
 dl7M_tln.a: [3]
-    exit.o                            4
-    low_level_init.o                  4
-    -----------------------------------------------------
-    Total:                            8
+    exit.o                              4
+    low_level_init.o                    4
+    sprintf.o                          52
+    xprintfsmall.o                  1 240
+    xsprout.o                          10
+    -------------------------------------------------------
+    Total:                          1 310
 
 m7M_tlv.a: [4]
-    fpinit_M.o                       34
-    -----------------------------------------------------
-    Total:                           34
+    fpinit_M.o                         34
+    -------------------------------------------------------
+    Total:                             34
 
 rt7M_tl.a: [5]
-    cexit.o                          10
-    cmain.o                          26
-    copy_init3.o                     46
-    cstartup_M.o                     12
-    data_init.o                      40
-    zero_init3.o                     34
-    -----------------------------------------------------
-    Total:                          168
+    cexit.o                            10
+    cmain.o                            26
+    copy_init3.o                       46
+    cstartup_M.o                       12
+    data_init.o                        40
+    memchr.o                           88
+    strchr.o                           22
+    strlen.o                           54
+    -------------------------------------------------------
+    Total:                            298
 
 shb_l.a: [6]
-    exit.o                           20
-    -----------------------------------------------------
-    Total:                           20
+    exit.o                             20
+    -------------------------------------------------------
+    Total:                             20
 
-    Gaps                              7        2
-    Linker created                            36    1 024
----------------------------------------------------------
-    Grand Total:                158 430    4 626    1 053
+    Gaps                               12        2
+    Linker created                              20    1 024
+-----------------------------------------------------------
+    Grand Total:                    7 026    4 606    1 048
 
 
 *******************************************************************************
 *** ENTRY LIST
 ***
 
-Entry                      Address     Size  Type      Object
------                      -------     ----  ----      ------
-?main                   0x08027ad1           Code  Gb  cmain.o [5]
-ASCII16x24_Table        0x08026784   0x11d0  Data  Gb  stm32f429i_discovery_lcd.o [1]
-BUTTON_CLK              0x08025d84      0x4  Data  Gb  stm32f429i_discovery.o [1]
-BUTTON_EXTI_LINE        0x08025d88      0x2  Data  Gb  stm32f429i_discovery.o [1]
-BUTTON_IRQn             0x08025d94      0x1  Data  Gb  stm32f429i_discovery.o [1]
-BUTTON_PIN              0x08025d80      0x2  Data  Gb  stm32f429i_discovery.o [1]
-BUTTON_PIN_SOURCE       0x08025d90      0x1  Data  Gb  stm32f429i_discovery.o [1]
-BUTTON_PORT             0x20000018      0x4  Data  Gb  stm32f429i_discovery.o [1]
-BUTTON_PORT_SOURCE      0x08025d8c      0x1  Data  Gb  stm32f429i_discovery.o [1]
-BusFault_Handler        0x08027b1b      0x2  Code  Gb  stm32f4xx_it.o [1]
-CSTACK$$Base            0x20000020            --   Gb  - Linker created -
-CSTACK$$Limit           0x20000420            --   Gb  - Linker created -
-CurrentBackColor        0x20000002      0x2  Data  Lc  stm32f429i_discovery_lcd.o [1]
-CurrentFrameBuffer      0x20000008      0x4  Data  Lc  stm32f429i_discovery_lcd.o [1]
-CurrentLayer            0x2000000c      0x4  Data  Lc  stm32f429i_discovery_lcd.o [1]
-CurrentTextColor        0x20000000      0x2  Data  Lc  stm32f429i_discovery_lcd.o [1]
-DebugMon_Handler        0x08027b21      0x2  Code  Gb  stm32f4xx_it.o [1]
-EXTI_Init               0x08026579     0x66  Code  Gb  stm32f4xx_exti.o [1]
-Font16x24               0x20000010      0x8  Data  Gb  stm32f429i_discovery_lcd.o [1]
-GPIO_Init               0x08025e75     0x70  Code  Gb  stm32f4xx_gpio.o [1]
-GPIO_PinAFConfig        0x08025f05     0x24  Code  Gb  stm32f4xx_gpio.o [1]
-GPIO_ReadInputDataBit   0x08025ee5      0xe  Code  Gb  stm32f4xx_gpio.o [1]
-GPIO_ResetBits          0x08025ef7      0x4  Code  Gb  stm32f4xx_gpio.o [1]
-GPIO_SetBits            0x08025ef3      0x4  Code  Gb  stm32f4xx_gpio.o [1]
-GPIO_WriteBit           0x08025efb      0xa  Code  Gb  stm32f4xx_gpio.o [1]
-HardFault_Handler       0x08027b17      0x2  Code  Gb  stm32f4xx_it.o [1]
-LCD_AF_GPIOConfig       0x08000383     0xf0  Code  Lc  main.o [1]
-LCD_ChipSelect          0x080260f5     0x16  Code  Gb  stm32f429i_discovery_lcd.o [1]
-LCD_Config              0x08000279    0x10a  Code  Lc  main.o [1]
-LCD_CtrlLinesConfig     0x0802641b     0x42  Code  Gb  stm32f429i_discovery_lcd.o [1]
-LCD_CtrlLinesWrite      0x0802645d      0x4  Code  Gb  stm32f429i_discovery_lcd.o [1]
-LCD_Currentfonts        0x20000004      0x4  Data  Lc  stm32f429i_discovery_lcd.o [1]
-LCD_PowerOn             0x080261a9    0x26e  Code  Gb  stm32f429i_discovery_lcd.o [1]
-LCD_SPIConfig           0x08026461     0xb8  Code  Gb  stm32f429i_discovery_lcd.o [1]
-LCD_SetColorKeying      0x0802610b     0x2e  Code  Gb  stm32f429i_discovery_lcd.o [1]
-LCD_WriteCommand        0x08026149      0x8  Code  Gb  stm32f429i_discovery_lcd.o [1]
-LCD_WriteData           0x08026151      0x6  Code  Gb  stm32f429i_discovery_lcd.o [1]
-LTDC_Cmd                0x08025fbf     0x14  Code  Gb  stm32f4xx_ltdc.o [1]
-LTDC_ColorKeyingConfig  0x0802608f     0x3a  Code  Gb  stm32f4xx_ltdc.o [1]
-LTDC_DitherCmd          0x08025fd3     0x14  Code  Gb  stm32f4xx_ltdc.o [1]
-LTDC_Init               0x08025f29     0x96  Code  Gb  stm32f4xx_ltdc.o [1]
-LTDC_LayerCmd           0x0802607d     0x12  Code  Gb  stm32f4xx_ltdc.o [1]
-LTDC_LayerInit          0x08025fe9     0x94  Code  Gb  stm32f4xx_ltdc.o [1]
-LTDC_ReloadConfig       0x08025fe7      0x2  Code  Gb  stm32f4xx_ltdc.o [1]
-MemManage_Handler       0x08027b19      0x2  Code  Gb  stm32f4xx_it.o [1]
-NMI_Handler             0x08027b15      0x2  Code  Gb  stm32f4xx_it.o [1]
-NVIC_Init               0x080265e5     0x58  Code  Gb  misc.o [1]
-PendSV_Handler          0x08027b23      0x2  Code  Gb  stm32f4xx_it.o [1]
-RCC_AHB1PeriphClockCmd  0x08025deb     0x12  Code  Gb  stm32f4xx_rcc.o [1]
-RCC_APB1PeriphResetCmd  0x08025e0f     0x12  Code  Gb  stm32f4xx_rcc.o [1]
-RCC_APB2PeriphClockCmd  0x08025dfd     0x12  Code  Gb  stm32f4xx_rcc.o [1]
-RCC_APB2PeriphResetCmd  0x08025e21     0x12  Code  Gb  stm32f4xx_rcc.o [1]
-RCC_GetFlagStatus       0x08025e33     0x22  Code  Gb  stm32f4xx_rcc.o [1]
-RCC_LTDCCLKDivConfig    0x08025de1      0xa  Code  Gb  stm32f4xx_rcc.o [1]
-RCC_PLLSAICmd           0x08025dd5      0x6  Code  Gb  stm32f4xx_rcc.o [1]
-RCC_PLLSAIConfig        0x08025dc5      0x8  Code  Gb  stm32f4xx_rcc.o [1]
-RGB565_240x320          0x080004c4  0x25800  Data  Gb  main.o [1]
-Region$$Table$$Base     0x08027aac            --   Gb  - Linker created -
-Region$$Table$$Limit    0x08027ad0            --   Gb  - Linker created -
-SPI_Cmd                 0x0802673d     0x14  Code  Gb  stm32f4xx_spi.o [1]
-SPI_I2S_DeInit          0x0802664d     0xa0  Code  Gb  stm32f4xx_spi.o [1]
-SPI_I2S_GetFlagStatus   0x08026755      0xe  Code  Gb  stm32f4xx_spi.o [1]
-SPI_I2S_SendData        0x08026751      0x4  Code  Gb  stm32f4xx_spi.o [1]
-SPI_Init                0x080266ed     0x38  Code  Gb  stm32f4xx_spi.o [1]
-STM_EVAL_PBGetState     0x08025d5f     0x12  Code  Gb  stm32f429i_discovery.o [1]
-STM_EVAL_PBInit         0x08025cc5     0x90  Code  Gb  stm32f429i_discovery.o [1]
-SVC_Handler             0x08027b1f      0x2  Code  Gb  stm32f4xx_it.o [1]
-SYSCFG_EXTILineConfig   0x08026551     0x22  Code  Gb  stm32f4xx_syscfg.o [1]
-SysTick_Handler         0x08027b25      0x2  Code  Gb  stm32f4xx_it.o [1]
-SystemInit              0x08027955     0xea  Code  Gb  system_stm32f4xx.o [1]
-UsageFault_Handler      0x08027b1d      0x2  Code  Gb  stm32f4xx_it.o [1]
-__cmain                 0x08027ad1           Code  Gb  cmain.o [5]
-__exit                  0x08027b01     0x14  Code  Gb  exit.o [6]
-__iar_copy_init3        0x08025d97     0x2e  Code  Gb  copy_init3.o [5]
-__iar_data_init3        0x08027a61     0x28  Code  Gb  data_init.o [5]
-__iar_init_vfp          0x08027a89           Code  Gb  fpinit_M.o [4]
-__iar_program_start     0x08027b39           Code  Gb  cstartup_M.o [5]
-__iar_zero_init3        0x08026763     0x22  Code  Gb  zero_init3.o [5]
-__low_level_init        0x08027aeb      0x4  Code  Gb  low_level_init.o [3]
-__vector_table          0x08000000           Data  Gb  startup_stm32f429_439xx.o [1]
-_call_main              0x08027add           Code  Gb  cmain.o [5]
-_exit                   0x08027af5           Code  Gb  cexit.o [5]
-_main                   0x08027ae7           Code  Gb  cmain.o [5]
-delay                   0x08026535     0x1c  Code  Lc  stm32f429i_discovery_lcd.o [1]
-exit                    0x08027aef      0x4  Code  Gb  exit.o [3]
-main                    0x080001ad     0xcc  Code  Gb  main.o [1]
-ubPressedButton         0x2000001c      0x1  Data  Gb  main.o [1]
+Entry                      Address    Size  Type      Object
+-----                      -------    ----  ----      ------
+?main                   0x08002b55          Code  Gb  cmain.o [5]
+ASCII16x24_Table        0x080001ac  0x11d0  Data  Gb  stm32f429i_discovery_lcd.o [1]
+BusFault_Handler        0x08002b9f     0x2  Code  Gb  stm32f4xx_it.o [1]
+CSTACK$$Base            0x20000018           --   Gb  - Linker created -
+CSTACK$$Limit           0x20000418           --   Gb  - Linker created -
+CurrentBackColor        0x20000002     0x2  Data  Lc  stm32f429i_discovery_lcd.o [1]
+CurrentFrameBuffer      0x20000008     0x4  Data  Lc  stm32f429i_discovery_lcd.o [1]
+CurrentLayer            0x2000000c     0x4  Data  Lc  stm32f429i_discovery_lcd.o [1]
+CurrentTextColor        0x20000000     0x2  Data  Lc  stm32f429i_discovery_lcd.o [1]
+DebugMon_Handler        0x08002ba5     0x2  Code  Gb  stm32f4xx_it.o [1]
+FMC_GetFlagStatus       0x080029a3    0x2e  Code  Gb  stm32f4xx_fmc.o [1]
+FMC_SDRAMCmdConfig      0x0800297d    0x1a  Code  Gb  stm32f4xx_fmc.o [1]
+FMC_SDRAMInit           0x080028cd    0xb0  Code  Gb  stm32f4xx_fmc.o [1]
+FMC_SetRefreshCount     0x08002997     0xc  Code  Gb  stm32f4xx_fmc.o [1]
+Font16x24               0x20000010     0x8  Data  Gb  stm32f429i_discovery_lcd.o [1]
+GPIO_Init               0x08001955    0x70  Code  Gb  stm32f4xx_gpio.o [1]
+GPIO_PinAFConfig        0x080019d7    0x24  Code  Gb  stm32f4xx_gpio.o [1]
+GPIO_ResetBits          0x080019c9     0x4  Code  Gb  stm32f4xx_gpio.o [1]
+GPIO_SetBits            0x080019c5     0x4  Code  Gb  stm32f4xx_gpio.o [1]
+GPIO_WriteBit           0x080019cd     0xa  Code  Gb  stm32f4xx_gpio.o [1]
+HardFault_Handler       0x08002b9b     0x2  Code  Gb  stm32f4xx_it.o [1]
+LCD_AF_GPIOConfig       0x08002463    0xe6  Code  Lc  main.o [1]
+LCD_ChipSelect          0x08001429    0x16  Code  Gb  stm32f429i_discovery_lcd.o [1]
+LCD_Clear               0x08001461    0x16  Code  Gb  stm32f429i_discovery_lcd.o [1]
+LCD_Config              0x08002399    0xca  Code  Lc  main.o [1]
+LCD_CtrlLinesConfig     0x0800181f    0x42  Code  Gb  stm32f429i_discovery_lcd.o [1]
+LCD_CtrlLinesWrite      0x08001861     0x4  Code  Gb  stm32f429i_discovery_lcd.o [1]
+LCD_Currentfonts        0x20000004     0x4  Data  Lc  stm32f429i_discovery_lcd.o [1]
+LCD_DisplayChar         0x080014f5    0x1c  Code  Gb  stm32f429i_discovery_lcd.o [1]
+LCD_DisplayStringLine   0x08001511    0x36  Code  Gb  stm32f429i_discovery_lcd.o [1]
+LCD_DrawChar            0x0800147d    0x78  Code  Gb  stm32f429i_discovery_lcd.o [1]
+LCD_GetFont             0x08001459     0x8  Code  Gb  stm32f429i_discovery_lcd.o [1]
+LCD_LayerInit           0x08001389    0xa0  Code  Gb  stm32f429i_discovery_lcd.o [1]
+LCD_PowerOn             0x080015ad   0x26e  Code  Gb  stm32f429i_discovery_lcd.o [1]
+LCD_SPIConfig           0x08001865    0xb8  Code  Gb  stm32f429i_discovery_lcd.o [1]
+LCD_SetLayer            0x0800143f    0x1a  Code  Gb  stm32f429i_discovery_lcd.o [1]
+LCD_WriteCommand        0x08001547     0x8  Code  Gb  stm32f429i_discovery_lcd.o [1]
+LCD_WriteData           0x0800154f     0x6  Code  Gb  stm32f429i_discovery_lcd.o [1]
+LTDC_Cmd                0x08001abf    0x14  Code  Gb  stm32f4xx_ltdc.o [1]
+LTDC_DitherCmd          0x08001ad3    0x14  Code  Gb  stm32f4xx_ltdc.o [1]
+LTDC_Init               0x08001a29    0x96  Code  Gb  stm32f4xx_ltdc.o [1]
+LTDC_LayerCmd           0x08001b7d    0x12  Code  Gb  stm32f4xx_ltdc.o [1]
+LTDC_LayerInit          0x08001ae9    0x94  Code  Gb  stm32f4xx_ltdc.o [1]
+LTDC_ReloadConfig       0x08001ae7     0x2  Code  Gb  stm32f4xx_ltdc.o [1]
+LoadInt                 0x0800211d    0x4c  Code  Lc  xprintfsmall.o [3]
+MemManage_Handler       0x08002b9d     0x2  Code  Gb  stm32f4xx_it.o [1]
+NMI_Handler             0x08002b99     0x2  Code  Gb  stm32f4xx_it.o [1]
+PendSV_Handler          0x08002ba7     0x2  Code  Gb  stm32f4xx_it.o [1]
+RCC_AHB1PeriphClockCmd  0x08001cf3    0x12  Code  Gb  stm32f4xx_rcc.o [1]
+RCC_AHB3PeriphClockCmd  0x08001d05    0x12  Code  Gb  stm32f4xx_rcc.o [1]
+RCC_APB1PeriphResetCmd  0x08001d29    0x12  Code  Gb  stm32f4xx_rcc.o [1]
+RCC_APB2PeriphClockCmd  0x08001d17    0x12  Code  Gb  stm32f4xx_rcc.o [1]
+RCC_APB2PeriphResetCmd  0x08001d3b    0x12  Code  Gb  stm32f4xx_rcc.o [1]
+RCC_GetFlagStatus       0x08001d4d    0x22  Code  Gb  stm32f4xx_rcc.o [1]
+RCC_LTDCCLKDivConfig    0x08001ce9     0xa  Code  Gb  stm32f4xx_rcc.o [1]
+RCC_PLLSAICmd           0x08001cdd     0x6  Code  Gb  stm32f4xx_rcc.o [1]
+RCC_PLLSAIConfig        0x08001ccd     0x8  Code  Gb  stm32f4xx_rcc.o [1]
+Region$$Table$$Base     0x08002b40           --   Gb  - Linker created -
+Region$$Table$$Limit    0x08002b54           --   Gb  - Linker created -
+SDRAM_GPIOConfig        0x08002675   0x160  Code  Gb  stm32f429i_discovery_sdram.o [1]
+SDRAM_Init              0x0800260d    0x68  Code  Gb  stm32f429i_discovery_sdram.o [1]
+SDRAM_InitSequence      0x080027f3    0x9e  Code  Gb  stm32f429i_discovery_sdram.o [1]
+SPI_Cmd                 0x08001c9d    0x14  Code  Gb  stm32f4xx_spi.o [1]
+SPI_I2S_DeInit          0x08001bad    0xa0  Code  Gb  stm32f4xx_spi.o [1]
+SPI_I2S_GetFlagStatus   0x08001cb5     0xe  Code  Gb  stm32f4xx_spi.o [1]
+SPI_I2S_SendData        0x08001cb1     0x4  Code  Gb  stm32f4xx_spi.o [1]
+SPI_Init                0x08001c4d    0x38  Code  Gb  stm32f4xx_spi.o [1]
+SVC_Handler             0x08002ba3     0x2  Code  Gb  stm32f4xx_it.o [1]
+SysTick_Handler         0x08002ba9     0x2  Code  Gb  stm32f4xx_it.o [1]
+SystemInit              0x080029e9    0xea  Code  Gb  system_stm32f4xx.o [1]
+UsageFault_Handler      0x08002ba1     0x2  Code  Gb  stm32f4xx_it.o [1]
+_LitobSmall             0x08002169    0xce  Code  Lc  xprintfsmall.o [3]
+_PrintfSmall            0x08001d95   0x382  Code  Gb  xprintfsmall.o [3]
+_PutcharsSmall          0x08002237    0x2e  Code  Lc  xprintfsmall.o [3]
+_SProut                 0x08001cc3     0xa  Code  Gb  xsprout.o [3]
+__cmain                 0x08002b55          Code  Gb  cmain.o [5]
+__exit                  0x08002b85    0x14  Code  Gb  exit.o [6]
+__iar_Memchr            0x080022bd          Code  Gb  memchr.o [5]
+__iar_Strchr            0x0800226d          Code  Gb  strchr.o [5]
+__iar_copy_init3        0x080019fb    0x2e  Code  Gb  copy_init3.o [5]
+__iar_data_init3        0x08002af5    0x28  Code  Gb  data_init.o [5]
+__iar_init_vfp          0x08002b1d          Code  Gb  fpinit_M.o [4]
+__iar_program_start     0x08002bbd          Code  Gb  cstartup_M.o [5]
+__low_level_init        0x08002b6f     0x4  Code  Gb  low_level_init.o [3]
+__vector_table          0x08000000          Data  Gb  startup_stm32f429_439xx.o [1]
+_call_main              0x08002b61          Code  Gb  cmain.o [5]
+_exit                   0x08002b79          Code  Gb  cexit.o [5]
+_main                   0x08002b6b          Code  Gb  cmain.o [5]
+delay                   0x08002595    0x1c  Code  Lc  main.o [1]
+delay                   0x08001939    0x1c  Code  Lc  stm32f429i_discovery_lcd.o [1]
+exit                    0x08002b73     0x4  Code  Gb  exit.o [3]
+main                    0x08002315    0x84  Code  Gb  main.o [1]
+memchr                  0x080022bd          Code  Gb  memchr.o [5]
+sprintf                 0x080025d9    0x34  Code  Gb  sprintf.o [3]
+strchr                  0x0800226d          Code  Gb  strchr.o [5]
+strlen                  0x08002285          Code  Gb  strlen.o [5]
 
 
-[1] = C:\Users\Hans Susilo\Downloads\stsw-stm32138\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj
+[1] = C:\Users\Hans Susilo\Downloads\stsw-stm32138 (1)\STM32F429I-Discovery_FW_V1.0.1\Projects\Peripheral_Examples\LTDC_ColorKeying\EWARM\LTDC_ColorKeying\Obj
 [2] = command line
 [3] = dl7M_tln.a
 [4] = m7M_tlv.a
 [5] = rt7M_tl.a
 [6] = shb_l.a
 
-  158 430 bytes of readonly  code memory
-    4 626 bytes of readonly  data memory
-    1 053 bytes of readwrite data memory
+  7 026 bytes of readonly  code memory
+  4 606 bytes of readonly  data memory
+  1 048 bytes of readwrite data memory
 
 Errors: none
 Warnings: none
