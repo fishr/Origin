@@ -62,6 +62,8 @@ uint8_t mpuCmd = 0x71;
 char inImu[32];
 char inData[64];
 int tempcount = 0;
+#define LCD_FRAME_BUFFER       ((uint32_t)0xD0000000)
+#define BUFFER_OFFSET          ((uint32_t)0x50000) 
 //uint16_t inData[32];
 /* USER CODE END PV */
 
@@ -70,6 +72,10 @@ static void LCD_Config(void);
 void SystemClock_Config(void);
 extern LTDC_HandleTypeDef hltdc;
 
+void     LCD_Clear(uint16_t Color);
+void     LCD_SetLayer(uint32_t Layerx);
+sFONT *  LCD_GetFont(void);
+void     LCD_DisplayChar(uint16_t Line, uint16_t Column, uint8_t Ascii);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -98,7 +104,7 @@ int main(void)
   MX_ADC3_Init();
   MX_FMC_Init();
   MX_I2C3_Init();
-  
+  MX_LTDC_Init();
   MX_SPI1_Init();
   MX_SPI5_Init();
   MX_UART4_Init();
@@ -108,7 +114,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
   
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET); //not LCD reset
-
+  //HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET); //WRX
+  //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, GPIO_PIN_SET); //NCS
+  
   int i = 0; 
   while (i<2000) {i++;}
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET); //not LCD reset
@@ -159,104 +167,43 @@ int main(void)
 //     
 //    GPIO_InitTypeDef GPIO_InitStruct;
 //     
-//    GPIO_InitStruct.Pin = GPIO_PIN_10;
-//    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-//    GPIO_InitStruct.Pull = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-//    GPIO_InitStruct.Alternate = GPIO_AF14_LTDC;
-//    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
-//
-//    GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_6|GPIO_PIN_11 
-//                          |GPIO_PIN_12;
-//    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-//    GPIO_InitStruct.Pull = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-//    GPIO_InitStruct.Alternate = GPIO_AF14_LTDC;
-//    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-//
-//    GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_10|GPIO_PIN_11 
-//                          |GPIO_PIN_8|GPIO_PIN_9;
-//    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-//    GPIO_InitStruct.Pull = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-//    GPIO_InitStruct.Alternate = GPIO_AF14_LTDC;
-//    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-//
-//    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_10|GPIO_PIN_11 
-//                          |GPIO_PIN_12;
-//    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-//    GPIO_InitStruct.Pull = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-//    GPIO_InitStruct.Alternate = GPIO_AF14_LTDC;
-//    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-//
-//    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_10;
-//    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-//    GPIO_InitStruct.Pull = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-//    GPIO_InitStruct.Alternate = GPIO_AF14_LTDC;
-//    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-//
-//    GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_6;
-//    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-//    GPIO_InitStruct.Pull = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-//    GPIO_InitStruct.Alternate = GPIO_AF14_LTDC;
-//    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-//
-//  /* USER CODE BEGIN LTDC_MspInit 1 */
-//    
-//    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_11, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_12, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_RESET);
+
  
   /* USER CODE END LTDC_MspInit 1 */
     //END LCD============================================
     
   /* USER CODE END 2 */
 
-    
-    
+    //HAL_LTDC_ConfigLayer(&hltdc, LTDC_LayerCfgTypeDef *pLayerCfg, 1);
+     __HAL_LTDC_LAYER_ENABLE(&hltdc, 1);   
+     __HAL_LTDC_LAYER_DISABLE(&hltdc,0);
+     HAL_LTDC_SetPixelFormat(&hltdc, LTDC_PIXEL_FORMAT_RGB565, 1);
+       HAL_LTDC_SetWindowPosition(&hltdc,0, 0, 1);
+         HAL_LTDC_SetWindowSize(&hltdc, 240, 320, 1);
+    HAL_LTDC_SetAddress(&hltdc, (uint32_t) &RGB565_240x320, 1);
+    HAL_LTDC_SetAlpha(&hltdc, 128, 1);
   /* USER CODE BEGIN 3 */
   /* Infinite loop */
+    
   while (1)
   {
-//    if (tempcount % 1600000 == 0){
-//      LCD_WriteCommand(0x20);
-////      LCD_WriteCommand(LCD_WDB);
-////      LCD_WriteData(0x01);
-//      HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);
-//    }
-//    else if (tempcount % 800000 == 0){
-//      LCD_WriteCommand(0x21);
-////      LCD_WriteCommand(LCD_WDB);
-////      LCD_WriteData(0xFA);
-//      HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);
-//    }
-//    
-//    tempcount++;
+    LCD_Clear(0xf81f);  //PINK  
+    LCD_SetLayer(LCD_FOREGROUND_LAYER);
+    uint8_t aTextBuffer[50];
+    sprintf((char*)aTextBuffer, "%s", "Pink Team"); 
+    LCD_DisplayStringLine(LINE(4), (uint8_t*)aTextBuffer);
+    sprintf((char*)aTextBuffer, "  is awesome   "); 
+    LCD_DisplayStringLine(LINE(8), (uint8_t*)aTextBuffer);
+//    LCD_SetLayer(LCD_BACKGROUND_LAYER);
+    delay(10000000);
+    LCD_Clear(0x001f);  //BLUE
+    delay(10000000);
+    
   }
   /* USER CODE END 3 */
 
 }
+
 /**
   * @brief LCD configuration.
   * @note  This function Configure tha LTDC peripheral :
@@ -303,53 +250,62 @@ static void LCD_Config(void)
   }
   
   /* LTDC Initialization -----------------------------------------------------*/
-//  MX_LTDC_Init();
+  MX_LTDC_Init();
   /* LTDC initialization end -------------------------------------------------*/
   
 /* Layer1 Configuration ------------------------------------------------------*/  
-//    LTDC_LayerCfgTypeDef  LTDC_Layer_InitStruct;
-//  /* Windowing configuration */ 
-//  /* In this case all the active display area is used to display a picture then :
-//     Horizontal start = horizontal synchronization + Horizontal back porch = 30 
-//     Horizontal stop = Horizontal start + window width -1 = 30 + 240 -1
-//     Vertical start   = vertical synchronization + vertical back porch     = 4
-//     Vertical stop   = Vertical start + window height -1  = 4 + 320 -1      */ 
-//  LTDC_Layer_InitStruct.WindowX0 = 30;
-//  LTDC_Layer_InitStruct.WindowX1 = (240 + 30 - 1); 
-//  LTDC_Layer_InitStruct.WindowY0 = 4;
-//  LTDC_Layer_InitStruct.WindowY1 = (320 + 4 - 1);
-//  
-//  /* Pixel Format configuration*/           
-//  LTDC_Layer_InitStruct.PixelFormat = LTDC_PIXEL_FORMAT_RGB565;
-//  
-//  /* Alpha constant (255 totally opaque) */
-//  LTDC_Layer_InitStruct.Alpha = 255; 
-//  LTDC_Layer_InitStruct.Alpha0 = 0;
-//  
-//  /* Configure blending factors */       
-//  LTDC_Layer_InitStruct.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;    
-//  LTDC_Layer_InitStruct.BlendingFactor2 = LTDC_BLENDING_FACTOR2_CA;  
-//  
-//  /* Default Color configuration (configure A,R,G,B component values) */       
-//  LTDC_ColorTypeDef   Backgroundcolor;
-//    
-//  Backgroundcolor.Blue = 50;        
-//  Backgroundcolor.Green = 255;       
-//  Backgroundcolor.Red = 0;         
-//  LTDC_Layer_InitStruct.Backcolor = Backgroundcolor;   
-//   
-//  /* Input Address configuration */    
-//  LTDC_Layer_InitStruct.FBStartAdress = &hspi5;
-// 
-//  /* the length of one line of pixels */
-//  LTDC_Layer_InitStruct.ImageWidth = 240;
-//
-//  /* configure the number of lines */
-//  LTDC_Layer_InitStruct.ImageHeight = 320;
-//   
-//  HAL_LTDC_ConfigLayer(&hltdc, &LTDC_Layer_InitStruct, 0);
+    LTDC_LayerCfgTypeDef  LTDC_Layer_InitStruct;
+  /* Windowing configuration */ 
+  /* In this case all the active display area is used to display a picture then :
+     Horizontal start = horizontal synchronization + Horizontal back porch = 30 
+     Horizontal stop = Horizontal start + window width -1 = 30 + 240 -1
+     Vertical start   = vertical synchronization + vertical back porch     = 4
+     Vertical stop   = Vertical start + window height -1  = 4 + 320 -1      */ 
+  LTDC_Layer_InitStruct.WindowX0 = 30;
+  LTDC_Layer_InitStruct.WindowX1 = (240 + 30 - 1); 
+  LTDC_Layer_InitStruct.WindowY0 = 4;
+  LTDC_Layer_InitStruct.WindowY1 = (320 + 4 - 1);
+  
+  /* Pixel Format configuration*/           
+  LTDC_Layer_InitStruct.PixelFormat = LTDC_PIXEL_FORMAT_RGB565;
+  
+  /* Alpha constant (255 totally opaque) */
+  LTDC_Layer_InitStruct.Alpha = 255; 
+  LTDC_Layer_InitStruct.Alpha0 = 0;
+  
+  /* Configure blending factors */       
+  LTDC_Layer_InitStruct.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;    
+  LTDC_Layer_InitStruct.BlendingFactor2 = LTDC_BLENDING_FACTOR2_CA;  
+  
+  /* Default Color configuration (configure A,R,G,B component values) */       
+  LTDC_ColorTypeDef   Backgroundcolor;
+    
+  Backgroundcolor.Blue = 50;        
+  Backgroundcolor.Green = 255;       
+  Backgroundcolor.Red = 0;         
+  LTDC_Layer_InitStruct.Backcolor = Backgroundcolor;   
+   
+  /* Input Address configuration */    
+  LTDC_Layer_InitStruct.FBStartAdress = (uint32_t) LCD_FRAME_BUFFER;
+ 
+  /* the length of one line of pixels */
+  LTDC_Layer_InitStruct.ImageWidth = 240*2;
+
+  /* configure the number of lines */
+  LTDC_Layer_InitStruct.ImageHeight = 320;
+   
+  HAL_LTDC_ConfigLayer(&hltdc, &LTDC_Layer_InitStruct, 0);
   /* Layer1 Configuration end ------------------------------------------------*/
 
+  LTDC_Layer_InitStruct.FBStartAdress = (uint32_t) LCD_FRAME_BUFFER + BUFFER_OFFSET;
+  
+  LTDC_Layer_InitStruct.BlendingFactor1 = LTDC_BLENDING_FACTOR1_PAxCA;    
+  LTDC_Layer_InitStruct.BlendingFactor2 = LTDC_BLENDING_FACTOR2_PAxCA;
+  HAL_LTDC_ConfigLayer(&hltdc, &LTDC_Layer_InitStruct, 1);
+  
+  __HAL_LTDC_LAYER_ENABLE(&hltdc, 0);
+  __HAL_LTDC_LAYER_ENABLE(&hltdc, 1);
+  
   HAL_LTDC_EnableDither(&hltdc);
 }
 
@@ -392,6 +348,24 @@ void SystemClock_Config(void)
   HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct);
 
 }
+
+
+void LCD_ClearLine(uint16_t Line)
+{
+  uint16_t refcolumn = 0;
+  /* Send the string character by character on lCD */
+  while ((refcolumn < LCD_PIXEL_WIDTH) && (((refcolumn + LCD_Currentfonts->Width)& 0xFFFF) >= LCD_Currentfonts->Width))
+  {
+    /* Display one character on LCD */
+    LCD_DisplayChar(Line, refcolumn, ' ');
+    /* Decrement the column position by 16 */
+    refcolumn += LCD_Currentfonts->Width;
+  }
+}
+
+
+
+
 
 /* USER CODE BEGIN 4 */
 

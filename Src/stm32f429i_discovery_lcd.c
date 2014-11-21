@@ -1546,6 +1546,7 @@ void LCD_WriteData(uint8_t value)
   */
 void LCD_PowerOn(void)
 {
+  
   LCD_WriteCommand(0xCA);
   LCD_WriteData(0xC3);
   LCD_WriteData(0x08);

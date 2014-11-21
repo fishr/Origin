@@ -1,5 +1,5 @@
 [stlink]
-stlinkserialNo=2798FD0D
+stlinkserialNo=09D63A90
 stlinkfoundProbes=
 [Stack]
 FillEnabled=0
@@ -12,7 +12,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-1934244000
+Checksum=-331127423
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
