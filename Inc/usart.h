@@ -43,7 +43,7 @@
 #include "stm32f4xx_hal.h"
 
 #define UART_BUFF_LEN 128
-#define ORIGIN_ID '5'
+#define ORIGIN_ID '1'
    
 extern int hello_rx_flag;
 

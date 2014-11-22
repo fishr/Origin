@@ -961,6 +961,9 @@
         <name>$PROJ_DIR$\..\..\Src\adc.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\..\Src\Button.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\..\Src\fmc.c</name>
       </file>
       <file>

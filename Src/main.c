@@ -43,6 +43,7 @@
 #include "gpio.h"
 #include "fmc.h"
 #include "stdlib.h"
+#include "Button.h"
 
 /* USER CODE BEGIN Includes */
 #include "stm32f4xx_it.h"
@@ -55,7 +56,9 @@
 #define LED_RCC_Periph_PORT RCC_AHB1Periph_GPIOA
 uint32_t hello=0;
 
-char cmdData[]="helloworld0";
+char cmdData1[]="$PSRF104,42.359544,-71.0935699,0,96000,478200,1819,12,3*0B00"; //init
+char cmdData2[] = "$PSRF103,08,01,00,01*2D00"; //send timing update
+char cmdData3[]="$PSRF105,1*3E00"; //gps debug mode
 //uint16_t cmdData[]={9,2,5,7,2,1,0,1,8};
 uint8_t mpuCmd = 0x75;
 char inImu[32];
@@ -126,6 +129,12 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
    
     uint32_t ticks = HAL_GetTick();
 
+    //========================BUTTONS====================
+    InitButton(&button1, GPIOE, GPIO_PIN_4);
+    InitButton(&button2, GPIOE, GPIO_PIN_5);
+    //=======================END BUTTONS==================
+    
+    
     /*
     //===========RAM==========================
     uint32_t wraddress = 0x0010;
@@ -165,12 +174,29 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
     
     HAL_UART_Receive_IT(&huart4, inData, 64);
     HAL_UART_Receive_IT(&huart5, inData, 64);
+    
+    uint8_t cmdData1Len = sizeof(cmdData1)/sizeof(cmdData1[0]);
+    cmdData1[cmdData1Len-3]=0x0D;
+    cmdData1[cmdData1Len-2]=0x0A;
+    
+    uint8_t cmdData2Len = sizeof(cmdData2)/sizeof(cmdData2[0]);
+    cmdData2[cmdData2Len-3]=0x0D;
+    cmdData2[cmdData2Len-2]=0x0A;
 
+    uint8_t cmdData3Len = sizeof(cmdData3)/sizeof(cmdData3[0]);
+    cmdData3[cmdData3Len-3]=0x0D;
+    cmdData3[cmdData3Len-2]=0x0A;
+    
+    HAL_UART_Transmit(&huart4, cmdData3, cmdData3Len, 500);
+    
     HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET); //gps on/off
   /* USER CODE BEGIN 3 */
   /* Infinite loop */
   while (1)
   {
+    UpdateButton(&button1);
+    UpdateButton(&button2);
+    
    /*
     if(inData[0]!=0)
     {
@@ -183,6 +209,19 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
       inData[i+1]=0x0A;
       HAL_UART_Transmit(&huart5, inData, i+2, 500);
     }*/
+    
+    if( buttonRisingEdge(&button1)){//right
+             HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);//yellow
+    HAL_UART_Transmit(&huart4, cmdData1, cmdData1Len, 500);
+    }
+    
+    if(buttonRisingEdge(&button2)){//left
+    
+    HAL_UART_Transmit(&huart4, cmdData2, cmdData2Len, 500);
+     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2); //green
+
+    }
+
     
     if(rx_buff.newData){
       memcpy(inData, rx_buff.buffer, rx_buff.length);
@@ -217,11 +256,11 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
     HAL_StatusTypeDef halpme = HAL_I2C_Master_Receive(&hi2c3,  0xD0, inImu, 1, 500);
     
     
-    while(HAL_GetTick()<ticks+100){
-      hello = 0;
-    }
+//    while(HAL_GetTick()<ticks+100){
+//      hello = 0;
+//    }
     
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
+//    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
 
     if(inImu[0]!=0)
       hello=1;
