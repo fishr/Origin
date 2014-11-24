@@ -10,7 +10,7 @@
     <Static>
       <Workspace>
         <ColumnWidths>
-          <Column0>347</Column0>
+          <Column0>272</Column0>
           <Column1>27</Column1>
           <Column2>27</Column2>
           <Column3>27</Column3>
@@ -71,9 +71,14 @@
         <ColumnWidth3>73</ColumnWidth3>
       </Build>
       <TerminalIO/>
+      <Find-All-References>
+        <ColumnWidth0>530</ColumnWidth0>
+        <ColumnWidth1>75</ColumnWidth1>
+        <ColumnWidth2>909</ColumnWidth2>
+      </Find-All-References>
     </Static>
     <Windows>
-      <Wnd2>
+      <Wnd1>
         <Tabs>
           <Tab>
             <Identity>TabID-10450-27574</Identity>
@@ -84,19 +89,24 @@
                 <ExpandedNode>Template</ExpandedNode>
                 <ExpandedNode>Template/STM32F429I-Discovery</ExpandedNode>
                 <ExpandedNode>Template/User</ExpandedNode>
-                <ExpandedNode>Template/User/tick.c</ExpandedNode>
               </NodeDict>
             </Session>
           </Tab>
         </Tabs>
         <SelectedTab>0</SelectedTab>
-      </Wnd2>
+      </Wnd1>
       <Wnd3>
         <Tabs>
           <Tab>
             <Identity>TabID-795-29169</Identity>
             <TabName>Build</TabName>
             <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+          <Tab>
+            <Identity>TabID-32470-184</Identity>
+            <TabName>References</TabName>
+            <Factory>Find-All-References</Factory>
             <Session/>
           </Tab>
         </Tabs>
@@ -119,18 +129,6 @@
         </Tab>
         <Tab>
           <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\..\Drivers\STM32F4xx_StdPeriph_Driver\inc\misc.h</Filename>
-          <XPos>0</XPos>
-          <YPos>0</YPos>
-          <SelStart>0</SelStart>
-          <SelEnd>0</SelEnd>
-          <XPos2>0</XPos2>
-          <YPos2>144</YPos2>
-          <SelStart2>6252</SelStart2>
-          <SelEnd2>6252</SelEnd2>
-        </Tab>
-        <Tab>
-          <Factory>TextEditor</Factory>
           <Filename>P:\IARWorkbench\arm\src\flashloader\ST\FlashSTM32F4xx\inc\stm32f4xx.h</Filename>
           <XPos>0</XPos>
           <YPos>0</YPos>
@@ -143,18 +141,6 @@
         </Tab>
         <Tab>
           <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\..\Drivers\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c</Filename>
-          <XPos>0</XPos>
-          <YPos>0</YPos>
-          <SelStart>0</SelStart>
-          <SelEnd>0</SelEnd>
-          <XPos2>22</XPos2>
-          <YPos2>12</YPos2>
-          <SelStart2>1514</SelStart2>
-          <SelEnd2>1514</SelEnd2>
-        </Tab>
-        <Tab>
-          <Factory>TextEditor</Factory>
           <Filename>$WS_DIR$\..\..\Drivers\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_ltdc.c</Filename>
           <XPos>0</XPos>
           <YPos>0</YPos>
@@ -164,18 +150,6 @@
           <YPos2>18</YPos2>
           <SelStart2>0</SelStart2>
           <SelEnd2>0</SelEnd2>
-        </Tab>
-        <Tab>
-          <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\main.h</Filename>
-          <XPos>0</XPos>
-          <YPos>0</YPos>
-          <SelStart>0</SelStart>
-          <SelEnd>0</SelEnd>
-          <XPos2>0</XPos2>
-          <YPos2>0</YPos2>
-          <SelStart2>1364</SelStart2>
-          <SelEnd2>1364</SelEnd2>
         </Tab>
         <Tab>
           <Factory>TextEditor</Factory>
@@ -197,38 +171,58 @@
           <SelStart>0</SelStart>
           <SelEnd>0</SelEnd>
           <XPos2>0</XPos2>
-          <YPos2>24</YPos2>
+          <YPos2>180</YPos2>
           <SelStart2>2309</SelStart2>
           <SelEnd2>2309</SelEnd2>
         </Tab>
         <Tab>
           <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\main.c</Filename>
+          <Filename>$WS_DIR$\..\main.h</Filename>
           <XPos>0</XPos>
           <YPos>0</YPos>
           <SelStart>0</SelStart>
           <SelEnd>0</SelEnd>
           <XPos2>0</XPos2>
-          <YPos2>36</YPos2>
-          <SelStart2>2264</SelStart2>
-          <SelEnd2>2264</SelEnd2>
+          <YPos2>1</YPos2>
+          <SelStart2>1383</SelStart2>
+          <SelEnd2>1383</SelEnd2>
         </Tab>
-        <ActiveTab>8</ActiveTab>
         <Tab>
           <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\tick.h</Filename>
+          <Filename>$WS_DIR$\..\..\Drivers\STM32F4xx_StdPeriph_Driver\inc\misc.h</Filename>
           <XPos>0</XPos>
           <YPos>0</YPos>
           <SelStart>0</SelStart>
           <SelEnd>0</SelEnd>
           <XPos2>0</XPos2>
-          <YPos2>0</YPos2>
-          <SelStart2>0</SelStart2>
-          <SelEnd2>0</SelEnd2>
+          <YPos2>51</YPos2>
+          <SelStart2>6501</SelStart2>
+          <SelEnd2>6501</SelEnd2>
         </Tab>
-      </Pane>
-      <ActivePane>0</ActivePane>
-      <Pane>
+        <Tab>
+          <Factory>TextEditor</Factory>
+          <Filename>$WS_DIR$\..\..\Drivers\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h</Filename>
+          <XPos>0</XPos>
+          <YPos>0</YPos>
+          <SelStart>0</SelStart>
+          <SelEnd>0</SelEnd>
+          <XPos2>0</XPos2>
+          <YPos2>244</YPos2>
+          <SelStart2>9844</SelStart2>
+          <SelEnd2>9859</SelEnd2>
+        </Tab>
+        <Tab>
+          <Factory>TextEditor</Factory>
+          <Filename>$WS_DIR$\..\..\Drivers\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c</Filename>
+          <XPos>0</XPos>
+          <YPos>0</YPos>
+          <SelStart>0</SelStart>
+          <SelEnd>0</SelEnd>
+          <XPos2>0</XPos2>
+          <YPos2>546</YPos2>
+          <SelStart2>21667</SelStart2>
+          <SelEnd2>21675</SelEnd2>
+        </Tab>
         <Tab>
           <Factory>TextEditor</Factory>
           <Filename>$WS_DIR$\..\tick.c</Filename>
@@ -238,8 +232,20 @@
           <SelEnd>0</SelEnd>
           <XPos2>0</XPos2>
           <YPos2>0</YPos2>
-          <SelStart2>172</SelStart2>
-          <SelEnd2>172</SelEnd2>
+          <SelStart2>145</SelStart2>
+          <SelEnd2>145</SelEnd2>
+        </Tab>
+        <Tab>
+          <Factory>TextEditor</Factory>
+          <Filename>$WS_DIR$\..\main.c</Filename>
+          <XPos>0</XPos>
+          <YPos>0</YPos>
+          <SelStart>0</SelStart>
+          <SelEnd>0</SelEnd>
+          <XPos2>0</XPos2>
+          <YPos2>48</YPos2>
+          <SelStart2>2382</SelStart2>
+          <SelEnd2>2382</SelEnd2>
         </Tab>
         <Tab>
           <Factory>TextEditor</Factory>
@@ -249,10 +255,11 @@
           <SelStart>0</SelStart>
           <SelEnd>0</SelEnd>
           <XPos2>0</XPos2>
-          <YPos2>0</YPos2>
-          <SelStart2>670</SelStart2>
-          <SelEnd2>670</SelEnd2>
+          <YPos2>53</YPos2>
+          <SelStart2>3843</SelStart2>
+          <SelEnd2>3843</SelEnd2>
         </Tab>
+        <ActiveTab>11</ActiveTab>
         <Tab>
           <Factory>TextEditor</Factory>
           <Filename>$WS_DIR$\..\..\Drivers\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_gpio.h</Filename>
@@ -261,19 +268,94 @@
           <SelStart>0</SelStart>
           <SelEnd>0</SelEnd>
           <XPos2>0</XPos2>
-          <YPos2>446</YPos2>
-          <SelStart2>22150</SelStart2>
-          <SelEnd2>22157</SelEnd2>
+          <YPos2>70</YPos2>
+          <SelStart2>5123</SelStart2>
+          <SelEnd2>5123</SelEnd2>
         </Tab>
-        <ActiveTab>2</ActiveTab>
+        <Tab>
+          <Factory>TextEditor</Factory>
+          <Filename>$WS_DIR$\..\..\Drivers\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c</Filename>
+          <XPos>0</XPos>
+          <YPos>0</YPos>
+          <SelStart>0</SelStart>
+          <SelEnd>0</SelEnd>
+          <XPos2>0</XPos2>
+          <YPos2>1555</YPos2>
+          <SelStart2>68408</SelStart2>
+          <SelEnd2>68408</SelEnd2>
+        </Tab>
+      </Pane>
+      <ActivePane>0</ActivePane>
+      <Pane>
+        <Tab>
+          <Factory>TextEditor</Factory>
+          <Filename>$WS_DIR$\..\uart.h</Filename>
+          <XPos>0</XPos>
+          <YPos>0</YPos>
+          <SelStart>0</SelStart>
+          <SelEnd>0</SelEnd>
+          <XPos2>0</XPos2>
+          <YPos2>10</YPos2>
+          <SelStart2>217</SelStart2>
+          <SelEnd2>217</SelEnd2>
+        </Tab>
+        <Tab>
+          <Factory>TextEditor</Factory>
+          <Filename>$WS_DIR$\..\uart.c</Filename>
+          <XPos>0</XPos>
+          <YPos>0</YPos>
+          <SelStart>0</SelStart>
+          <SelEnd>0</SelEnd>
+          <XPos2>0</XPos2>
+          <YPos2>24</YPos2>
+          <SelStart2>3393</SelStart2>
+          <SelEnd2>3394</SelEnd2>
+        </Tab>
+        <ActiveTab>1</ActiveTab>
+        <Tab>
+          <Factory>TextEditor</Factory>
+          <Filename>$WS_DIR$\..\..\Drivers\STM32F4xx_StdPeriph_Driver\src\misc.c</Filename>
+          <XPos>0</XPos>
+          <YPos>0</YPos>
+          <SelStart>0</SelStart>
+          <SelEnd>0</SelEnd>
+          <XPos2>0</XPos2>
+          <YPos2>116</YPos2>
+          <SelStart2>486</SelStart2>
+          <SelEnd2>486</SelEnd2>
+        </Tab>
+        <Tab>
+          <Factory>TextEditor</Factory>
+          <Filename>$WS_DIR$\..\..\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h</Filename>
+          <XPos>0</XPos>
+          <YPos>0</YPos>
+          <SelStart>0</SelStart>
+          <SelEnd>0</SelEnd>
+          <XPos2>0</XPos2>
+          <YPos2>6065</YPos2>
+          <SelStart2>653299</SelStart2>
+          <SelEnd2>653308</SelEnd2>
+        </Tab>
+        <Tab>
+          <Factory>TextEditor</Factory>
+          <Filename>$WS_DIR$\..\..\Drivers\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rcc.h</Filename>
+          <XPos>0</XPos>
+          <YPos>0</YPos>
+          <SelStart>0</SelStart>
+          <SelEnd>0</SelEnd>
+          <XPos2>0</XPos2>
+          <YPos2>383</YPos2>
+          <SelStart2>18713</SelStart2>
+          <SelEnd2>18713</SelEnd2>
+        </Tab>
       </Pane>
       <Sizes>
         <Pane>
-          <X>443447</X>
+          <X>411269</X>
           <Y>1000000</Y>
         </Pane>
         <Pane>
-          <X>556552</X>
+          <X>588730</X>
           <Y>1000000</Y>
         </Pane>
       </Sizes>
@@ -295,22 +377,22 @@
       <Left>
         <Row0>
           <Sizes>
-            <Wnd2>
+            <Wnd1>
               <Rect>
                 <Top>-2</Top>
                 <Left>-2</Left>
-                <Bottom>614</Bottom>
-                <Right>421</Right>
+                <Bottom>618</Bottom>
+                <Right>346</Right>
                 <x>-2</x>
                 <y>-2</y>
-                <xscreen>200</xscreen>
-                <yscreen>200</yscreen>
-                <sizeHorzCX>130124</sizeHorzCX>
-                <sizeHorzCY>233372</sizeHorzCY>
-                <sizeVertCX>275211</sizeVertCX>
-                <sizeVertCY>718786</sizeVertCY>
+                <xscreen>98</xscreen>
+                <yscreen>196</yscreen>
+                <sizeHorzCX>63761</sizeHorzCX>
+                <sizeHorzCY>228705</sizeHorzCY>
+                <sizeVertCX>226415</sizeVertCX>
+                <sizeVertCY>723454</sizeVertCY>
               </Rect>
-            </Wnd2>
+            </Wnd1>
           </Sizes>
         </Row0>
       </Left>
@@ -326,16 +408,16 @@
               <Rect>
                 <Top>-2</Top>
                 <Left>-2</Left>
-                <Bottom>198</Bottom>
+                <Bottom>194</Bottom>
                 <Right>1539</Right>
                 <x>-2</x>
                 <y>-2</y>
                 <xscreen>1541</xscreen>
-                <yscreen>200</yscreen>
+                <yscreen>196</yscreen>
                 <sizeHorzCX>1002602</sizeHorzCX>
-                <sizeHorzCY>233372</sizeHorzCY>
-                <sizeVertCX>130124</sizeVertCX>
-                <sizeVertCY>233372</sizeVertCY>
+                <sizeHorzCY>228705</sizeHorzCY>
+                <sizeVertCX>63761</sizeVertCX>
+                <sizeVertCY>228705</sizeVertCY>
               </Rect>
             </Wnd3>
           </Sizes>

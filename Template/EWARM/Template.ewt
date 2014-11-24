@@ -214,6 +214,9 @@
     <file>
       <name>$PROJ_DIR$\..\tick.c</name>
     </file>
+    <file>
+      <name>$PROJ_DIR$\..\uart.c</name>
+    </file>
   </group>
 </project>
 

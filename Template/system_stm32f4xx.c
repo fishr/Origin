@@ -191,9 +191,6 @@
   * @{
   */
 
-void incSysTick(void);
-unsigned long getSysTick(void);
-
 static void SetSysClock(void);
 #ifdef DATA_IN_ExtSRAM
   static void SystemInit_ExtMemCtl(void); 

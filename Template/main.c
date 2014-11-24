@@ -34,10 +34,12 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
+#define USE_FULL_ASSERT
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void assert_failed(uint8_t*, uint32_t);
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -50,23 +52,42 @@ int main(void)
   SysTick_Config(SystemCoreClock / 1000);
   
   GPIO_Start();
+  UART4_Start();
+  UART5_Start();
   
-  
+    unsigned long tickey = getSysTick()+1000;
+
   GPIO_SetBits(GPIOC, GPIO_Pin_1);  //osc enable
   GPIO_SetBits(GPIOC, GPIO_Pin_11); //xbee reset
   GPIO_SetBits(GPIOE, GPIO_Pin_6); //buck enable
+  while(getSysTick()<tickey){}
+  GPIO_SetBits(GPIOE, GPIO_Pin_2); //gps on/off
 
   /* Infinite loop */
-  unsigned long tickey = getSysTick();
   while (1)
   {
     if(getSysTick()>tickey){
       tickey +=1000;
     GPIO_ToggleBits(GPIOC, GPIO_Pin_3);  
     GPIO_ToggleBits(GPIOA, GPIO_Pin_2);
+    uint16_t sr = UART5->SR;
+    uint16_t cr1 = UART5->CR1;
+    uint16_t cr2 = UART5->CR2;
+    uint16_t cr3 = UART5->CR3;
+    uint16_t dr1 = UART5->DR;
+    while (USART_GetFlagStatus(UART5, USART_FLAG_TXE) == RESET){}
+USART_SendData(UART5, 'h');
+    uint16_t dr2 = UART5->DR;
+    while (USART_GetFlagStatus(UART5, USART_FLAG_TXE) == RESET){}
+USART_SendData(UART5, 0x0D);
+    while (USART_GetFlagStatus(UART5, USART_FLAG_TXE) == RESET){}
+USART_SendData(UART5, 0x0A);
+    while (USART_GetFlagStatus(UART5, USART_FLAG_TXE) == RESET){}
+USART_SendData(UART5, 0x00);
+}
     }
     
-  }
+  
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -86,6 +107,7 @@ void assert_failed(uint8_t* file, uint32_t line)
   /* Infinite loop */
   while (1)
   {
+    int g=0;
   }
 }
 #endif
