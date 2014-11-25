@@ -62,6 +62,7 @@ int main(void)
   SysTick_Config(SystemCoreClock / 1000);
   
   GPIO_Start();
+  ADC_Start();
   
   unsigned long tickey = getSysTick()+1000;
   
@@ -104,6 +105,7 @@ int main(void)
       tickey +=1000;
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
       //UART_Transmit(UART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
+
     }
     
     if(rx_buff.newData){
@@ -131,6 +133,7 @@ int main(void)
     
     Sensors_I2C_ReadRegister((unsigned char)0x68, (unsigned char)mpuCmd, 1, inImu);
     
+    int16_t ha= getBatteryStatus();
     
 //    I2C_GenerateSTART(I2C3, ENABLE);
 //    I2C_Send7bitAddress(I2C3, 0xD0, I2C_Direction_Transmitter);

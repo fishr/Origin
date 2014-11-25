@@ -36,6 +36,7 @@
 #include "button.h"
 #include "gps.h"
 #include "i2c.h"
+#include "adc.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
