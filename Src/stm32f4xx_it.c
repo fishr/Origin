@@ -151,6 +151,13 @@ void SysTick_Handler(void)
 /*  file (startup_stm32f429_439xx.s).                                               */
 /******************************************************************************/
 
+void EXTI15_10_IRQHandler(void)
+{
+  /* Handle new gyro*/
+  gyro_data_ready_cb();
+  EXTI_ClearITPendingBit(EXTI_Line13);
+}
+
 /**
   * @brief  This function handles PPP interrupt request.
   * @param  None

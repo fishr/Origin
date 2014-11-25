@@ -37,6 +37,7 @@
 #include "gps.h"
 #include "i2c.h"
 #include "adc.h"
+#include "imu.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/

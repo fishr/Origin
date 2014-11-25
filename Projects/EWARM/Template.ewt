@@ -105,6 +105,12 @@
           <name>$PROJ_DIR$\..\..\Drivers\core\driver\eMPL\inv_mpu_dmp_motion_driver.c</name>
         </file>
       </group>
+      <group>
+        <name>stm32l</name>
+        <file>
+          <name>$PROJ_DIR$\..\..\Drivers\core\driver\stm32L\log_stm32.c</name>
+        </file>
+      </group>
     </group>
     <group>
       <name>eMPL-hal</name>
@@ -167,9 +173,6 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\Drivers\core\mpl\invensense_adv.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\libmpllib.a</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\Drivers\core\mpl\mag_disturb.h</name>
@@ -296,7 +299,7 @@
       <name>$PROJ_DIR$\..\..\Src\adc.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Src\button.c</name>
+      <name>$PROJ_DIR$\..\..\Src\Button.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\Src\gpio.c</name>
@@ -306,6 +309,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\Src\i2c.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Src\imu.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\Src\main.c</name>

@@ -177,6 +177,7 @@
           <state>USE_DEFAULT_TIMEOUT_CALLBACK</state>
           <state>EMPL_TARGET_STM32F4</state>
           <state>MPU9250</state>
+          <state>COMPASS_ENABLED</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -317,6 +318,7 @@
           <state>$PROJ_DIR$\..\..\Drivers\core\driver\eMPL</state>
           <state>$PROJ_DIR$\..\..\Inc</state>
           <state>$PROJ_DIR$\..\..\Drivers\core\driver\include</state>
+          <state>$PROJ_DIR$\..\..\Drivers\core\driver\stm32L</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -977,6 +979,12 @@
           <name>$PROJ_DIR$\..\..\Drivers\core\driver\eMPL\inv_mpu_dmp_motion_driver.c</name>
         </file>
       </group>
+      <group>
+        <name>stm32l</name>
+        <file>
+          <name>$PROJ_DIR$\..\..\Drivers\core\driver\stm32L\log_stm32.c</name>
+        </file>
+      </group>
     </group>
     <group>
       <name>eMPL-hal</name>
@@ -1039,9 +1047,6 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\Drivers\core\mpl\invensense_adv.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\libmpllib.a</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\Drivers\core\mpl\mag_disturb.h</name>
@@ -1168,7 +1173,7 @@
       <name>$PROJ_DIR$\..\..\Src\adc.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Src\button.c</name>
+      <name>$PROJ_DIR$\..\..\Src\Button.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\Src\gpio.c</name>
@@ -1178,6 +1183,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\Src\i2c.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Src\imu.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\Src\main.c</name>

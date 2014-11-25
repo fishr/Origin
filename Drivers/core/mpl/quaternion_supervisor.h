@@ -4,11 +4,13 @@
     See included License.txt for License information.
  $
  */
-#ifndef INV_QUATERNION_SUPERVISOR_H__
-#define INV_QUATERNION_SUPERVISOR_H__
 
 #include "mltypes.h"
 
+#ifndef INV_QUATERNION_SUPERVISOR_H__
+#define INV_QUATERNION_SUPERVISOR_H__
+
+extern unsigned char *mpl_key;
 
 #ifdef __cplusplus
 extern "C" {
