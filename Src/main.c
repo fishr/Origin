@@ -318,7 +318,8 @@ int main(void)
       tickey +=1000;
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
       //UART_Transmit(UART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
-
+    
+    
     }
     
     if(rx_buff.newData){
@@ -344,11 +345,13 @@ int main(void)
       }
     }
     
-    Sensors_I2C_ReadRegister((unsigned char)0x68, (unsigned char)mpuCmd, 1, inImu);
+    //Sensors_I2C_ReadRegister((unsigned char)0x68, (unsigned char)mpuCmd, 1, inImu);
+
+
+        
     
     int16_t ha= getBatteryStatus();
     
-    int g =inImu[0];
     
     //==================================IMU================================
      unsigned long sensor_timestamp;
@@ -512,7 +515,6 @@ int main(void)
              */
             read_from_mpl();
         }
-        
         
  //========================================IMU==================================
   }
