@@ -27,3 +27,5 @@
 #others
 *.pbi
 *.cout
+*.pbd
+*.browse
