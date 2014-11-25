@@ -9,10 +9,10 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [stlink]
-stlinkserialNo=DE880046
+stlinkserialNo=2798FD0D
 stlinkfoundProbes=
 [DebugChecksum]
-Checksum=2072675876
+Checksum=-1416196545
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -47,6 +47,9 @@ Fmt3={W}1:rdr	5	0
 Fmt4={W}1:sr	1	0
 Fmt5={W}1:sr1	1	0
 Fmt6={W}1:sr2	1	0
+[Trace2]
+Enabled=0
+ShowSource=0
 [SWOTraceWindow]
 PcSampling=0
 InterruptLogs=0
