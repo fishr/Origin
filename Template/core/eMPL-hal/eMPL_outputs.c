@@ -20,6 +20,7 @@
 #include "start_manager.h"
 #include "data_builder.h"
 #include "results_holder.h"
+#include <cstring>
 
 struct eMPL_output_s {
     long quat[4];

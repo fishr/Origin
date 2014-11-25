@@ -252,6 +252,12 @@ inv_error_t inv_get_accel_orient(int *orient);
 // internal
 int inv_get_gyro_bias_tc_set(void);
 
+//Ryan added these to fix compile errors
+void set_sensor_orientation_and_scale(struct inv_single_sensor_t *sensor, int orientation, long sensitivity);
+void inv_matrix_vector_mult(const long *A, const long *x, long *y);
+void inv_temperature_was_turned_off(void);
+void inv_get_temp_set(long *data, int *accuracy, inv_time_t *timestamp);
+
 #ifdef __cplusplus
 }
 #endif

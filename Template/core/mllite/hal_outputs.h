@@ -37,7 +37,9 @@ extern "C" {
     inv_error_t inv_init_hal_outputs(void);
     inv_error_t inv_start_hal_outputs(void);
     inv_error_t inv_stop_hal_outputs(void);
-
+    
+    //Ryan added these since they seemed to be missing
+inv_error_t inv_generate_hal_outputs(struct inv_sensor_cal_t *sensor_cal);
 #ifdef __cplusplus
 }
 #endif

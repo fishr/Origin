@@ -54,14 +54,7 @@ Author  :
 /********************************* Prototypes *********************************/
 unsigned long ST_Sensors_I2C_WriteRegister(unsigned char Address, unsigned char RegisterAddr, unsigned short RegisterLen, const unsigned char *RegisterValue);
 unsigned long ST_Sensors_I2C_ReadRegister(unsigned char Address, unsigned char RegisterAddr, unsigned short RegisterLen, unsigned char *RegisterValue);
-void mdelay(uint16_t delay_time);
 /*******************************  Function ************************************/
-
-void mdelay(uint16_t delay_time)
-{
-  unsigned long counts = getSysTick()+delay_time;
-  while(getSysTick()<counts);
-}
 
 void I2cMaster_Init(void)
 {

@@ -175,6 +175,8 @@
           <state>USE_STDPERIPH_DRIVER</state>
           <state>STM32F429_439xx</state>
           <state>USE_DEFAULT_TIMEOUT_CALLBACK</state>
+          <state>EMPL_TARGET_STM32F4</state>
+          <state>MPU9250</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -963,9 +965,6 @@
   </group>
   <group>
     <name>MPU9250_Lib</name>
-    <excluded>
-      <configuration>Template</configuration>
-    </excluded>
     <group>
       <name>driver</name>
       <group>
@@ -1017,7 +1016,43 @@
     <group>
       <name>mpl</name>
       <file>
+        <name>$PROJ_DIR$\..\core\mpl\accel_auto_cal.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mpl\compass_vec_cal.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mpl\fast_no_motion.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mpl\fusion_9axis.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mpl\gyro_tc.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mpl\heading_from_gyro.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mpl\inv_math.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mpl\invensense_adv.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\core\mpl\libmpllib.a</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mpl\mag_disturb.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mpl\motion_no_motion.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mpl\no_gyro_fusion.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mpl\quaternion_supervisor.h</name>
       </file>
     </group>
   </group>

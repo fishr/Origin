@@ -40,12 +40,13 @@
 #include "i2c.h"   
 #include "main.h"
 #include "log.h"
-#include "board-st_discovery.h"
+#include "tick.h"
+//#include "board-st_discovery.h"
    
 #define i2c_write   Sensors_I2C_WriteRegister
 #define i2c_read    Sensors_I2C_ReadRegister 
 #define delay_ms    mdelay
-#define get_ms      get_tick_count
+#define get_ms      storeSysTick
 #define log_i       MPL_LOGI
 #define log_e       MPL_LOGE
 #define min(a,b) ((a<b)?a:b)
