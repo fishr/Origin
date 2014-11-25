@@ -302,10 +302,16 @@
       <name>$PROJ_DIR$\..\..\Src\Button.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\Src\fonts.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\Src\gpio.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\Src\gps.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Src\gui.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\Src\i2c.c</name>
@@ -315,6 +321,12 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\Src\main.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Src\stm32f429i_discovery_lcd.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Src\stm32f429i_discovery_sdram.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\Src\stm32f4xx_it.c</name>
