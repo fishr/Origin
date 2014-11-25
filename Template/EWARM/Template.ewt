@@ -89,8 +89,65 @@
   <group>
     <name>EWARM</name>
     <file>
-      <name>$PROJ_DIR$\..\..\Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\iar\startup_stm32f429xx.s</name>
+      <name>$PROJ_DIR$\..\CMSIS\Device\ST\STM32F4xx\Source\Templates\iar\startup_stm32f429_439xx.s</name>
     </file>
+  </group>
+  <group>
+    <name>MPU9250_Lib</name>
+    <group>
+      <name>driver</name>
+      <group>
+        <name>eMPL</name>
+        <file>
+          <name>$PROJ_DIR$\..\core\driver\eMPL\inv_mpu.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\core\driver\eMPL\inv_mpu_dmp_motion_driver.c</name>
+        </file>
+      </group>
+    </group>
+    <group>
+      <name>eMPL-hal</name>
+      <file>
+        <name>$PROJ_DIR$\..\core\eMPL-hal\eMPL_outputs.c</name>
+      </file>
+    </group>
+    <group>
+      <name>mllite</name>
+      <file>
+        <name>$PROJ_DIR$\..\core\mllite\data_builder.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mllite\hal_outputs.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mllite\message_layer.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mllite\ml_math_func.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mllite\mlmath.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mllite\mpl.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mllite\results_holder.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mllite\start_manager.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\core\mllite\storage_manager.c</name>
+      </file>
+    </group>
+    <group>
+      <name>mpl</name>
+      <file>
+        <name>$PROJ_DIR$\..\core\mpl\libmpllib.a</name>
+      </file>
+    </group>
   </group>
   <group>
     <name>STM32F4xx_StdPeriph_Driver</name>
@@ -200,7 +257,16 @@
   <group>
     <name>User</name>
     <file>
+      <name>$PROJ_DIR$\..\button.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\gpio.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\gps.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\i2c.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\main.c</name>

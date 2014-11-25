@@ -33,6 +33,9 @@
 #include "tick.h"
 #include "gpio.h"
 #include "uart.h"
+#include "button.h"
+#include "gps.h"
+#include "i2c.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/

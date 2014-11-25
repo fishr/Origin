@@ -2,12 +2,11 @@
 #include "stm32f4xx_gpio.h"
 #include "stdlib.h"
 #include "string.h"
+#include "tick.h"
+#include "user.h"
 
 #ifndef UART_H
 #define UART_H
-
-#define UART_BUFF_LEN 128
-#define ORIGIN_ID '1'
    
 extern int hello_rx_flag;
 
@@ -34,6 +33,8 @@ extern struct TX_Buff *friends[10];
 
 void UART4_Start(void);
 void UART5_Start(void);
+
+void UART_Transmit(USART_TypeDef*, uint8_t*, uint16_t, uint32_t);
 
 void UART4_IRQHandler(void);
 void UART5_IRQHandler(void);
