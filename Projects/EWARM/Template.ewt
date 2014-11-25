@@ -89,7 +89,7 @@
   <group>
     <name>EWARM</name>
     <file>
-      <name>$PROJ_DIR$\..\CMSIS\Device\ST\STM32F4xx\Source\Templates\iar\startup_stm32f429_439xx.s</name>
+      <name>$PROJ_DIR$\..\..\Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\iar\startup_stm32f429_439xx.s</name>
     </file>
   </group>
   <group>
@@ -99,89 +99,89 @@
       <group>
         <name>eMPL</name>
         <file>
-          <name>$PROJ_DIR$\..\core\driver\eMPL\inv_mpu.c</name>
+          <name>$PROJ_DIR$\..\..\Drivers\core\driver\eMPL\inv_mpu.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\core\driver\eMPL\inv_mpu_dmp_motion_driver.c</name>
+          <name>$PROJ_DIR$\..\..\Drivers\core\driver\eMPL\inv_mpu_dmp_motion_driver.c</name>
         </file>
       </group>
     </group>
     <group>
       <name>eMPL-hal</name>
       <file>
-        <name>$PROJ_DIR$\..\core\eMPL-hal\eMPL_outputs.c</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\eMPL-hal\eMPL_outputs.c</name>
       </file>
     </group>
     <group>
       <name>mllite</name>
       <file>
-        <name>$PROJ_DIR$\..\core\mllite\data_builder.c</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mllite\data_builder.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mllite\hal_outputs.c</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mllite\hal_outputs.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mllite\message_layer.c</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mllite\message_layer.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mllite\ml_math_func.c</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mllite\ml_math_func.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mllite\mlmath.c</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mllite\mlmath.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mllite\mpl.c</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mllite\mpl.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mllite\results_holder.c</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mllite\results_holder.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mllite\start_manager.c</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mllite\start_manager.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mllite\storage_manager.c</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mllite\storage_manager.c</name>
       </file>
     </group>
     <group>
       <name>mpl</name>
       <file>
-        <name>$PROJ_DIR$\..\core\mpl\accel_auto_cal.h</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\accel_auto_cal.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mpl\compass_vec_cal.h</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\compass_vec_cal.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mpl\fast_no_motion.h</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\fast_no_motion.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mpl\fusion_9axis.h</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\fusion_9axis.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mpl\gyro_tc.h</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\gyro_tc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mpl\heading_from_gyro.h</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\heading_from_gyro.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mpl\inv_math.h</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\inv_math.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mpl\invensense_adv.h</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\invensense_adv.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mpl\libmpllib.a</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\libmpllib.a</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mpl\mag_disturb.h</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\mag_disturb.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mpl\motion_no_motion.h</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\motion_no_motion.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mpl\no_gyro_fusion.h</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\no_gyro_fusion.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\core\mpl\quaternion_supervisor.h</name>
+        <name>$PROJ_DIR$\..\..\Drivers\core\mpl\quaternion_supervisor.h</name>
       </file>
     </group>
   </group>
@@ -293,34 +293,34 @@
   <group>
     <name>User</name>
     <file>
-      <name>$PROJ_DIR$\..\adc.c</name>
+      <name>$PROJ_DIR$\..\..\Src\adc.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\button.c</name>
+      <name>$PROJ_DIR$\..\..\Src\button.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\gpio.c</name>
+      <name>$PROJ_DIR$\..\..\Src\gpio.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\gps.c</name>
+      <name>$PROJ_DIR$\..\..\Src\gps.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\i2c.c</name>
+      <name>$PROJ_DIR$\..\..\Src\i2c.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\main.c</name>
+      <name>$PROJ_DIR$\..\..\Src\main.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\stm32f4xx_it.c</name>
+      <name>$PROJ_DIR$\..\..\Src\stm32f4xx_it.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\system_stm32f4xx.c</name>
+      <name>$PROJ_DIR$\..\..\Src\system_stm32f4xx.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\tick.c</name>
+      <name>$PROJ_DIR$\..\..\Src\tick.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\uart.c</name>
+      <name>$PROJ_DIR$\..\..\Src\uart.c</name>
     </file>
   </group>
 </project>

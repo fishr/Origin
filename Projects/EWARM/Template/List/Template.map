@@ -1,138 +1,140 @@
 ###############################################################################
 #
-# IAR ELF Linker V7.30.1.7746/W32 for ARM                 25/Nov/2014  05:00:12
+# IAR ELF Linker V7.30.1.7746/W32 for ARM                 25/Nov/2014  05:13:25
 # Copyright 2007-2014 IAR Systems AB.
 #
 #    Output file  =  
 #        C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Exe\Template.out
+#        Workbench\Origin\Projects\EWARM\Template\Exe\Template.out
 #    Map file     =  
 #        C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\List\Template.map
+#        Workbench\Origin\Projects\EWARM\Template\List\Template.map
 #    Command line =  
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\adc.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\adc.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\button.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\button.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\data_builder.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\data_builder.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\eMPL_outputs.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\eMPL_outputs.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\gpio.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\gpio.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\gps.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\gps.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\hal_outputs.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\hal_outputs.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\i2c.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\i2c.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\inv_mpu.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\inv_mpu.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\inv_mpu_dmp_motion_driver.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\inv_mpu_dmp_motion_driver.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\core\mpl\libmpllib.a"
+#        Workbench\Origin\Drivers\core\mpl\libmpllib.a"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\main.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\main.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\message_layer.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\message_layer.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\misc.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\misc.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\ml_math_func.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\ml_math_func.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\mlmath.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\mlmath.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\mpl.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\mpl.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\results_holder.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\results_holder.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\start_manager.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\start_manager.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\startup_stm32f429_439xx.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\startup_stm32f429_439xx.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_adc.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_adc.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_can.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_can.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_crc.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_crc.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_cryp.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_cryp.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_cryp_aes.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_cryp_aes.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_cryp_des.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_cryp_des.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_cryp_tdes.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_cryp_tdes.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_dac.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_dac.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_dbgmcu.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_dbgmcu.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_dcmi.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_dcmi.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_dma.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_dma.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_dma2d.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_dma2d.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_exti.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_exti.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_flash.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_flash.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_fmc.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_fmc.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_gpio.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_gpio.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_hash.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_hash.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_hash_md5.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_hash_md5.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_hash_sha1.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_hash_sha1.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_i2c.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_i2c.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_it.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_it.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_iwdg.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_iwdg.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_ltdc.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_ltdc.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_pwr.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_pwr.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_rcc.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_rcc.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_rng.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_rng.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_rtc.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_rtc.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_sai.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_sai.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_sdio.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_sdio.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_spi.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_spi.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_syscfg.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_syscfg.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_tim.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_tim.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_usart.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_usart.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\stm32f4xx_wwdg.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\stm32f4xx_wwdg.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\storage_manager.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\storage_manager.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\system_stm32f4xx.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\system_stm32f4xx.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\tick.o"
+#        Workbench\Origin\Projects\EWARM\Template\Obj\tick.o"
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Obj\uart.o" --redirect
+#        Workbench\Origin\Projects\EWARM\Template\Obj\uart.o" --redirect
 #        _Printf=_PrintfSmall --redirect _Scanf=_ScanfSmall -o
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\Exe\Template.out" --map
+#        Workbench\Origin\Projects\EWARM\Template\Exe\Template.out" --map
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\Template\List\Template.map" --config
+#        Workbench\Origin\Projects\EWARM\Template\List\Template.map" --config
 #        "C:\Users\Ryan\Documents\IAR Embedded
-#        Workbench\Origin\Template\EWARM\stm32f4xx_flash.icf" --semihosting
+#        Workbench\Origin\Projects\EWARM\stm32f4xx_flash.icf" --semihosting
+#        "C:\Users\Ryan\Documents\IAR Embedded
+#        Workbench\Origin\Projects\EWARM\..\..\Drivers\core\mpl\libmpllib.a"
 #        --entry __iar_program_start --vfe
 #
 ###############################################################################
@@ -376,7 +378,7 @@ Copy (__iar_copy_init3)
 
     Module                     ro code  ro data  rw data
     ------                     -------  -------  -------
-C:\Users\Ryan\Documents\IAR Embedded Workbench\Origin\Template\EWARM\Template\Obj: [1]
+C:\Users\Ryan\Documents\IAR Embedded Workbench\Origin\Projects\EWARM\Template\Obj: [1]
     adc.o                          172
     button.o                       118                32
     gpio.o                         272
@@ -630,7 +632,7 @@ tx_buff8                0x20000570   0x88  Data  Gb  uart.o [1]
 tx_buff9                0x200005f8   0x88  Data  Gb  uart.o [1]
 
 
-[1] = C:\Users\Ryan\Documents\IAR Embedded Workbench\Origin\Template\EWARM\Template\Obj
+[1] = C:\Users\Ryan\Documents\IAR Embedded Workbench\Origin\Projects\EWARM\Template\Obj
 [2] = command line
 [3] = dl7M_tln.a
 [4] = m7M_tlv.a
