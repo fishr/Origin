@@ -1,136 +1,44 @@
-/**
-  ******************************************************************************
-  * File Name          : ADC.c
-  * Date               : 08/11/2014 22:55:36
-  * Description        : This file provides code for the configuration
-  *                      of the ADC instances.
-  ******************************************************************************
-  *
-  * COPYRIGHT(c) 2014 STMicroelectronics
-  *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  *
-  ******************************************************************************
-  */
-
-/* Includes ------------------------------------------------------------------*/
 #include "adc.h"
 
-#include "gpio.h"
-
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
-ADC_HandleTypeDef hadc3;
-
-/* ADC3 init function */
-void MX_ADC3_Init(void)
+void ADC_Start(void)
 {
-  ADC_ChannelConfTypeDef sConfig;
+    ADC_InitTypeDef hadc3;
+    ADC_CommonInitTypeDef cadc3;
+    
+    GPIO_InitTypeDef GPIO_InitStruct;
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC3, ENABLE);
+    
+    //RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIO6, ENABLE);
 
-    /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion) 
-    */
-  hadc3.Instance = ADC3;
-  hadc3.Init.ClockPrescaler = ADC_CLOCKPRESCALER_PCLK_DIV2;
-  hadc3.Init.Resolution = ADC_RESOLUTION12b;
-  hadc3.Init.ScanConvMode = DISABLE;
-  hadc3.Init.ContinuousConvMode = DISABLE;
-  hadc3.Init.DiscontinuousConvMode = DISABLE;
-  hadc3.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc3.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc3.Init.NbrOfConversion = 1;
-  hadc3.Init.DMAContinuousRequests = DISABLE;
-  hadc3.Init.EOCSelection = EOC_SINGLE_CONV;
-  HAL_ADC_Init(&hadc3);
+    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_6;
+    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AN;
+    GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    GPIO_Init(GPIOF, &GPIO_InitStruct);
 
-    /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
-    */
-  sConfig.Channel = ADC_CHANNEL_4;
-  sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
-  HAL_ADC_ConfigChannel(&hadc3, &sConfig);
+    ADC_StructInit(&hadc3);
+    ADC_CommonStructInit(&cadc3);
+    
+    hadc3.ADC_Resolution = ADC_Resolution_12b;
+    hadc3.ADC_NbrOfConversion = 1;
+    hadc3.ADC_DataAlign = ADC_DataAlign_Right;
+    cadc3.ADC_Mode = ADC_Mode_Independent;
+    cadc3.ADC_Prescaler = ADC_Prescaler_Div2;
+    ADC_Init(ADC3, &hadc3);
+    ADC_CommonInit(&cadc3);
 
+
+    ADC_Cmd(ADC3, ENABLE);
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_4, 1, ADC_SampleTime_480Cycles);
+    ADC_ContinuousModeCmd(ADC3, ENABLE);
+    ADC_SoftwareStartConv(ADC3);
 }
 
-void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
+
+int16_t getBatteryStatus(void)
 {
-
-  GPIO_InitTypeDef GPIO_InitStruct;
-  if(hadc->Instance==ADC3)
-  {
-  /* USER CODE BEGIN ADC3_MspInit 0 */
-
-  /* USER CODE END ADC3_MspInit 0 */
-    /* Peripheral clock enable */
-    __ADC3_CLK_ENABLE();
-  
-    /**ADC3 GPIO Configuration    
-    PF6     ------> ADC3_IN4 
-    */
-    GPIO_InitStruct.Pin = GPIO_PIN_6;
-    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
-
-  /* USER CODE BEGIN ADC3_MspInit 1 */
-
-  /* USER CODE END ADC3_MspInit 1 */
-  }
+    GPIO_ResetBits(GPIOF, GPIO_Pin_8);
+    int16_t batt = ADC_GetConversionValue(ADC3);
+    batt = ((batt - 2048)*100)/559; // Maps battery voltage range (3.3,4.2) to (0,100)
+    //GPIO_SetBits(GPIOF, GPIO_Pin_8);
+    return batt;
 }
-
-void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
-{
-
-  if(hadc->Instance==ADC3)
-  {
-  /* USER CODE BEGIN ADC3_MspDeInit 0 */
-
-  /* USER CODE END ADC3_MspDeInit 0 */
-    /* Peripheral clock disable */
-    __ADC3_CLK_DISABLE();
-  
-    /**ADC3 GPIO Configuration    
-    PF6     ------> ADC3_IN4 
-    */
-    HAL_GPIO_DeInit(GPIOF, GPIO_PIN_6);
-
-  /* USER CODE BEGIN ADC3_MspDeInit 1 */
-
-  /* USER CODE END ADC3_MspDeInit 1 */
-  }
-} 
-
-/* USER CODE BEGIN 1 */
-
-/* USER CODE END 1 */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

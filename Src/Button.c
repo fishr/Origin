@@ -1,4 +1,4 @@
-#include "Button.h"
+#include "button.h"
 
 /* Step 1: Update the integrator based on the input signal.  Note that the
 integrator follows the input, decreasing or increasing towards the limits as
@@ -17,7 +17,7 @@ void UpdateButton(struct Button *butt){
     butt->edge=2;
   }
   
-  if (HAL_GPIO_ReadPin(butt->port, butt->pin) == GPIO_PIN_RESET)
+  if (GPIO_ReadInputDataBit(butt->port, butt->pin) == RESET)
     {
     if ((butt->integrator) > 0)
       (butt->integrator)--;

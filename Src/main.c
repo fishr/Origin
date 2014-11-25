@@ -1,234 +1,119 @@
 /**
-  ******************************************************************************
-  * File Name          : main.c
-  * Date               : 08/11/2014 22:55:39
-  * Description        : Main program body
-  ******************************************************************************
-  *
-  * COPYRIGHT(c) 2014 STMicroelectronics
-  *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  *
-  ******************************************************************************
-  */
+******************************************************************************
+* @file    Template/main.c 
+* @author  MCD Application Team
+* @version V1.0.0
+* @date    20-September-2013
+* @brief   Main program body
+******************************************************************************
+* @attention
+*
+* <h2><center>&copy; COPYRIGHT 2013 STMicroelectronics</center></h2>
+*
+* Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+* You may not use this file except in compliance with the License.
+* You may obtain a copy of the License at:
+*
+*        http://www.st.com/software_license_agreement_liberty_v2
+*
+* Unless required by applicable law or agreed to in writing, software 
+* distributed under the License is distributed on an "AS IS" BASIS, 
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+******************************************************************************
+*/
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_hal.h"
-#include "adc.h"
-#include "i2c.h"
-#include "ltdc.h"
-#include "spi.h"
-#include "usart.h"
-#include "usb_otg.h"
-#include "gpio.h"
-#include "fmc.h"
-#include "stdlib.h"
-#include "Button.h"
+#include "main.h"
 
-/* USER CODE BEGIN Includes */
-#include "stm32f4xx_it.h"
-/* USER CODE END Includes */
+/** @addtogroup Template
+* @{
+*/ 
 
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+//#define USE_FULL_ASSERT
+/* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-
-/* USER CODE BEGIN PV */
-
-#define LED_RCC_Periph_PORT RCC_AHB1Periph_GPIOA
-uint32_t hello=0;
+char hello[]="helloworld";
 
 char cmdData1[]="$PSRF104,42.359544,-71.0935699,0,96000,478200,1819,12,3*0B00"; //init
 char cmdData2[] = "$PSRF103,08,01,00,01*2D00"; //send timing update
 char cmdData3[]="$PSRF105,1*3E00"; //gps debug mode
-//uint16_t cmdData[]={9,2,5,7,2,1,0,1,8};
 uint8_t mpuCmd = 0x75;
 char inImu[32];
 char inData[UART_BUFF_LEN];
 uint16_t len=0;
-//uint16_t inData[32];
-/* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-void parseGPS(char *, double *, double *);
+void assert_failed(uint8_t*, uint32_t);
+/* Private functions ---------------------------------------------------------*/
 
-/* USER CODE BEGIN PFP */
-
-/* USER CODE END PFP */
-
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
+/**
+* @brief   Main program
+* @param  None
+* @retval None
+*/
 int main(void)
 {
-
-  /* USER CODE BEGIN 1 */
-  //cmdData[10]=0x0D;
-  /* USER CODE END 1 */
-
-  /* MCU Configuration----------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
-
-  /* Configure the system clock */
-  SystemClock_Config();
+  SysTick_Config(SystemCoreClock / 1000);
   
-HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET); //screen reset
-HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, GPIO_PIN_RESET); //screen chip enable
-
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_ADC3_Init();
-  MX_FMC_Init();
-  MX_I2C3_Init();
-  MX_LTDC_Init();
-  MX_SPI1_Init();
-  MX_SPI5_Init();
-  MX_UART4_Init();
-  MX_UART5_Init();
-  MX_USB_OTG_HS_PCD_Init();
-
-  /* USER CODE BEGIN 2 */
+  GPIO_Start();
+  ADC_Start();
+  
+  unsigned long tickey = getSysTick()+1000;
+  
+  GPIO_SetBits(GPIOC, GPIO_Pin_1);  //osc enable
+  GPIO_ResetBits(GPIOC, GPIO_Pin_11); //xbee reset
+  GPIO_SetBits(GPIOE, GPIO_Pin_6); //buck enable
+  while(getSysTick()<tickey);
+  GPIO_SetBits(GPIOE, GPIO_Pin_2); //gps on/off
+  GPIO_SetBits(GPIOC, GPIO_Pin_11); //xbee reset
+  while(getSysTick()<tickey);
+  UART4_Start();
+  UART5_Start();
+  I2cMaster_Init();
+  //========================BUTTONS====================
+  InitButton(&button1, GPIOE, GPIO_Pin_4);
+  InitButton(&button2, GPIOE, GPIO_Pin_5);
+  //=======================END BUTTONS==================
   
   
-HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_SET);  //osc enable
-HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_SET); //xbee reset
-HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
-
-
-  GPIO_InitTypeDef init;
-    init.Pin = GPIO_PIN_3;
-    init.Mode = GPIO_MODE_OUTPUT_PP;
-    init.Pull = GPIO_NOPULL;
-    init.Speed = GPIO_SPEED_HIGH;
-    HAL_GPIO_Init(GPIOC, &init);  //led1
-    init.Pin=GPIO_PIN_2;
-    HAL_GPIO_Init(GPIOA, &init);  //led2
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
-   
-    uint32_t ticks = HAL_GetTick();
-
-    //========================BUTTONS====================
-    InitButton(&button1, GPIOE, GPIO_PIN_4);
-    InitButton(&button2, GPIOE, GPIO_PIN_5);
-    //=======================END BUTTONS==================
-    
-    
-    /*
-    //===========RAM==========================
-    uint32_t wraddress = 0x0010;
-    HAL_SDRAM_Write_16b(&hsdram1, &wraddress, cmdData, sizeof(cmdData)/sizeof(cmdData[0]));
-    HAL_SDRAM_Read_16b(&hsdram1, &wraddress, inData, 32);
-    hello=4;
-    //==================RAM==========================
-   */
-    
-    
-    //LCD ===============================================
-    	
-/*
-    BSP_LCD_Init();
-    BSP_LCD_LayerDefaultInit(0, (uint32_t) LCD_FRAME_BUFFER);
-    BSP_LCD_SetLayerVisible(0, ENABLE);
-     
-    BSP_LCD_LayerDefaultInit(0, (uint32_t) LCD_FRAME_BUFFER);
-    BSP_LCD_SetLayerVisible(0, ENABLE);
-    BSP_LCD_LayerDefaultInit(1, (uint32_t) LCD_FRAME_BUFFER+76800);
-    BSP_LCD_SelectLayer(1);
-    BSP_LCD_SetLayerVisible(1, DISABLE);
-     
-    BSP_LCD_SelectLayer(0);
-    BSP_LCD_Clear(BRED);
-    BSP_LCD_DisplayOn();
-*/
-
-    //END LCD============================================
-    
-  /* USER CODE END 2 */
-
-    ticks = HAL_GetTick();
-    while(HAL_GetTick()<ticks+1100){
-      hello = 0;
-    }
-    
-    HAL_UART_Receive_IT(&huart4, inData, 64);
-    HAL_UART_Receive_IT(&huart5, inData, 64);
-    
-    uint8_t cmdData1Len = sizeof(cmdData1)/sizeof(cmdData1[0]);
-    cmdData1[cmdData1Len-3]=0x0D;
-    cmdData1[cmdData1Len-2]=0x0A;
-    
-    uint8_t cmdData2Len = sizeof(cmdData2)/sizeof(cmdData2[0]);
-    cmdData2[cmdData2Len-3]=0x0D;
-    cmdData2[cmdData2Len-2]=0x0A;
-
-    uint8_t cmdData3Len = sizeof(cmdData3)/sizeof(cmdData3[0]);
-    cmdData3[cmdData3Len-3]=0x0D;
-    cmdData3[cmdData3Len-2]=0x0A;
-    
-    HAL_UART_Transmit(&huart4, cmdData3, cmdData3Len, 500);
-    
-    HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET); //gps on/off
-  /* USER CODE BEGIN 3 */
   /* Infinite loop */
   while (1)
   {
+    
     UpdateButton(&button1);
     UpdateButton(&button2);
     
-   /*
-    if(inData[0]!=0)
-    {
-      int i = 0;
-      while((inData[i]!=0x0D)&&(i<61))
-      {
-        i++;
-      }
-      inData[i]=0x0D;
-      inData[i+1]=0x0A;
-      HAL_UART_Transmit(&huart5, inData, i+2, 500);
-    }*/
-    
     if( buttonRisingEdge(&button1)){//right
-             HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);//yellow
-    HAL_UART_Transmit(&huart4, cmdData1, cmdData1Len, 500);
+      GPIO_ToggleBits(GPIOC, GPIO_Pin_3);//yellow
+      //UART_Transmit(&huart4, cmdData1, cmdData1Len, 500);
     }
     
     if(buttonRisingEdge(&button2)){//left
+      
+      //UART_Transmit(&huart4, cmdData2, cmdData2Len, 500);
+      GPIO_ToggleBits(GPIOA, GPIO_Pin_2); //green
+      
+    }
     
-    HAL_UART_Transmit(&huart4, cmdData2, cmdData2Len, 500);
-     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2); //green
+    if(getSysTick()>tickey){
+      tickey +=1000;
+      GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
+      //UART_Transmit(UART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
 
     }
-
     
     if(rx_buff.newData){
       memcpy(inData, rx_buff.buffer, rx_buff.length);
       len = rx_buff.length;
-      HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);
+      GPIO_ToggleBits(GPIOC, GPIO_Pin_3);
       rx_buff.newData=0;
-      HAL_UART_Transmit(&huart5, inData, len, 500);
+      UART_Transmit(UART5, inData, len, 200);
     }
     for(int i =0; i<10; i++){
       if(friends[i]!=0){
@@ -238,138 +123,61 @@ HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET); //buck enable
           tempIdMsg[1]=0x0D;
           tempIdMsg[2]=0x0A;
           friends[i]->newData=0;
-          HAL_UART_Transmit(&huart5, tempIdMsg, 3, 500);
+          UART_Transmit(UART5, tempIdMsg, 3, 500);
           double lat;
           double longi;
           parseGPS(friends[i]->buffer, &lat, &longi);
         }
       }
     }
-
-      
-    ticks = HAL_GetTick();
-    inData[0]=0;
-    //__HAL_I2C_CLEAR_FLAG(&hi2c3, I2C_FLAG_BUSY);
-    //while(__HAL_I2C_GET_FLAG(&hi2c3, I2C_FLAG_BUSY) == SET){}
     
-    HAL_StatusTypeDef halp = HAL_I2C_Master_Transmit(&hi2c3, 0xD0, &mpuCmd, 1, 500);
-    HAL_StatusTypeDef halpme = HAL_I2C_Master_Receive(&hi2c3,  0xD0, inImu, 1, 500);
+    Sensors_I2C_ReadRegister((unsigned char)0x68, (unsigned char)mpuCmd, 1, inImu);
     
+    int16_t ha= getBatteryStatus();
     
-//    while(HAL_GetTick()<ticks+100){
-//      hello = 0;
-//    }
-    
-//    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
-
-    if(inImu[0]!=0)
-      hello=1;
+//    I2C_GenerateSTART(I2C3, ENABLE);
+//    I2C_Send7bitAddress(I2C3, 0xD0, I2C_Direction_Transmitter);
+//    I2C_SendData(I2C3, mpuCmd[0]);
+//    I2C_GenerateSTOP(I2C3, ENABLE);
+//    
+    //HAL_StatusTypeDef halp = HAL_I2C_Master_Transmit(&hi2c3, 0xD0, &mpuCmd, 1, 500);
+//
+//    I2C_GenerateSTART(I2C3, ENABLE);
+//    I2C_Send7bitAddress(I2C3, 0xD0, I2C_Direction_Receiver);
+//    
+//    I2C_GenerateSTOP(I2C3, ENABLE);
+//    
+    //HAL_StatusTypeDef halpme = HAL_I2C_Master_Receive(&hi2c3,  0xD0, inImu, 1, 500);
+    int g =inImu[0];
   }
-  /* USER CODE END 3 */
-
 }
-
-void parseGPS(char *nmea_string, double *lat, double *longi){
-  char nmea_copy[UART_BUFF_LEN];
-  strcpy(nmea_copy, nmea_string+2);
   
-  char* token;
-  const char delim[1] = {','};
-  int i =0;
-  *lat=0.0;
-  *longi=0.0;
-  token = (char*)strtok (nmea_copy, delim);
+#ifdef  USE_FULL_ASSERT
   
-  //first field is communication type
-  if(strcmp(token, "GPRMC"))
-    return;
-  
-  //4 and 6 are lat long respectively, they are both 
-  //followed by a cardinal direction
-  while (token != (char*) 0){
-    i++;
-
-    token = (char*)strtok ((char *) 0, delim);
-    if(i==3){
-      *lat=(double) atof(token);
-    }else if(i==5){
-      *longi = (double) atof(token);
+  /**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+  void assert_failed(uint8_t* file, uint32_t line)
+  { 
+    /* User can add his own implementation to report the file name and line number,
+    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    
+    /* Infinite loop */
+    while (1)
+    {
+      int g=0;
     }
   }
-  
-  
-}
-  
-
-/** System Clock Configuration
-*/
-void SystemClock_Config(void)
-{
-
-  RCC_OscInitTypeDef RCC_OscInitStruct;
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct;
-
-  __PWR_CLK_ENABLE();
-
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
-
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 6;
-  RCC_OscInitStruct.PLL.PLLN = 216;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ = 6;
-  HAL_RCC_OscConfig(&RCC_OscInitStruct);
-
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK|RCC_CLOCKTYPE_PCLK1
-                              |RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
-  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4);
-
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LTDC;
-  PeriphClkInitStruct.PLLSAI.PLLSAIN = 200;
-  PeriphClkInitStruct.PLLSAI.PLLSAIR = 4;
-  PeriphClkInitStruct.PLLSAIDivR = RCC_PLLSAIDIVR_16;
-  HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct);
-
-}
-
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
-
-#ifdef USE_FULL_ASSERT
-
-/**
-   * @brief Reports the name of the source file and the source line number
-   * where the assert_param error has occurred.
-   * @param file: pointer to the source file name
-   * @param line: assert_param error line source number
-   * @retval None
-   */
-void assert_failed(uint8_t* file, uint32_t line)
-{
-  /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
-    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
-
-}
-
 #endif
-
-/**
+  
+  /**
   * @}
-  */ 
-
-/**
-  * @}
-*/ 
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+  */
+  
+  
+  /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+  
