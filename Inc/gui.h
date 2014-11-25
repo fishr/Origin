@@ -37,8 +37,6 @@
 #include "stm32f4xx.h"
 #include "stm32f429i_discovery_lcd.h"
 #include "fonts.h"
-
-typedef enum { false, true } bool;
    
 typedef struct 
 {
@@ -52,8 +50,6 @@ typedef struct
   
   uint16_t color;
     
-  bool recievedping;
-  bool sentping;
 } Node;   
 
 //#define LCD_DEFAULT_FONT         Font16x24

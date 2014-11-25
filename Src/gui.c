@@ -6,7 +6,7 @@ static sFONT *LCD_Currentfonts;
 
 void GUI_DrawBackground(uint16_t centerX, uint16_t centerY)
 {
-  LCD_SetLayer(LCD_BACKGROUND_LAYER);
+  LCD_SetLayer(LCD_FOREGROUND_LAYER);
   LCD_Clear(0x0000);
   LCD_SetTextColor(0xFFFF);
   
@@ -29,9 +29,6 @@ Node GUI_InitNode(int16_t X, int16_t Y, uint16_t ID, uint16_t fname, uint16_t ln
   
   n.color = color;
     
-  n.recievedping = false;
-  n.sentping = false;
-  
   return n;
 }
 

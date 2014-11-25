@@ -39,6 +39,12 @@
 #include "adc.h"
 #include "imu.h"
 
+#include "stm32f4xx.h"
+#include <stdio.h>
+#include "stm32f429i_discovery.h"
+#include "stm32f429i_discovery_lcd.h"
+#include "gui.h"
+
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
