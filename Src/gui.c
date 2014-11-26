@@ -7,14 +7,21 @@ uint16_t centerY = 160;
 
 void GUI_DrawBackground(void)
 {
-  LCD_SetLayer(LCD_FOREGROUND_LAYER);
-  LCD_Clear(0x0000);
+  LCD_SetLayer(LCD_BACKGROUND_LAYER);
+  //LCD_Clear(0x0000);
   LCD_SetTextColor(0xFFFF);
   
   LCD_DrawFullCircle(centerX, centerY, 2);
   LCD_DrawCircle(centerX, centerY, 20);
   LCD_DrawCircle(centerX, centerY, 60);
   LCD_DrawCircle(centerX, centerY, 100);
+}
+
+void GUI_ClearForeground(void)
+{
+  LCD_SetLayer(LCD_FOREGROUND_LAYER);
+  //LCD_SetColorKeying(0xFF0000);
+  LCD_Clear(0x0000);
 }
 
 Node GUI_InitNode(uint16_t ID, uint16_t fname, uint16_t lname, uint16_t color)
@@ -46,12 +53,24 @@ void GUI_DrawNodePolar(Node *n, double angleRad, uint16_t distance)
   GUI_DrawNodexy(n, X, Y);
 }
 
+void GUI_ClearNodePolar(Node *n, double angleRad, uint16_t distance)
+{
+  int16_t X = (int16_t) (centerX+distance*sin(angleRad));
+  int16_t Y = (int16_t) (centerY+distance*cos(angleRad));
+    
+  LCD_SetTextColor(0x0000);
+  LCD_DrawFullCircle(X, Y, 21);
+}
+
 void GUI_DrawNodexy(Node *n, int16_t X, int16_t Y)
 {
   LCD_SetLayer(LCD_FOREGROUND_LAYER);
   
+//  GUI_ClearForeground();
+  
   LCD_SetTextColor(0xFFFF);
-  LCD_DrawFullCircle(X, Y, 21);
+  LCD_DrawCircle(X, Y, 21);
+  LCD_DrawCircle(X, Y, 20);
   LCD_SetTextColor(n->color);
   LCD_DrawFullCircle(X, Y, 20);
 

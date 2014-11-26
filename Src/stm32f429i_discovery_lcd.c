@@ -367,6 +367,9 @@ void LCD_LayerInit(void)
   LTDC_Layer_InitStruct.LTDC_BlendingFactor_1 = LTDC_BlendingFactor1_PAxCA;    
   LTDC_Layer_InitStruct.LTDC_BlendingFactor_2 = LTDC_BlendingFactor2_PAxCA;
   
+    /* Alpha constant (255 totally opaque) */
+  LTDC_Layer_InitStruct.LTDC_ConstantAlpha = 255; 
+  
   /* Initialize LTDC layer 2 */
   LTDC_LayerInit(LTDC_Layer2, &LTDC_Layer_InitStruct);
   
@@ -531,7 +534,7 @@ void LCD_ClearLine(uint16_t Line)
 }
 
 /**
-  * @brief  Clears the hole LCD.
+  * @brief  Clears the whole LCD.
   * @param  Color: the color of the background.
   * @retval None
   */

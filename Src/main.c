@@ -49,6 +49,8 @@ uint16_t len=0;
 
 Node n1;
 
+LTDC_ColorKeying_InitTypeDef   LTDC_colorkeying_InitStruct;
+
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void assert_failed(uint8_t*, uint32_t);
@@ -323,6 +325,22 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
+    int count = 0;
+          while(1) {
+      
+    // GUI_DrawBackground();
+//    GUI_ClearForeground();
+    GUI_DrawNodePolar(&n1, 3.14*1.25, count);
+    delay(200000);
+    //GUI_DrawBattery(getBatteryStatus());
+    GUI_ClearNodePolar(&n1, 3.14*1.25, count);
+    count += 1;
+    if (count%100 == 0){
+      count = 0;
+    }
+    
+      }
+    
     UpdateButton(&button1);
     UpdateButton(&button2);
     
@@ -342,12 +360,12 @@ int main(void)
       tickey +=1000;
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
       //UART_Transmit(UART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
-
-      
+  
       
     GUI_DrawBackground();
     GUI_DrawNodePolar(&n1, 3.14*1.25, 100);
     GUI_DrawBattery(getBatteryStatus());
+    
     }
     
     if(rx_buff.newData){

@@ -26,6 +26,7 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
+#include <math.h>
 #include "stm32f4xx.h"
 #include "stm32f429i_discovery_lcd.h"
 #include "fonts.h"
@@ -37,13 +38,6 @@
 #ifdef __cplusplus
  extern "C" {
 #endif 
-
-
-/* Includes ------------------------------------------------------------------*/
-#include <math.h>
-#include "stm32f4xx.h"
-#include "stm32f429i_discovery_lcd.h"
-#include "fonts.h"
 
 typedef struct 
 {
@@ -63,8 +57,9 @@ typedef struct
 
 //#define ASSEMBLE_RGB(R, G, B)    ((((R)& 0xF8) << 8) | (((G) & 0xFC) << 3) | (((B) & 0xF8) >> 3))  
 void     GUI_DrawBackground(void);
+void     GUI_ClearForeground(void);
 Node     GUI_InitNode(uint16_t ID, uint16_t fname,  uint16_t lname, uint16_t color);
-
+void     GUI_ClearNodePolar(Node *n, double angleRad, uint16_t distance);
 void     GUI_DrawNode(Node *n);
 void     GUI_DrawNodePolar(Node *n, double angleRad, uint16_t distance);
 void     GUI_DrawNodexy(Node *n, int16_t X, int16_t Y);
