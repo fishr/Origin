@@ -329,6 +329,10 @@ int main(void)
   {
     GUI_DrawBackground(centerX, centerY);
     GUI_DrawNode(&n1, xpos, 30);
+    GUI_DrawBattery();
+    
+    // STOP FLICKERING GODDAMMIT
+    while(1){}
     
     if (xpos > 100) {
       xpos = 40;

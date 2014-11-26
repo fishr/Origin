@@ -48,3 +48,25 @@ void GUI_DrawNode(Node *n, int16_t X, int16_t Y)
   LCD_DrawChar(Y-13,X+12,&LCD_Currentfonts->table[n->fname * LCD_Currentfonts->Height]);
   LCD_DrawChar(Y+2,X+12,&LCD_Currentfonts->table[n->lname * LCD_Currentfonts->Height]);
 }
+
+/**
+  * @brief  Draws a battery icon indicating battery level using primatives
+  * @param  None
+  * @retval None
+  */
+void GUI_DrawBattery(void) 
+{
+  int16_t batteryPercent = 100;
+  
+  LCD_SetTextColor(0xFFFF);
+  // Horizontal Lines
+  LCD_DrawLine(6, 288, 25, 1);
+  LCD_DrawLine(15, 288, 25, 1);
+  // Vertical Lines
+  LCD_DrawLine(7, 287, 8, 0);
+  LCD_DrawLine(7, 313, 8, 0);
+  // Positive Terminal
+  LCD_DrawLine(10, 314, 2, 0);
+  // Juice Level
+  LCD_DrawFullRect(8, 289, 6, 23 * batteryPercent / 100);
+}

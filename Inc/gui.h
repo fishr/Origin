@@ -60,6 +60,7 @@ Node     GUI_InitNode(int16_t X, int16_t Y, uint16_t ID, uint16_t fname,  uint16
 void     GUI_DrawBackground(uint16_t centerX, uint16_t centerY);
 
 void     GUI_DrawNode(Node *n, int16_t X, int16_t Y);
+void     GUI_DrawBattery(void);
 
 Node     GUI_GetNodeByID(uint16_t);
 
