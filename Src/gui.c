@@ -2,9 +2,10 @@
 #include "gui.h"
 
 static sFONT *LCD_Currentfonts;
+uint16_t centerX = 120;
+uint16_t centerY = 160;
 
-
-void GUI_DrawBackground(uint16_t centerX, uint16_t centerY)
+void GUI_DrawBackground(void)
 {
   LCD_SetLayer(LCD_FOREGROUND_LAYER);
   LCD_Clear(0x0000);
@@ -16,11 +17,11 @@ void GUI_DrawBackground(uint16_t centerX, uint16_t centerY)
   LCD_DrawCircle(centerX, centerY, 100);
 }
 
-Node GUI_InitNode(int16_t X, int16_t Y, uint16_t ID, uint16_t fname, uint16_t lname, uint16_t color)
+Node GUI_InitNode(uint16_t ID, uint16_t fname, uint16_t lname, uint16_t color)
 {
   Node n;
-  n.x = X;
-  n.y = Y;
+  n.x = 0;
+  n.y = 0;
   
   n.id = ID;
   
@@ -32,7 +33,20 @@ Node GUI_InitNode(int16_t X, int16_t Y, uint16_t ID, uint16_t fname, uint16_t ln
   return n;
 }
 
-void GUI_DrawNode(Node *n, int16_t X, int16_t Y)
+void GUI_DrawNode(Node *n)
+{
+  GUI_DrawNodexy(n, n->x, n->y);
+}
+
+void GUI_DrawNodePolar(Node *n, double angleRad, uint16_t distance)
+{
+  int16_t X = (int16_t) (centerX+distance*sin(angleRad));
+  int16_t Y = (int16_t) (centerY+distance*cos(angleRad));
+    
+  GUI_DrawNodexy(n, X, Y);
+}
+
+void GUI_DrawNodexy(Node *n, int16_t X, int16_t Y)
 {
   LCD_SetLayer(LCD_FOREGROUND_LAYER);
   
@@ -48,6 +62,7 @@ void GUI_DrawNode(Node *n, int16_t X, int16_t Y)
   LCD_DrawChar(Y-13,X+12,&LCD_Currentfonts->table[n->fname * LCD_Currentfonts->Height]);
   LCD_DrawChar(Y+2,X+12,&LCD_Currentfonts->table[n->lname * LCD_Currentfonts->Height]);
 }
+
 
 /**
   * @brief  Draws a battery icon indicating battery level using primatives

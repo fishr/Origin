@@ -47,8 +47,6 @@ char inImu[32];
 char inData[UART_BUFF_LEN];
 uint16_t len=0;
 
-uint16_t centerX = 120;
-uint16_t centerY = 160;
 Node n1;
 
 /* Private function prototypes -----------------------------------------------*/
@@ -319,7 +317,7 @@ int main(void)
     
 
 
-    n1 = GUI_InitNode(85, 60, 1, 65,  66, 0xe8ec);
+    n1 = GUI_InitNode(1, 65,  66, 0xe8ec);
     
     uint16_t xpos = 30;
   
@@ -327,8 +325,8 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-    GUI_DrawBackground(centerX, centerY);
-    GUI_DrawNode(&n1, xpos, 30);
+    GUI_DrawBackground();
+    GUI_DrawNodePolar(&n1, 3.14*1.25, 100);
     GUI_DrawBattery();
     
     // STOP FLICKERING GODDAMMIT
