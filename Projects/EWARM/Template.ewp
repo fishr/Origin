@@ -1194,6 +1194,9 @@
       <name>$PROJ_DIR$\..\..\Src\imu.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\Src\lcd.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\Src\main.c</name>
     </file>
     <file>
