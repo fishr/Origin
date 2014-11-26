@@ -19,6 +19,6 @@
 @REM 
 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\common\bin\cspybat" "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\bin\armproc.dll" "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\bin\armstlink.dll"  %1 --plugin "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\bin\armbat.dll" --device_macro "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\config\debugger\ST\STM32F4xx.dmac" --flash_loader "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\config\flashloader\ST\FlashSTM32F4xxI.board" --backend -B "--endian=little" "--cpu=Cortex-M4F" "--fpu=VFPv4" "-p" "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\CONFIG\debugger\ST\STM32F429ZI.ddf" "--semihosting" "--device=STM32F429ZI" "--stlink_interface=SWD" "--stlink_reset_strategy=0,0" "--drv_swo_clock_setup=168000000,0,2000000" 
+"P:\IARWorkbench\common\bin\cspybat" "P:\IARWorkbench\arm\bin\armproc.dll" "P:\IARWorkbench\arm\bin\armstlink.dll"  %1 --plugin "P:\IARWorkbench\arm\bin\armbat.dll" --device_macro "P:\IARWorkbench\arm\config\debugger\ST\STM32F4xx.dmac" --flash_loader "P:\IARWorkbench\arm\config\flashloader\ST\FlashSTM32F4xxI.board" --backend -B "--endian=little" "--cpu=Cortex-M4F" "--fpu=VFPv4" "-p" "P:\IARWorkbench\arm\CONFIG\debugger\ST\STM32F429ZI.ddf" "--semihosting" "--device=STM32F429ZI" "--stlink_interface=SWD" "--stlink_reset_strategy=0,0" "--drv_swo_clock_setup=168000000,0,2000000" 
 
 

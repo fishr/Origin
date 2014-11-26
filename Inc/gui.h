@@ -25,6 +25,10 @@
   *
   ******************************************************************************
   */
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f4xx.h"
+#include "stm32f429i_discovery_lcd.h"
+#include "fonts.h"
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __GUI_H
@@ -33,10 +37,6 @@
 #ifdef __cplusplus
  extern "C" {
 #endif 
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx.h"
-#include "stm32f429i_discovery_lcd.h"
-#include "fonts.h"
    
 typedef struct 
 {
@@ -60,7 +60,7 @@ Node     GUI_InitNode(int16_t X, int16_t Y, uint16_t ID, uint16_t fname,  uint16
 void     GUI_DrawBackground(uint16_t centerX, uint16_t centerY);
 
 void     GUI_DrawNode(Node *n, int16_t X, int16_t Y);
-void     GUI_DrawBattery(void);
+void GUI_DrawBattery(int16_t batteryPercent) ;
 
 Node     GUI_GetNodeByID(uint16_t);
 

@@ -40,5 +40,10 @@ int16_t getBatteryStatus(void)
     int16_t batt = ADC_GetConversionValue(ADC3);
     batt = ((batt - 2048)*100)/559; // Maps battery voltage range (3.3,4.2) to (0,100)
     //GPIO_SetBits(GPIOF, GPIO_Pin_8);
+    if(batt<0){
+      batt=0;
+    }else if(batt>100){
+      batt=100;
+    }
     return batt;
 }

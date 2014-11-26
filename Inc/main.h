@@ -38,6 +38,7 @@
 #include "i2c.h"
 #include "adc.h"
 #include "imu.h"
+#include "lcd.h"
 
 #include "stm32f4xx.h"
 #include <stdio.h>

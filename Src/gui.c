@@ -54,10 +54,8 @@ void GUI_DrawNode(Node *n, int16_t X, int16_t Y)
   * @param  None
   * @retval None
   */
-void GUI_DrawBattery(void) 
-{
-  int16_t batteryPercent = 100;
-  
+void GUI_DrawBattery(int16_t batteryPercent) 
+{  
   LCD_SetTextColor(0xFFFF);
   // Horizontal Lines
   LCD_DrawLine(6, 288, 25, 1);
