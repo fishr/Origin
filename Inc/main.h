@@ -39,6 +39,7 @@
 #include "adc.h"
 #include "imu.h"
 #include "lcd.h"
+#include "spi.h"
 
 #include "stm32f4xx.h"
 #include <stdio.h>

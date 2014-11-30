@@ -32,6 +32,7 @@ extern "C" {
 #define ACC_MAG_SQR_SHIFT 16
 
 void inv_store_gaming_quaternion(const long *quat, inv_time_t timestamp);
+void inv_store_gaming_quaternion1(const long *quat, inv_time_t timestamp);
 
 // States
 #define SF_NORMAL 0
