@@ -57,6 +57,8 @@ long headingData[3];
 uint8_t headingAcc=0;
 inv_time_t headingTime;
 
+LTDC_ColorKeying_InitTypeDef   LTDC_colorkeying_InitStruct;
+
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void assert_failed(uint8_t*, uint32_t);
@@ -307,7 +309,7 @@ int main(void)
     
 
 
-    n1 = GUI_InitNode(85, 60, 1, 65,  66, 0xe8ec);
+    n1 = GUI_InitNode(1, 65,  66, 0xe8ec);
     
     uint16_t xpos = 120;
     uint16_t ypos=160;
@@ -316,7 +318,22 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-    
+ //   int count = 0;
+ //         while(1) {
+ //     
+ //   // GUI_DrawBackground();
+////    GUI_ClearForeground();
+ //   GUI_DrawNodePolar(&n1, 3.14*1.25, count);
+ //   delay(200000);
+ //   //GUI_DrawBattery(getBatteryStatus());
+ //   GUI_ClearNodePolar(&n1, 3.14*1.25, count);
+ //   count += 1;
+ //   if (count%100 == 0){
+ //     count = 0;
+ //   }
+ //   
+ //     }
+ //   
     UpdateButton(&button1);
     UpdateButton(&button2);
     
@@ -356,6 +373,7 @@ ypos=(uint16_t) 160+20*cos((double)(degrees*3.1415/180.0));
     GUI_DrawBackground(centerX, centerY);
     GUI_DrawNode(&n1, xpos, ypos);
     GUI_DrawBattery(getBatteryStatus());
+    
     }
     
     if(rx_buff.newData){
