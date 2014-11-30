@@ -781,6 +781,7 @@ inv_error_t inv_build_quat(const long *quat, int status, inv_time_t timestamp)
 #endif
     
     memcpy(sensors.quat.raw, quat, sizeof(sensors.quat.raw));
+    inv_store_gaming_quaternion1(quat, timestamp);
     sensors.quat.timestamp = timestamp;
     sensors.quat.status |= INV_NEW_DATA | INV_RAW_DATA | INV_SENSOR_ON;
     sensors.quat.status |= (INV_BIAS_APPLIED & status);
