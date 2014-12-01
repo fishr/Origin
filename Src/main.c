@@ -49,13 +49,10 @@ uint16_t len=0;
 
 double degrees=0;
 
-uint16_t centerX = 120;
-uint16_t centerY = 160;
-Node n1;
-
 long headingData[3];
 uint8_t headingAcc=0;
 inv_time_t headingTime;
+
 
 LTDC_ColorKeying_InitTypeDef   LTDC_colorkeying_InitStruct;
 
@@ -304,16 +301,16 @@ int main(void)
     LCD_Config();
     /* Enable The LCD */
     LTDC_Cmd(ENABLE);
+    LCD_SetLayer(LCD_FOREGROUND_LAYER);
+    GUI_ClearBackground();
     
     delay(20000);
     
-
-
-    n1 = GUI_InitNode(1, 65,  66, 0xe8ec);
+    GUI_InitNode(1, 72,  83, 0xe8ec);
+    GUI_InitNode(2, 86,  72, 0xfd20);
+    GUI_InitNode(3, 82,  70, 0x001f);
     
-    uint16_t xpos = 120;
-    uint16_t ypos=160;
-  
+    int count = 0;
   
   /* Infinite loop */
   while (1)
@@ -353,17 +350,23 @@ int main(void)
     inv_get_sensor_type_heading(&actHeading, &headingAcc, &headingTime);
     degrees=((double)actHeading)/((double)65536.0);
     
-xpos=(uint16_t) 120+20*sin((double)(degrees*3.1415/180.0));
-ypos=(uint16_t) 160+20*cos((double)(degrees*3.1415/180.0));
-    
     if(getSysTick()>tickey){
-<<<<<<< HEAD
-      tickey +=1000;
-      GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
-      //UART_Transmit(UART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
-    
-=======
       tickey +=200;
+      
+      GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
+      //UART_Transmit(idUART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
+  
+
+      GUI_UpdateNode(1, degrees*3.1415/180.0+3.14*1.25, count);
+      GUI_UpdateNode(2, degrees*3.1415/180.0+3.14, count);
+      GUI_UpdateNode(3, degrees*3.1415/180.0+0, count);
+      GUI_UpdateBattery(getBatteryStatus());
+      GUI_Redraw();
+      count += 4;
+      if (count%100 == 0){
+        count = 0;
+      }
+
 //      //GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
 //      //UART_Transmit(UART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
 //      
@@ -374,12 +377,6 @@ ypos=(uint16_t) 160+20*cos((double)(degrees*3.1415/180.0));
 //      uint8_t flubber= Fl_ReadID();
 //      flubber++;
 //      
-
-    
-    GUI_DrawBackground(centerX, centerY);
-    GUI_DrawNode(&n1, xpos, ypos);
-    GUI_DrawBattery(getBatteryStatus());
->>>>>>> hans
     
     }
     
@@ -407,12 +404,7 @@ ypos=(uint16_t) 160+20*cos((double)(degrees*3.1415/180.0));
     }
     
     //Sensors_I2C_ReadRegister((unsigned char)0x68, (unsigned char)mpuCmd, 1, inImu);
-<<<<<<< HEAD
 
-
-        
-=======
->>>>>>> hans
     
     int16_t ha= getBatteryStatus();
     
