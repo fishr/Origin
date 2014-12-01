@@ -53,6 +53,7 @@ long headingData[3];
 uint8_t headingAcc=0;
 inv_time_t headingTime;
 
+
 LTDC_ColorKeying_InitTypeDef   LTDC_colorkeying_InitStruct;
 
 /* Private function prototypes -----------------------------------------------*/
@@ -349,7 +350,6 @@ int main(void)
     inv_get_sensor_type_heading(&actHeading, &headingAcc, &headingTime);
     degrees=((double)actHeading)/((double)65536.0);
     
-    
     if(getSysTick()>tickey){
       tickey +=200;
       
@@ -367,7 +367,6 @@ int main(void)
         count = 0;
       }
 
-
 //      //GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
 //      //UART_Transmit(UART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
 //      
@@ -378,7 +377,6 @@ int main(void)
 //      uint8_t flubber= Fl_ReadID();
 //      flubber++;
 //      
-
     
     }
     
