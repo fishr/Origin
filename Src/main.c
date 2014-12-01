@@ -47,7 +47,6 @@ char inImu[32];
 char inData[UART_BUFF_LEN];
 uint16_t len=0;
 
-Node n1;
 
 LTDC_ColorKeying_InitTypeDef   LTDC_colorkeying_InitStruct;
 
@@ -312,35 +311,20 @@ int main(void)
     LCD_Config();
     /* Enable The LCD */
     LTDC_Cmd(ENABLE);
+    LCD_SetLayer(LCD_FOREGROUND_LAYER);
+    GUI_ClearBackground();
     
     delay(20000);
     
+    GUI_InitNode(1, 72,  83, 0xe8ec);
+    GUI_InitNode(2, 86,  72, 0xfd20);
+    GUI_InitNode(3, 82,  70, 0x001f);
 
-
-    n1 = GUI_InitNode(1, 65,  66, 0xe8ec);
-    
-    uint16_t xpos = 30;
-  
+    int count = 0;
   
   /* Infinite loop */
   while (1)
   {
-    int count = 0;
-          while(1) {
-      
-    // GUI_DrawBackground();
-//    GUI_ClearForeground();
-    GUI_DrawNodePolar(&n1, 3.14*1.25, count);
-    delay(200000);
-    //GUI_DrawBattery(getBatteryStatus());
-    GUI_ClearNodePolar(&n1, 3.14*1.25, count);
-    count += 1;
-    if (count%100 == 0){
-      count = 0;
-    }
-    
-      }
-    
     UpdateButton(&button1);
     UpdateButton(&button2);
     
@@ -359,12 +343,20 @@ int main(void)
     if(getSysTick()>tickey){
       tickey +=1000;
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
-      //UART_Transmit(UART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
+      //UART_Transmit(idUART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
   
-      
-    GUI_DrawBackground();
-    GUI_DrawNodePolar(&n1, 3.14*1.25, 100);
-    GUI_DrawBattery(getBatteryStatus());
+
+      GUI_UpdateNode(1, 3.14*1.25, count);
+      GUI_UpdateNode(2, 3.14, count);
+      GUI_UpdateNode(3, 0, count);
+      GUI_UpdateBattery(getBatteryStatus());
+      GUI_Redraw();
+      count += 4;
+      if (count%100 == 0){
+        count = 0;
+      }
+    
+
     
     }
     
