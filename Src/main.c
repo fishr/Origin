@@ -47,6 +47,11 @@ char inImu[32];
 char inData[UART_BUFF_LEN];
 uint16_t len=0;
 
+double degrees=0;
+
+long headingData[3];
+uint8_t headingAcc=0;
+inv_time_t headingTime;
 
 LTDC_ColorKeying_InitTypeDef   LTDC_colorkeying_InitStruct;
 
@@ -74,9 +79,12 @@ int main(void)
   
   GPIO_Start();
   ADC_Start();
+  Flash_Start();
   
   unsigned long tickey = getSysTick()+1000;
   
+  GPIO_SetBits(GPIOG, GPIO_Pin_3);  //flash deselect
+  GPIO_SetBits(GPIOC, GPIO_Pin_8);  //flash #hold off, we have dedicated pins
   GPIO_SetBits(GPIOC, GPIO_Pin_1);  //osc enable
   GPIO_ResetBits(GPIOC, GPIO_Pin_11); //xbee reset
   GPIO_SetBits(GPIOE, GPIO_Pin_6); //buck enable
@@ -88,13 +96,13 @@ int main(void)
   UART5_Start();
   I2cMaster_Init();
   IMU_Int_Start();
+  
   //========================BUTTONS====================
   InitButton(&button1, GPIOE, GPIO_Pin_4);
   InitButton(&button2, GPIOE, GPIO_Pin_5);
   //=======================END BUTTONS==================
   
-  
-  
+ 
   //======================IMU SETUP===========================
     inv_error_t result;
     unsigned char accel_fsr,  new_temp = 0;
@@ -117,8 +125,8 @@ int main(void)
 
     /* If you're not using an MPU9150 AND you're not using DMP features, this
      * function will place all slaves on the primary bus.
-     * mpu_set_bypass(1);
-     */
+     *mpu_set_bypass(1);
+    */
 
   result = inv_init_mpl();
   if (result) {
@@ -132,13 +140,9 @@ int main(void)
      * passed to inv_set_compass_sample_rate). If this is an issue for your
      * application, call this function, and the MPL will depend on the
      * timestamps passed to inv_build_compass instead.
-     *
-     * inv_9x_fusion_use_timestamps(1);
      */
-
-    /* This function has been deprecated.
-     * inv_enable_no_gyro_fusion();
-     */
+      inv_9x_fusion_use_timestamps(1);
+     
 
     /* Update gyro biases when not in motion.
      * WARNING: These algorithms are mutually exclusive.
@@ -154,19 +158,13 @@ int main(void)
      * bias measurement can be made when running the self-test (see case 't' in
      * handle_input), but this algorithm can be enabled if the self-test can't
      * be executed in your application.
-     *
-     * inv_enable_in_use_auto_calibration();
      */
-#ifdef COMPASS_ENABLED
+     inv_enable_in_use_auto_calibration();
+     
+
     /* Compass calibration algorithms. */
     inv_enable_vector_compass_cal();
     inv_enable_magnetic_disturbance();
-#endif
-    /* If you need to estimate your heading before the compass is calibrated,
-     * enable this algorithm. It becomes useless after a good figure-eight is
-     * detected, so we'll just leave it out to save memory.
-     * inv_enable_heading_from_gyro();
-     */
 
     /* Allows use of the MPL APIs in read_from_mpl. */
     inv_enable_eMPL_outputs();
@@ -183,38 +181,33 @@ int main(void)
 
     /* Get/set hardware configuration. Start gyro. */
     /* Wake up all sensors. */
-#ifdef COMPASS_ENABLED
     mpu_set_sensors(INV_XYZ_GYRO | INV_XYZ_ACCEL | INV_XYZ_COMPASS);
-#else
-    mpu_set_sensors(INV_XYZ_GYRO | INV_XYZ_ACCEL);
-#endif
+
     /* Push both gyro and accel data into the FIFO. */
     mpu_configure_fifo(INV_XYZ_GYRO | INV_XYZ_ACCEL);
     mpu_set_sample_rate(DEFAULT_MPU_HZ);
-#ifdef COMPASS_ENABLED
     /* The compass sampling rate can be less than the gyro/accel sampling rate.
      * Use this function for proper power management.
      */
     mpu_set_compass_sample_rate(1000 / COMPASS_READ_MS);
-#endif
+    
     /* Read back configuration in case it was set improperly. */
     mpu_get_sample_rate(&gyro_rate);
     mpu_get_gyro_fsr(&gyro_fsr);
     mpu_get_accel_fsr(&accel_fsr);
-#ifdef COMPASS_ENABLED
     mpu_get_compass_fsr(&compass_fsr);
-#endif
+    
     /* Sync driver configuration with MPL. */
     /* Sample rate expected in microseconds. */
     inv_set_gyro_sample_rate(1000000L / gyro_rate);
     inv_set_accel_sample_rate(1000000L / gyro_rate);
-#ifdef COMPASS_ENABLED
+    
     /* The compass rate is independent of the gyro and accel rates. As long as
      * inv_set_compass_sample_rate is called with the correct value, the 9-axis
      * fusion algorithm's compass correction gain will work properly.
      */
     inv_set_compass_sample_rate(COMPASS_READ_MS * 1000L);
-#endif
+
     /* Set chip-to-body orientation matrix.
      * Set hardware units to dps/g's/degrees scaling factor.
      */
@@ -224,17 +217,12 @@ int main(void)
     inv_set_accel_orientation_and_scale(
             inv_orientation_matrix_to_scalar(gyro_pdata.orientation),
             (long)accel_fsr<<15);
-#ifdef COMPASS_ENABLED
     inv_set_compass_orientation_and_scale(
             inv_orientation_matrix_to_scalar(compass_pdata.orientation),
             (long)compass_fsr<<15);
-#endif
+
     /* Initialize HAL state variables. */
-#ifdef COMPASS_ENABLED
     hal.sensors = ACCEL_ON | GYRO_ON | COMPASS_ON;
-#else
-    hal.sensors = ACCEL_ON | GYRO_ON;
-#endif
     hal.dmp_on = 0;
     hal.report = 0;
     hal.rx.cmd = 0;
@@ -280,6 +268,7 @@ int main(void)
         inv_orientation_matrix_to_scalar(gyro_pdata.orientation));
     dmp_register_tap_cb(tap_cb);
     dmp_register_android_orient_cb(android_orient_cb);
+    
     /*
      * Known Bug -
      * DMP when enabled will sample sensor data at 200Hz and output to FIFO at the rate
@@ -319,12 +308,28 @@ int main(void)
     GUI_InitNode(1, 72,  83, 0xe8ec);
     GUI_InitNode(2, 86,  72, 0xfd20);
     GUI_InitNode(3, 82,  70, 0x001f);
-
+    
     int count = 0;
   
   /* Infinite loop */
   while (1)
   {
+ //   int count = 0;
+ //         while(1) {
+ //     
+ //   // GUI_DrawBackground();
+////    GUI_ClearForeground();
+ //   GUI_DrawNodePolar(&n1, 3.14*1.25, count);
+ //   delay(200000);
+ //   //GUI_DrawBattery(getBatteryStatus());
+ //   GUI_ClearNodePolar(&n1, 3.14*1.25, count);
+ //   count += 1;
+ //   if (count%100 == 0){
+ //     count = 0;
+ //   }
+ //   
+ //     }
+ //   
     UpdateButton(&button1);
     UpdateButton(&button2);
     
@@ -339,23 +344,40 @@ int main(void)
       GPIO_ToggleBits(GPIOA, GPIO_Pin_2); //green
       
     }
+  
+    long actHeading=0;
+    inv_get_sensor_type_heading(&actHeading, &headingAcc, &headingTime);
+    degrees=((double)actHeading)/((double)65536.0);
+    
     
     if(getSysTick()>tickey){
-      tickey +=1000;
+      tickey +=200;
+      
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
       //UART_Transmit(idUART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
   
 
-      GUI_UpdateNode(1, 3.14*1.25, count);
-      GUI_UpdateNode(2, 3.14, count);
-      GUI_UpdateNode(3, 0, count);
+      GUI_UpdateNode(1, degrees*3.1415/180.0+3.14*1.25, count);
+      GUI_UpdateNode(2, degrees*3.1415/180.0+3.14, count);
+      GUI_UpdateNode(3, degrees*3.1415/180.0+0, count);
       GUI_UpdateBattery(getBatteryStatus());
       GUI_Redraw();
       count += 4;
       if (count%100 == 0){
         count = 0;
       }
-    
+
+
+//      //GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
+//      //UART_Transmit(UART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
+//      
+//      uint8_t headingCode = inv_get_sensor_type_compass(headingData, &headingAcc, &headingTime);
+//      if(headingCode){
+//      }
+      
+//      uint8_t flubber= Fl_ReadID();
+//      flubber++;
+//      
 
     
     }
@@ -383,7 +405,7 @@ int main(void)
       }
     }
     
-    Sensors_I2C_ReadRegister((unsigned char)0x68, (unsigned char)mpuCmd, 1, inImu);
+    //Sensors_I2C_ReadRegister((unsigned char)0x68, (unsigned char)mpuCmd, 1, inImu);
     
     int16_t ha= getBatteryStatus();
     

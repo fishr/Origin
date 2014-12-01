@@ -52,6 +52,11 @@ static struct results_t rh;
 */
 void inv_store_gaming_quaternion(const long *quat, inv_time_t timestamp)
 {
+
+}
+
+void inv_store_gaming_quaternion1(const long *quat, inv_time_t timestamp)
+{
     rh.status |= INV_6_AXIS_QUAT_SET;
     memcpy(&rh.gam_quat, quat, sizeof(rh.gam_quat));
     rh.gam_timestamp = timestamp;
