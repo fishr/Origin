@@ -119,11 +119,6 @@ typedef struct
 #define LCD_SPI_SCK_GPIO_CLK          RCC_AHB1Periph_GPIOF  
 #define LCD_SPI_SCK_SOURCE            GPIO_PinSource7
 #define LCD_SPI_SCK_AF                GPIO_AF_SPI5
-#define LCD_SPI_MISO_PIN              GPIO_Pin_8                     /* PF.08 */
-#define LCD_SPI_MISO_GPIO_PORT        GPIOF                          /* GPIOF */
-#define LCD_SPI_MISO_GPIO_CLK         RCC_AHB1Periph_GPIOF  
-#define LCD_SPI_MISO_SOURCE           GPIO_PinSource8
-#define LCD_SPI_MISO_AF               GPIO_AF_SPI5
 #define LCD_SPI_MOSI_PIN              GPIO_Pin_9                     /* PF.09 */
 #define LCD_SPI_MOSI_GPIO_PORT        GPIOF                          /* GPIOF */
 #define LCD_SPI_MOSI_GPIO_CLK         RCC_AHB1Periph_GPIOF  
