@@ -55,11 +55,27 @@ void GUI_DrawNodePolar(Node *n, double angleRad, uint16_t distance)
 
 void GUI_ClearNodePolar(Node *n, double angleRad, uint16_t distance)
 {
+      LCD_SetLayer(LCD_FOREGROUND_LAYER);
+
   int16_t X = (int16_t) (centerX+distance*sin(angleRad));
   int16_t Y = (int16_t) (centerY+distance*cos(angleRad));
     
   LCD_SetTextColor(0x0000);
-  LCD_DrawFullCircle(X, Y, 21);
+  LCD_DrawFullCircle(X, Y, NODE_RADIUS);
+}
+
+void GUI_ClearNode(Node *n)
+{
+    LCD_SetLayer(LCD_FOREGROUND_LAYER);
+
+  int16_t X = n->x;
+  int16_t Y = n->y;
+  
+  if(X<NODE_RADIUS||Y<NODE_RADIUS)
+    return;
+  
+  LCD_SetTextColor(0x0000);
+  LCD_DrawFullCircle(X, Y, NODE_RADIUS);
 }
 
 void GUI_DrawNodexy(Node *n, int16_t X, int16_t Y)
@@ -69,10 +85,10 @@ void GUI_DrawNodexy(Node *n, int16_t X, int16_t Y)
 //  GUI_ClearForeground();
   
   LCD_SetTextColor(0xFFFF);
-  LCD_DrawCircle(X, Y, 21);
-  LCD_DrawCircle(X, Y, 20);
+  LCD_DrawCircle(X, Y, NODE_RADIUS);
+  LCD_DrawCircle(X, Y, NODE_RADIUS-1);
   LCD_SetTextColor(n->color);
-  LCD_DrawFullCircle(X, Y, 20);
+  LCD_DrawFullCircle(X, Y, NODE_RADIUS-1);
 
   LCD_SetFont(&Avenir);
   LCD_SetTextColor(0xFFFF);
@@ -80,6 +96,9 @@ void GUI_DrawNodexy(Node *n, int16_t X, int16_t Y)
   //LCD_DrawChar(30,30,&LCD_Currentfonts->table[65 * LCD_Currentfonts->Height]);
   LCD_DrawChar(Y-13,X+12,&LCD_Currentfonts->table[n->fname * LCD_Currentfonts->Height]);
   LCD_DrawChar(Y+2,X+12,&LCD_Currentfonts->table[n->lname * LCD_Currentfonts->Height]);
+  
+  n->x=X;
+  n->y=Y;
 }
 
 
@@ -100,5 +119,8 @@ void GUI_DrawBattery(int16_t batteryPercent)
   // Positive Terminal
   LCD_DrawLine(10, 314, 2, 0);
   // Juice Level
+  LCD_SetTextColor(0x0000);
+  LCD_DrawFullRect(8, 289, 6, 23);
+  LCD_SetTextColor(0xFFFF);
   LCD_DrawFullRect(8, 289, 6, 23 * batteryPercent / 100);
 }

@@ -5,6 +5,7 @@ void Fl_start_read_id(void);
 void Fl_send_addr(uint32_t addr);
 void Fl_select(void);
 void Fl_deselect(void);
+void Fl_send_blank_byte(void);
 
 void Flash_Start(void)
 {
@@ -81,16 +82,30 @@ void Fl_Read(uint8_t *buff, uint32_t count, uint32_t startAddr){
 uint8_t Fl_ReadID(void){
   Fl_select();
   Fl_start_read_id();
+  while (SPI_I2S_GetFlagStatus(SPI1, SPI_FLAG_RXNE) == RESET){}
   uint8_t buff=SPI_I2S_ReceiveData(SPI1);
+  Fl_send_blank_byte();
+  while (SPI_I2S_GetFlagStatus(SPI1, SPI_FLAG_RXNE) == RESET){}
   buff=SPI_I2S_ReceiveData(SPI1);
+  while (SPI_I2S_GetFlagStatus(SPI1, SPI_FLAG_BSY) == SET){}
+  unsigned int i=0;
+  while(i<50){
+    i++;
+  }
   Fl_deselect();
   return buff;
+}
+
+void Fl_send_blank_byte(void){
+    while(RESET==SPI_I2S_GetFlagStatus(SPI1, SPI_FLAG_TXE)){}
+  SPI_I2S_SendData(SPI1, 0xFF);
+    while(SET==SPI_I2S_GetFlagStatus(SPI1, SPI_FLAG_TXE)){}
 }
 
 void Fl_select(void){
   GPIO_ResetBits(GPIOG, GPIO_Pin_3);
   unsigned int i=0;
-  while(i<500){
+  while(i<5){
     i++;
   }
 }
@@ -100,12 +115,14 @@ void Fl_deselect(void){
 }
 
 void Fl_start_read(void){
+    while(RESET==SPI_I2S_GetFlagStatus(SPI1, SPI_FLAG_TXE)){}
     SPI_I2S_SendData(SPI1, 0x03); //read op
 }
 
 void Fl_start_read_id(void){
   while(RESET==SPI_I2S_GetFlagStatus(SPI1, SPI_FLAG_TXE)){}
   SPI_I2S_SendData(SPI1, 0x9E);  //read id op
+    while(SET==SPI_I2S_GetFlagStatus(SPI1, SPI_FLAG_TXE)){}
 }
 
 void Fl_send_addr(uint32_t addr){
