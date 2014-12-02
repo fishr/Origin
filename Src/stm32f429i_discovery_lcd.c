@@ -134,9 +134,6 @@ void LCD_DeInit(void)
   /* Configure SPI pins: SCK, MISO and MOSI */
   GPIO_InitStructure.GPIO_Pin = LCD_SPI_SCK_PIN;
   GPIO_Init(LCD_SPI_SCK_GPIO_PORT, &GPIO_InitStructure);
-
-  GPIO_InitStructure.GPIO_Pin = LCD_SPI_MISO_PIN;
-  GPIO_Init(LCD_SPI_MISO_GPIO_PORT, &GPIO_InitStructure);
   
   GPIO_InitStructure.GPIO_Pin = LCD_SPI_MOSI_PIN;
   GPIO_Init(LCD_SPI_MOSI_GPIO_PORT, &GPIO_InitStructure);
@@ -1764,7 +1761,7 @@ void LCD_SPIConfig(void)
   GPIO_InitTypeDef   GPIO_InitStructure;
 
   /* Enable LCD_SPI_SCK_GPIO_CLK, LCD_SPI_MISO_GPIO_CLK and LCD_SPI_MOSI_GPIO_CLK clock */
-  RCC_AHB1PeriphClockCmd(LCD_SPI_SCK_GPIO_CLK | LCD_SPI_MISO_GPIO_CLK | LCD_SPI_MOSI_GPIO_CLK, ENABLE);
+  RCC_AHB1PeriphClockCmd(LCD_SPI_SCK_GPIO_CLK | LCD_SPI_MOSI_GPIO_CLK, ENABLE);
 
   /* Enable LCD_SPI and SYSCFG clock  */
   RCC_APB2PeriphClockCmd(LCD_SPI_CLK, ENABLE);
@@ -1777,19 +1774,12 @@ void LCD_SPIConfig(void)
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
   GPIO_Init(LCD_SPI_SCK_GPIO_PORT, &GPIO_InitStructure);
 
-  /* Configure LCD_SPI MISO pin */
-  GPIO_InitStructure.GPIO_Pin = LCD_SPI_MISO_PIN;
-  GPIO_Init(LCD_SPI_MISO_GPIO_PORT, &GPIO_InitStructure);
-
   /* Configure LCD_SPI MOSI pin */
   GPIO_InitStructure.GPIO_Pin = LCD_SPI_MOSI_PIN;
   GPIO_Init(LCD_SPI_MOSI_GPIO_PORT, &GPIO_InitStructure);
 
   /* Connect SPI SCK */
   GPIO_PinAFConfig(LCD_SPI_SCK_GPIO_PORT, LCD_SPI_SCK_SOURCE, LCD_SPI_SCK_AF);
-
-  /* Connect SPI MISO */
-  GPIO_PinAFConfig(LCD_SPI_MISO_GPIO_PORT, LCD_SPI_MISO_SOURCE, LCD_SPI_MISO_AF);
 
   /* Connect SPI MOSI */
   GPIO_PinAFConfig(LCD_SPI_MOSI_GPIO_PORT, LCD_SPI_MOSI_SOURCE, LCD_SPI_MOSI_AF);
@@ -1800,7 +1790,7 @@ void LCD_SPIConfig(void)
   /* If the SPI peripheral is already enabled, don't reconfigure it */
   if ((LCD_SPI->CR1 & SPI_CR1_SPE) == 0)
   {    
-    SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+    SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Tx;
     SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
     SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
     SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
