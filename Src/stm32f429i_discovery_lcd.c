@@ -1916,7 +1916,7 @@ static void LCD_AF_GPIOConfig(void)
   */
 static void PutPixel(int16_t x, int16_t y)
 { 
-  if(x < 0 || x > 319 || y < 0 || y > 239)
+  if(x < 0 || x > 239 || y < 0 || y > 319)
   {
     return;  
   }
