@@ -83,7 +83,7 @@ int main(void)
   Flash_Start();
   
   unsigned long tickey = getSysTick()+1000;
-  
+  GPIO_ResetBits(GPIOA, GPIO_Pin_10); //LCD Reset must be held 10us
   GPIO_SetBits(GPIOG, GPIO_Pin_3);  //flash deselect
   GPIO_SetBits(GPIOC, GPIO_Pin_8);  //flash #hold off, we have dedicated pins
   GPIO_SetBits(GPIOC, GPIO_Pin_1);  //osc enable
@@ -92,7 +92,7 @@ int main(void)
   while(getSysTick()<tickey);
   GPIO_SetBits(GPIOE, GPIO_Pin_2); //gps on/off
   GPIO_SetBits(GPIOC, GPIO_Pin_11); //xbee reset
-  while(getSysTick()<tickey);
+  GPIO_SetBits(GPIOA, GPIO_Pin_10);  //LCD unreset
   UART4_Start();
   UART5_Start();
   I2cMaster_Init();
@@ -349,7 +349,7 @@ int main(void)
   
     long actHeading=0;
     inv_get_sensor_type_heading(&actHeading, &headingAcc, &headingTime);
-//    degrees=((double)actHeading)/((double)65536.0);
+    degrees=((double)actHeading)/((double)65536.0);
     
     if(getSysTick()>tickey){
       tickey +=51;
@@ -364,12 +364,12 @@ int main(void)
       GUI_UpdateArrow(degrees*3.1415/180.0);
       GUI_UpdateBattery(getBatteryStatus());
       GUI_Redraw();
-      count += 1;
-      degrees += 3.6;
-      if (count%100 == 0){
-        count = 0;
-        degrees = 0;
-      }
+      //count += 1;
+      //degrees += 3.6;
+//      if (count%100 == 0){
+//        count = 0;
+//        degrees = 0;
+//      }
       
       GUI_DrawTime();
 

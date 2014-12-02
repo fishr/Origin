@@ -79,9 +79,8 @@ void GPIO_Start(){
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
   GPIO_Init(GPIOG, &GPIO_InitStructure);
   
-  /*Configure GPIO GPIO_Pins : PA10 */
-  //GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10|GPIO_Pin_2;
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+  /*Configure GPIO GPIO_Pins : PA2 PA10 */
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10|GPIO_Pin_2;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;

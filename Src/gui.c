@@ -164,7 +164,7 @@ void GUI_DrawBattery(void)
   {
     LCD_DrawFullRect(8, 289, 6, 23);
   }
-  else if (batteryPercent > 0)
+  else if (23 * batteryPercent / 100 > 0)
   {
     LCD_DrawFullRect(8, 289, 6, 23 * batteryPercent / 100);
   }
