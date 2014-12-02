@@ -34,7 +34,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-//#define USE_FULL_ASSERT
+//#define ORIGIN
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 char hello[]="helloworld";
@@ -346,10 +346,12 @@ int main(void)
       GPIO_ToggleBits(GPIOA, GPIO_Pin_2); //green
       
     }
-  
+    
+#ifdef ORIGIN
     long actHeading=0;
     inv_get_sensor_type_heading(&actHeading, &headingAcc, &headingTime);
     degrees=((double)actHeading)/((double)65536.0);
+#endif
     
     if(getSysTick()>tickey){
       tickey +=51;
@@ -364,12 +366,15 @@ int main(void)
       GUI_UpdateArrow(degrees*3.1415/180.0);
       GUI_UpdateBattery(getBatteryStatus());
       GUI_Redraw();
-      //count += 1;
-      //degrees += 3.6;
-//      if (count%100 == 0){
-//        count = 0;
-//        degrees = 0;
-//      }
+      
+#ifndef ORIGIN
+      count += 1;
+      degrees += 3.6;
+      if (count%100 == 0){
+        count = 0;
+        degrees = 0;
+      }
+#endif
       
       GUI_DrawTime();
 
