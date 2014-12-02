@@ -310,6 +310,7 @@ int main(void)
     GUI_InitNode(2, 86,  72, 0xfd20);
     GUI_InitNode(3, 82,  70, 0x001f);
     
+    
     int count = 0;
   
   /* Infinite loop */
@@ -348,24 +349,29 @@ int main(void)
   
     long actHeading=0;
     inv_get_sensor_type_heading(&actHeading, &headingAcc, &headingTime);
-    degrees=((double)actHeading)/((double)65536.0);
+//    degrees=((double)actHeading)/((double)65536.0);
     
     if(getSysTick()>tickey){
-      tickey +=200;
+      tickey +=51;
       
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
       //UART_Transmit(idUART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
   
 
-      GUI_UpdateNode(1, degrees*3.1415/180.0+3.14*1.25, count);
-      GUI_UpdateNode(2, degrees*3.1415/180.0+3.14, count);
-      GUI_UpdateNode(3, degrees*3.1415/180.0+0, count);
+      GUI_UpdateNode(1, degrees*3.1415/180.0+3.14*1.25, count, (count>10), 0);
+      GUI_UpdateNode(2, degrees*3.1415/180.0+3.14, count, (count>30), 0);
+      GUI_UpdateNode(3, degrees*3.1415/180.0+0, count, (count>50), 0);
+      GUI_UpdateArrow(degrees*3.1415/180.0);
       GUI_UpdateBattery(getBatteryStatus());
       GUI_Redraw();
-      count += 4;
+      count += 1;
+      degrees += 3.6;
       if (count%100 == 0){
         count = 0;
+        degrees = 0;
       }
+      
+      GUI_DrawTime();
 
 //      //GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
 //      //UART_Transmit(UART5, hello, sizeof(hello)/sizeof(hello[0]), 200);

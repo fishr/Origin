@@ -2,11 +2,16 @@
 #include "gui.h"
 
 #define MAXNODES 100
+#define PINGDIV 5
+#define PINGRAD 13
 
 static Node nodes[MAXNODES];
 
 static uint16_t nodeLength = 0;
 static uint8_t batteryPercent = 50;
+
+static double arrowAngle = 0;
+static double lastArrowAngle = 0;
 
 static sFONT *LCD_Currentfonts;
 uint16_t centerX = 120;
@@ -36,6 +41,8 @@ Node * GUI_InitNode(uint16_t ID, uint16_t fname, uint16_t lname, uint16_t color)
   nodes[nodeLength].fname = fname;
   nodes[nodeLength].lname = lname;
   nodes[nodeLength].color = color;
+  nodes[nodeLength].rping = 0;
+  nodes[nodeLength].sping = 0;
   nodeLength++;
   return &nodes[nodeLength];
 }
@@ -45,7 +52,7 @@ Node * GUI_InitNode(uint16_t ID, uint16_t fname, uint16_t lname, uint16_t color)
   * @param  None
   * @retval None
   */
-void GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance)
+void GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t recPing, uint8_t sendPing)
 {
   uint16_t i = 0; 
   uint16_t nodeToUpdate;
@@ -59,6 +66,16 @@ void GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance)
   }
   nodes[nodeToUpdate].x = (int16_t) (centerX+distance*sin(angleRad));
   nodes[nodeToUpdate].y = (int16_t) (centerY+distance*cos(angleRad));
+  if (recPing > 0 && nodes[nodeToUpdate].rping==0){
+    nodes[nodeToUpdate].rping = recPing;
+  } else {
+    nodes[nodeToUpdate].rping = nodes[nodeToUpdate].rping*recPing;
+  }
+  if (sendPing > 0 && nodes[nodeToUpdate].sping==0){
+    nodes[nodeToUpdate].sping = sendPing;
+  } else {
+    nodes[nodeToUpdate].sping = nodes[nodeToUpdate].sping*sendPing;
+  }
 }
 
 void GUI_DrawNode(Node *n)
@@ -72,9 +89,35 @@ void GUI_DrawNode(Node *n)
   LCD_DrawCircle(n->x, n->y, 19);
   LCD_SetTextColor(n->color);
   LCD_DrawFullCircle(n->x, n->y, 20);
+  
+  if (n->rping > 0)
+  {
+    for(uint16_t i = 1; i<=(n->rping/PINGDIV); i++)
+    {
+      LCD_DrawCircle(n->x, n->y, (uint16_t)(20+PINGRAD*i));
+    }
+    n->rping++;
+    if ((n->rping/PINGDIV)>2)
+    {
+      n->rping = 1;
+    }
+  }
+  
+  LCD_SetTextColor(0xFFFF);
+  if (n->sping > 0)
+  {
+    for(uint16_t i = 1; i<=(n->sping/PINGDIV); i++)
+    {
+      LCD_DrawCircle(n->x, n->y, (uint16_t)(20+PINGRAD*i));
+    }
+    n->sping++;
+    if ((n->sping/PINGDIV)>2)
+    {
+      n->sping = 1;
+    }
+  }
 
   LCD_SetFont(&Avenir);
-  LCD_SetTextColor(0xFFFF);
   LCD_Currentfonts = &Avenir;
   LCD_DrawChar(n->y-13,n->x+12,&LCD_Currentfonts->table[n->fname * LCD_Currentfonts->Height]);
   LCD_DrawChar(n->y+2,n->x+12,&LCD_Currentfonts->table[n->lname * LCD_Currentfonts->Height]);
@@ -84,6 +127,10 @@ void GUI_ClearNode(Node n)
 {
   LCD_SetTextColor(0x0000);
   LCD_DrawFullCircle(n.lastx, n.lasty, 22);
+  for(uint16_t i = 1; i<4; i++)
+  {
+    LCD_DrawCircle(n.lastx, n.lasty, 20+PINGRAD*i);
+  }
 }
 
 /**
@@ -135,6 +182,70 @@ void GUI_ClearBattery(void)
   LCD_DrawFullRect(6, 287, 9, 27);
 }
 
+
+/**
+  * @brief  Updates the North Arrow
+  * @param  angleRad
+  * @retval None
+  */
+void GUI_UpdateArrow(double angleRad) {
+  arrowAngle = angleRad;
+}
+
+/**
+  * @brief  Draws the North Arrow
+  * @param  None
+  * @retval None
+  */
+void GUI_DrawArrow(void) {
+  lastArrowAngle = arrowAngle;
+  LCD_SetTextColor(0xf800);
+  uint16_t x1 = (uint16_t) (115.0 * sin(arrowAngle)+centerX);
+  uint16_t y1 = (uint16_t) (115.0 * cos(arrowAngle)+centerY);
+  uint16_t x2 = (uint16_t) (100.0 * sin(arrowAngle+0.1)+centerX);
+  uint16_t y2 = (uint16_t) (100.0 * cos(arrowAngle+0.1)+centerY);
+  uint16_t x3 = (uint16_t) (100.0 * sin(arrowAngle-0.1)+centerX);
+  uint16_t y3 = (uint16_t) (100.0 * cos(arrowAngle-0.1)+centerY);
+  LCD_FillTriangle(x1, x2, x3, y1, y2, y3);
+}
+
+/**
+  * @brief  Clears the North Arrow
+  * @param  None
+  * @retval None
+  */
+void GUI_ClearArrow(void) {
+  LCD_SetTextColor(0x0000);
+  uint16_t x1 = (uint16_t) (115.0 * sin(lastArrowAngle)+centerX);
+  uint16_t y1 = (uint16_t) (115.0 * cos(lastArrowAngle)+centerY);
+  uint16_t x2 = (uint16_t) (100.0 * sin(lastArrowAngle+0.1)+centerX);
+  uint16_t y2 = (uint16_t) (100.0 * cos(lastArrowAngle+0.1)+centerY);
+  uint16_t x3 = (uint16_t) (100.0 * sin(lastArrowAngle-0.1)+centerX);
+  uint16_t y3 = (uint16_t) (100.0 * cos(lastArrowAngle-0.1)+centerY);
+  LCD_FillTriangle(x1, x2, x3, y1, y2, y3);
+}
+
+/** 
+  * @brief  Displays the time in the lower left hand corner of the screen
+  * @param  None
+  * @retval None
+  */
+void GUI_DrawTime(void) {
+  
+  // mins is the number of minutes since midnight. Time will be in 24h time.
+  uint8_t mins = 66;
+  
+  LCD_SetTextColor(0xFFFF);
+  LCD_SetFont(&Font8x12);
+  LCD_Currentfonts = &Font8x12;
+  
+  LCD_DrawChar( 5,17,&LCD_Currentfonts->table[(mins/60/10 + 16) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(15,17,&LCD_Currentfonts->table[(mins/60%10 + 16) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(20,17,&LCD_Currentfonts->table[26 * LCD_Currentfonts->Height]);
+  LCD_DrawChar(25,17,&LCD_Currentfonts->table[(mins%60/10 + 16) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(30,17,&LCD_Currentfonts->table[(mins%60%10 + 16) * LCD_Currentfonts->Height]);
+}
+
 void GUI_Redraw(void)
 {
   LTDC_Cmd(DISABLE);
@@ -144,6 +255,8 @@ void GUI_Redraw(void)
     GUI_ClearNode(nodes[i]);
   }
   GUI_ClearBattery();
+  GUI_ClearArrow();
+  GUI_DrawArrow();
   GUI_DrawBackground();
   i = 0;
   for(i; i<nodeLength; i++)

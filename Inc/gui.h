@@ -51,6 +51,9 @@ extern "C" {
     uint16_t lname;
     
     uint16_t color;
+    
+    uint8_t rping; //receiving ping: 0 means no ping
+    uint8_t sping; //sending ping: 0 means no ping
   } Node;
   
   
@@ -59,14 +62,20 @@ extern "C" {
   
   Node *   GUI_InitNode(uint16_t ID, uint16_t fname,  uint16_t lname, uint16_t color);
   void     GUI_DeinitNode(Node *n);
-  void     GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance);
+  void     GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t recPing, uint8_t sendPing);
   void     GUI_DrawNode(Node *n);
   void     GUI_ClearNode(Node n);
 
   void     GUI_UpdateBattery(uint8_t batteryPercent);
   void     GUI_DrawBattery(void);
   void     GUI_ClearBattery(void);
+  
+  void     GUI_UpdateArrow(double angleRad);
+  void     GUI_DrawArrow(void);
+  void     GUI_ClearArrow(void);
 
+  void     GUI_DrawTime(void);
+  
   void     GUI_Redraw(void);
   
   
