@@ -816,11 +816,14 @@ void LCD_DrawCircle(uint16_t Xpos, uint16_t Ypos, uint16_t Radius)
 {
     int x = -Radius, y = 0, err = 2-2*Radius, e2;
     do {
-        *(__IO uint16_t*) (CurrentFrameBuffer + (2*((Xpos-x) + LCD_PIXEL_WIDTH*(Ypos+y)))) = CurrentTextColor; 
-        *(__IO uint16_t*) (CurrentFrameBuffer + (2*((Xpos+x) + LCD_PIXEL_WIDTH*(Ypos+y)))) = CurrentTextColor;
-        *(__IO uint16_t*) (CurrentFrameBuffer + (2*((Xpos+x) + LCD_PIXEL_WIDTH*(Ypos-y)))) = CurrentTextColor;
-        *(__IO uint16_t*) (CurrentFrameBuffer + (2*((Xpos-x) + LCD_PIXEL_WIDTH*(Ypos-y)))) = CurrentTextColor;
-      
+        if ((Xpos-x) < LCD_PIXEL_WIDTH){
+          *(__IO uint16_t*) (CurrentFrameBuffer + (2*((Xpos-x) + LCD_PIXEL_WIDTH*(Ypos+y)))) = CurrentTextColor; 
+          *(__IO uint16_t*) (CurrentFrameBuffer + (2*((Xpos-x) + LCD_PIXEL_WIDTH*(Ypos-y)))) = CurrentTextColor;
+        }  
+        if ((Xpos+x) > 0){
+          *(__IO uint16_t*) (CurrentFrameBuffer + (2*((Xpos+x) + LCD_PIXEL_WIDTH*(Ypos+y)))) = CurrentTextColor;
+          *(__IO uint16_t*) (CurrentFrameBuffer + (2*((Xpos+x) + LCD_PIXEL_WIDTH*(Ypos-y)))) = CurrentTextColor;
+        }
         e2 = err;
         if (e2 <= y) {
             err += ++y*2+1;
@@ -1926,7 +1929,7 @@ static void LCD_AF_GPIOConfig(void)
   */
 static void PutPixel(int16_t x, int16_t y)
 { 
-  if(x < 0 || x > 239 || y < 0 || y > 319)
+  if(x < 0 || x > (LCD_PIXEL_WIDTH-1) || y < 0 || y > (LCD_PIXEL_HEIGHT-1))
   {
     return;  
   }
