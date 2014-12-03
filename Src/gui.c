@@ -76,6 +76,7 @@ void GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t rec
   } else {
     nodes[nodeToUpdate].sping = nodes[nodeToUpdate].sping*sendPing;
   }
+
 }
 
 void GUI_DrawNode(Node *n)
@@ -117,10 +118,12 @@ void GUI_DrawNode(Node *n)
     }
   }
 
+
   LCD_SetFont(&Avenir);
   LCD_Currentfonts = &Avenir;
   LCD_DrawChar(n->y-13,n->x+12,&LCD_Currentfonts->table[n->fname * LCD_Currentfonts->Height]);
   LCD_DrawChar(n->y+2,n->x+12,&LCD_Currentfonts->table[n->lname * LCD_Currentfonts->Height]);
+
 }
 
 void GUI_ClearNode(Node n)
@@ -265,4 +268,5 @@ void GUI_Redraw(void)
   }
   GUI_DrawBattery();
   LTDC_Cmd(ENABLE);
+
 }
