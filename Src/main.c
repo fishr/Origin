@@ -345,7 +345,7 @@ int main(void)
       GUI_UpdateArrow(degrees*3.1415/180.0);
       GUI_UpdateBattery(getBatteryStatus());
       if (count > 50){
-        GUI_UpdateBottomButton(2, 0xe8ec);
+        GUI_UpdateBottomButton(1, 0xe8ec);
       } else {
         GUI_UpdateBottomButton(0, 0);
       }

@@ -9,6 +9,8 @@ static Node nodes[MAXNODES];
 
 static GUIButton topButton;
 static GUIButton bottomButton;
+static uint8_t topButtonDirty = 0;
+static uint8_t bottomButtonDirty = 0;
 
 static uint16_t nodeLength = 0;
 static uint8_t batteryPercent = 50;
@@ -264,16 +266,28 @@ void GUI_UpdateBottomButton(uint8_t textID, uint16_t textColor) {
 void GUI_DrawButton(void) {
   if (bottomButton.text > 0){
     LCD_SetTextColor(0xdefb);
-    LCD_FillTriangle(0, 34, 0, 105, 120, 120);
-    LCD_FillTriangle(0, 34, 0, 215, 200, 200);
-    LCD_DrawFullRect(0, 120, 35, 80);
-    LCD_SetTextColor(bottomButton.color);
     LCD_SetFont(&Avenir);
     LCD_Currentfonts = &Avenir;
-    if (bottomButton.text == 1){
-      LCD_DrawChar(145,28,&LCD_Currentfonts->table[79 * LCD_Currentfonts->Height]);
-      LCD_DrawChar(165,28,&LCD_Currentfonts->table[75 * LCD_Currentfonts->Height]);
-    } else if (bottomButton.text == 2){
+    if (bottomButton.text == 1){ //"OK"
+      uint16_t width = 50;
+      uint16_t startY = (LCD_PIXEL_HEIGHT-width)/2;
+      uint16_t endY = (LCD_PIXEL_HEIGHT+width)/2;
+      LCD_FillTriangle(0, 34, 0, startY-15, startY, startY);
+      bottomButtonDirty = 1;
+      LCD_FillTriangle(0, 34, 0, endY+15, endY, endY);
+      LCD_DrawFullRect(0, startY, 35, width);
+      LCD_SetTextColor(bottomButton.color);
+      LCD_DrawChar(147,28,&LCD_Currentfonts->table[79 * LCD_Currentfonts->Height]);
+      LCD_DrawChar(163,28,&LCD_Currentfonts->table[75 * LCD_Currentfonts->Height]);
+    } else if (bottomButton.text == 2){ //"CANCEL"
+      uint16_t width = 80;
+      uint16_t startY = (LCD_PIXEL_HEIGHT-width)/2;
+      uint16_t endY = (LCD_PIXEL_HEIGHT+width)/2;
+      LCD_FillTriangle(0, 34, 0, startY-15, startY, startY);
+      bottomButtonDirty = 1;
+      LCD_FillTriangle(0, 34, 0, endY+15, endY, endY);
+      LCD_DrawFullRect(0, startY, 35, width);
+      LCD_SetTextColor(bottomButton.color);
       LCD_DrawChar(120,28,&LCD_Currentfonts->table[67 * LCD_Currentfonts->Height]);
       LCD_DrawChar(134,28,&LCD_Currentfonts->table[65 * LCD_Currentfonts->Height]);
       LCD_DrawChar(150,28,&LCD_Currentfonts->table[78 * LCD_Currentfonts->Height]);
@@ -283,23 +297,26 @@ void GUI_DrawButton(void) {
   }
   if (topButton.text > 0){
     LCD_SetTextColor(0xdefb);
-    LCD_FillTriangle(240, 206, 240, 105, 120, 120);
-    LCD_FillTriangle(240, 206, 240, 215, 200, 200);
-    LCD_DrawFullRect(205, 120, 35, 80);
+    
+    uint16_t width = 80;
+    uint16_t startY = (LCD_PIXEL_HEIGHT-width)/2;
+    uint16_t endY = (LCD_PIXEL_HEIGHT+width)/2;
+    LCD_FillTriangle(240, 206, 240, startY-15, startY, startY);
+    topButtonDirty = 1;
+    LCD_FillTriangle(240, 206, 240, endY+15, endY, endY);
+    LCD_DrawFullRect(205, startY, 35, width);
   }
 }
 
 void GUI_ClearButton(void) {
   LCD_SetTextColor(0x0000);
-  if (bottomButton.text == 0){
-    LCD_FillTriangle(0, 34, 0, 105, 120, 120);
-    LCD_FillTriangle(0, 34, 0, 215, 200, 200);
+  if ((bottomButton.text == 0) && (bottomButtonDirty == 1)){
     LCD_DrawFullRect(0, 120, 35, 80);
+    bottomButtonDirty = 0;
   }
-  if (topButton.text == 0){
-    LCD_FillTriangle(240, 206, 240, 105, 120, 120);
-    LCD_FillTriangle(240, 206, 240, 215, 200, 200);
+  if ((topButton.text == 0) && (topButtonDirty == 1)){
     LCD_DrawFullRect(205, 120, 35, 80);
+    topButtonDirty = 0;
   }
 }
 
