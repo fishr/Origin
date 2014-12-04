@@ -343,6 +343,7 @@ void GUI_DrawTime(void) {
 
 void GUI_Redraw(void)
 {
+  while ((LTDC->CPSR & 0xFFFF) != 0){}
   LTDC_Cmd(DISABLE);
   uint16_t i = 0; 
   for(i; i<nodeLength; i++)
