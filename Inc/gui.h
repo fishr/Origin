@@ -36,6 +36,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif 
+  
+#define MAXBUTTONCHAR 15
 
   typedef struct 
   {
@@ -56,12 +58,18 @@ extern "C" {
     uint8_t sping; //sending ping: 0 means no ping
   } Node;
   
+  typedef struct 
+  {
+    uint8_t text; //text identifier: 0 = no text, 1 = "OK", 2 = "CANCEL"
+    uint16_t color;
+  } GUIButton;
   
   void     GUI_DrawBackground(void);
   void     GUI_ClearBackground(void);
   
   Node *   GUI_InitNode(uint16_t ID, uint16_t fname,  uint16_t lname, uint16_t color);
   void     GUI_DeinitNode(Node *n);
+  uint16_t GUI_GetNode(uint16_t ID);
   void     GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t recPing, uint8_t sendPing);
   void     GUI_DrawNode(Node *n);
   void     GUI_ClearNode(Node n);
@@ -74,6 +82,10 @@ extern "C" {
   void     GUI_DrawArrow(void);
   void     GUI_ClearArrow(void);
 
+  void     GUI_UpdateTopButton(uint8_t textID, uint16_t textColor);
+  void     GUI_UpdateBottomButton(uint8_t textID, uint16_t textColor);
+  void     GUI_DrawButton(void);
+  
   void     GUI_DrawTime(void);
   
   void     GUI_Redraw(void);

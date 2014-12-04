@@ -7,6 +7,9 @@
 
 static Node nodes[MAXNODES];
 
+static GUIButton topButton;
+static GUIButton bottomButton;
+
 static uint16_t nodeLength = 0;
 static uint8_t batteryPercent = 50;
 
@@ -47,12 +50,8 @@ Node * GUI_InitNode(uint16_t ID, uint16_t fname, uint16_t lname, uint16_t color)
   return &nodes[nodeLength];
 }
 
-/**
-  * @brief  Draws black over the battery icon
-  * @param  None
-  * @retval None
-  */
-void GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t recPing, uint8_t sendPing)
+
+uint16_t GUI_GetNode(uint16_t ID)
 {
   uint16_t i = 0; 
   uint16_t nodeToUpdate;
@@ -64,6 +63,18 @@ void GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t rec
       break;
     }
   }
+  return nodeToUpdate;
+}
+
+/**
+  * @brief Updates node 
+  * @param  
+  * @retval None
+  */
+void GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t recPing, uint8_t sendPing)
+{
+  uint16_t nodeToUpdate = GUI_GetNode(ID);
+  
   nodes[nodeToUpdate].x = (int16_t) (centerX+distance*sin(angleRad));
   nodes[nodeToUpdate].y = (int16_t) (centerY+distance*cos(angleRad));
   if (recPing > 0 && nodes[nodeToUpdate].rping==0){
@@ -225,6 +236,56 @@ void GUI_ClearArrow(void) {
   LCD_FillTriangle(x1, x2, x3, y1, y2, y3);
 }
 
+/**
+  * @brief  Updates the top button
+  * @param  textID
+  * @param  color
+  * @retval None
+  */
+void GUI_UpdateTopButton(uint8_t textID, uint16_t textColor) {
+  topButton.text = textID;
+  topButton.color = textColor;
+}
+
+/**
+  * @brief  Updates the bottom button
+  * @param  textID
+  * @param  color
+  * @retval None
+  */
+void GUI_UpdateBottomButton(uint8_t textID, uint16_t textColor) {
+  bottomButton.text = textID;
+  bottomButton.color = textColor;
+}
+
+void GUI_DrawButton(void) {
+  if (bottomButton.text > 0){
+    LCD_SetTextColor(0xdefb);
+    LCD_FillTriangle(0, 34, 0, 105, 120, 120);
+    LCD_FillTriangle(0, 34, 0, 215, 200, 200);
+    LCD_DrawFullRect(0, 120, 35, 80);
+    LCD_SetTextColor(bottomButton.color);
+    LCD_SetFont(&Avenir);
+    LCD_Currentfonts = &Avenir;
+    if (bottomButton.text == 1){
+      LCD_DrawChar(145,28,&LCD_Currentfonts->table[79 * LCD_Currentfonts->Height]);
+      LCD_DrawChar(165,28,&LCD_Currentfonts->table[75 * LCD_Currentfonts->Height]);
+    } else if (bottomButton.text == 2){
+      LCD_DrawChar(120,28,&LCD_Currentfonts->table[67 * LCD_Currentfonts->Height]);
+      LCD_DrawChar(134,28,&LCD_Currentfonts->table[65 * LCD_Currentfonts->Height]);
+      LCD_DrawChar(150,28,&LCD_Currentfonts->table[78 * LCD_Currentfonts->Height]);
+      LCD_DrawChar(164,28,&LCD_Currentfonts->table[67 * LCD_Currentfonts->Height]);
+      LCD_DrawChar(178,28,&LCD_Currentfonts->table[69 * LCD_Currentfonts->Height]);
+      LCD_DrawChar(190,28,&LCD_Currentfonts->table[76 * LCD_Currentfonts->Height]);    }
+  }
+  if (topButton.text > 0){
+    LCD_SetTextColor(0xdefb);
+    LCD_FillTriangle(240, 206, 240, 105, 120, 120);
+    LCD_FillTriangle(240, 206, 240, 215, 200, 200);
+    LCD_DrawFullRect(205, 120, 35, 80);
+  }
+}
+
 /** 
   * @brief  Displays the time in the lower left hand corner of the screen
   * @param  None
@@ -264,5 +325,6 @@ void GUI_Redraw(void)
     GUI_DrawNode(&nodes[i]);
   }
   GUI_DrawBattery();
+  GUI_DrawButton();
   LTDC_Cmd(ENABLE);
 }

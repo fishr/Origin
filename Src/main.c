@@ -293,45 +293,23 @@ int main(void)
     
     //===============================END IMU============================================
   
-    
-    
-    
-    
+
     /* LCD Configuration */
     LCD_Config();
     /* Enable The LCD */
     LTDC_Cmd(ENABLE);
     LCD_SetLayer(LCD_FOREGROUND_LAYER);
     GUI_ClearBackground();
-    
-    delay(20000);
+    int count = 0;
+//    delay(20000);
     
     GUI_InitNode(1, 72,  83, 0xe8ec);
     GUI_InitNode(2, 86,  72, 0xfd20);
     GUI_InitNode(3, 82,  70, 0x001f);
-    
-    
-    int count = 0;
-  
+
   /* Infinite loop */
   while (1)
   {
- //   int count = 0;
- //         while(1) {
- //     
- //   // GUI_DrawBackground();
-////    GUI_ClearForeground();
- //   GUI_DrawNodePolar(&n1, 3.14*1.25, count);
- //   delay(200000);
- //   //GUI_DrawBattery(getBatteryStatus());
- //   GUI_ClearNodePolar(&n1, 3.14*1.25, count);
- //   count += 1;
- //   if (count%100 == 0){
- //     count = 0;
- //   }
- //   
- //     }
- //   
     UpdateButton(&button1);
     UpdateButton(&button2);
     
@@ -354,7 +332,7 @@ int main(void)
 #endif
     
     if(getSysTick()>tickey){
-      tickey +=51;
+      tickey +=53;
       
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
       //UART_Transmit(idUART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
@@ -365,6 +343,9 @@ int main(void)
       GUI_UpdateNode(3, degrees*3.1415/180.0+0, count, (count>50), 0);
       GUI_UpdateArrow(degrees*3.1415/180.0);
       GUI_UpdateBattery(getBatteryStatus());
+      if (count > 50){
+        GUI_UpdateBottomButton(2, 0xe8ec);
+      }
       GUI_Redraw();
       
 #ifndef ORIGIN
