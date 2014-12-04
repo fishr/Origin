@@ -29,3 +29,8 @@
 *.cout
 *.pbd
 *.browse
+*.sim
+*.map
+*.bat
+*.dbgdt
+

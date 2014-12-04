@@ -87,6 +87,7 @@ void GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t rec
   } else {
     nodes[nodeToUpdate].sping = nodes[nodeToUpdate].sping*sendPing;
   }
+
 }
 
 void GUI_DrawNode(Node *n)
@@ -128,10 +129,12 @@ void GUI_DrawNode(Node *n)
     }
   }
 
+
   LCD_SetFont(&Avenir);
   LCD_Currentfonts = &Avenir;
   LCD_DrawChar(n->y-13,n->x+12,&LCD_Currentfonts->table[n->fname * LCD_Currentfonts->Height]);
   LCD_DrawChar(n->y+2,n->x+12,&LCD_Currentfonts->table[n->lname * LCD_Currentfonts->Height]);
+
 }
 
 void GUI_ClearNode(Node n)
@@ -286,6 +289,20 @@ void GUI_DrawButton(void) {
   }
 }
 
+void GUI_ClearButton(void) {
+  LCD_SetTextColor(0x0000);
+  if (bottomButton.text == 0){
+    LCD_FillTriangle(0, 34, 0, 105, 120, 120);
+    LCD_FillTriangle(0, 34, 0, 215, 200, 200);
+    LCD_DrawFullRect(0, 120, 35, 80);
+  }
+  if (topButton.text == 0){
+    LCD_FillTriangle(240, 206, 240, 105, 120, 120);
+    LCD_FillTriangle(240, 206, 240, 215, 200, 200);
+    LCD_DrawFullRect(205, 120, 35, 80);
+  }
+}
+
 /** 
   * @brief  Displays the time in the lower left hand corner of the screen
   * @param  None
@@ -317,6 +334,7 @@ void GUI_Redraw(void)
   }
   GUI_ClearBattery();
   GUI_ClearArrow();
+  GUI_ClearButton();
   GUI_DrawArrow();
   GUI_DrawBackground();
   i = 0;
@@ -327,4 +345,5 @@ void GUI_Redraw(void)
   GUI_DrawBattery();
   GUI_DrawButton();
   LTDC_Cmd(ENABLE);
+
 }

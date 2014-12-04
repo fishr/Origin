@@ -48,6 +48,10 @@ char inData[UART_BUFF_LEN];
 uint16_t len=0;
 
 double degrees=0;
+unsigned char  new_temp = 0;
+    unsigned char new_compass = 0;
+    unsigned long timestamp;
+
 
 long headingData[3];
 uint8_t headingAcc=0;
@@ -95,14 +99,13 @@ int main(void)
   GPIO_SetBits(GPIOA, GPIO_Pin_10);  //LCD unreset
   UART4_Start();
   UART5_Start();
-  I2cMaster_Init();
-  IMU_Int_Start();
+  MPU_Start();
   
   //========================BUTTONS====================
   InitButton(&button1, GPIOE, GPIO_Pin_4);
   InitButton(&button2, GPIOE, GPIO_Pin_5);
   //=======================END BUTTONS==================
-  
+
  
   //======================IMU SETUP===========================
     inv_error_t result;
@@ -292,7 +295,6 @@ int main(void)
     hal.dmp_on = 1;
     
     //===============================END IMU============================================
-  
 
     /* LCD Configuration */
     LCD_Config();
@@ -336,7 +338,6 @@ int main(void)
       
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
       //UART_Transmit(idUART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
-  
 
       GUI_UpdateNode(1, degrees*3.1415/180.0+3.14*1.25, count, (count>10), 0);
       GUI_UpdateNode(2, degrees*3.1415/180.0+3.14, count, (count>30), 0);
@@ -345,6 +346,8 @@ int main(void)
       GUI_UpdateBattery(getBatteryStatus());
       if (count > 50){
         GUI_UpdateBottomButton(2, 0xe8ec);
+      } else {
+        GUI_UpdateBottomButton(0, 0);
       }
       GUI_Redraw();
       
@@ -359,6 +362,7 @@ int main(void)
       
       GUI_DrawTime();
 
+
 //      //GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
 //      //UART_Transmit(UART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
 //      
@@ -371,6 +375,7 @@ int main(void)
 //      
     
     }
+
     
     if(rx_buff.newData){
       memcpy(inData, rx_buff.buffer, rx_buff.length);

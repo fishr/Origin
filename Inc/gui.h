@@ -74,6 +74,7 @@ extern "C" {
   void     GUI_DrawNode(Node *n);
   void     GUI_ClearNode(Node n);
 
+
   void     GUI_UpdateBattery(uint8_t batteryPercent);
   void     GUI_DrawBattery(void);
   void     GUI_ClearBattery(void);
@@ -85,6 +86,7 @@ extern "C" {
   void     GUI_UpdateTopButton(uint8_t textID, uint16_t textColor);
   void     GUI_UpdateBottomButton(uint8_t textID, uint16_t textColor);
   void     GUI_DrawButton(void);
+  void     GUI_ClearButton(void);
   
   void     GUI_DrawTime(void);
   

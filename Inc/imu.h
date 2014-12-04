@@ -2,6 +2,8 @@
 #include "stm32f4xx_exti.h"
 #include "stm32f4xx_syscfg.h"
 
+#include "i2c.h"
+
 #include "inv_mpu.h"
 #include "inv_mpu_dmp_motion_driver.h"
 #include "invensense.h"
@@ -89,7 +91,7 @@ extern struct platform_data_s gyro_pdata;
 extern struct platform_data_s compass_pdata;
 #define COMPASS_ENABLED 1
 
-
+void MPU_Start(void);
 void IMU_Int_Start(void);
 void read_from_mpl(void);
 void send_status_compass(void);
