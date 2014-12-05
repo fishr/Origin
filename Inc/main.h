@@ -30,6 +30,7 @@
 #define __MAIN_H
 
 /* Includes ------------------------------------------------------------------*/
+#include "origintypes.h"
 #include "tick.h"
 #include "gpio.h"
 #include "uart.h"

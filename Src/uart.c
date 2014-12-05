@@ -1,7 +1,6 @@
 #include "uart.h"
 
 int hello_rx_flag = 0;
-struct RX_Buff rx_buff;
 struct TX_Buff tx_buff;
 struct TX_Buff tx_buff0;
 struct TX_Buff tx_buff1;
@@ -133,38 +132,8 @@ void UART5_Start()
   tx_buff.rxID=-1;
 }
 
-void UART4_IRQHandler(void)
-{ 
-  //USART_ITConfig(UART4, USART_IT_RXNE, DISABLE);
-  
-  if(USART_GetITStatus(UART4, USART_IT_ORE_RX)){
-    USART_ClearITPendingBit(UART4, USART_IT_ORE_RX);
-  }
-  //if(USART_GetITStatus(UART4, USART_FLAG_RXNE)){
-  //USART_ClearITPendingBit(UART4, USART_FLAG_RXNE);
-  char input = USART_ReceiveData(UART4);
-  if(input=='$'){
-    rx_buff.buffer[0]=ORIGIN_ID;
-    rx_buff.valid=0;
-    rx_buff.newData=0;
-    rx_buff.pointer=1;
-    rx_buff.buffer[rx_buff.pointer] = input;
-    rx_buff.pointer++;
-  }else if(input==0x0A){
-    rx_buff.valid=1;
-    rx_buff.newData=1;
-    rx_buff.buffer[rx_buff.pointer] = input;
-    rx_buff.length = rx_buff.pointer+1;    
-    rx_buff.pointer=1;    
-  }else{
-    rx_buff.buffer[rx_buff.pointer] = input; 
-    (rx_buff.pointer)++;
-  }
-  
-  //USART_ITConfig(UART4, USART_IT_RXNE, ENABLE);
-}
 
-void UART5_IRQHandler(void)
+void UART5_IRQHandler(void)  //XBEE
 { 
   //USART_ITConfig(UART5, USART_IT_RXNE, DISABLE);
   //if(USART_GetITStatus(UART5, USART_FLAG_RXNE)==SET){

@@ -33,12 +33,6 @@ void GPIO_Start(){
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
   GPIO_Init(GPIOE, &GPIO_InitStructure);
-  
-//  /*Configure GPIO GPIO_Pins : PE4 PE5 */
-//  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4|GPIO_Pin_5;
-//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
-//  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-//  GPIO_Init(GPIOE, &GPIO_InitStructure);
 
   /*Configure GPIO GPIO_Pin : PF8 */
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;

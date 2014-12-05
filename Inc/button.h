@@ -6,6 +6,8 @@ used to remove bounce.  Note: DEBOUNCE_TIME is in seconds and SAMPLE_FREQUENCY
 is in Hertz */
 
 #include "stm32f4xx_gpio.h"
+#include "tick.h"
+#include "user.h"
  
 #ifndef BUTTON_H
 #define BUTTON_H
@@ -14,6 +16,13 @@ is in Hertz */
 #define SAMPLE_FREQUENCY    100000
 #define MAXIMUM         (DEBOUNCE_TIME * SAMPLE_FREQUENCY)
  
+enum button_state {
+  BUTTON_UNPRESSED,
+  BUTTON_RISING,
+  BUTTON_PRESSED,
+  BUTTON_FALLING
+};
+
 /* These are the variables used */
 typedef struct Button{
 GPIO_TypeDef* port;
@@ -21,7 +30,8 @@ uint16_t pin;
 uint16_t input;       /* 0 or 1 depending on the input signal */
 uint16_t integrator;  /* Will range from 0 to the specified MAXIMUM */
 uint16_t output;      /* Cleaned-up version of the input signal */
-uint16_t edge;        /* edge trigger state:0 if untrigged, 1 if active, 2 if already triggered*/
+enum button_state edge;        /* edge trigger state*/
+unsigned long startTime;
 };
 
 extern struct Button button1;
@@ -35,5 +45,10 @@ uint16_t getButtonState(struct Button *butt);
 
 uint16_t buttonRisingEdge(struct Button *butt);
 
+unsigned long getPressDuration(struct Button *butt);
+
+uint16_t buttonFallingEdge(struct Button *butt);
+
+uint8_t getReset(void);
 
 #endif

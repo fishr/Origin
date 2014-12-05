@@ -16,6 +16,9 @@
 #include "tick.h"
 
 #ifndef IMUP_H
+
+#define MPU_WHOAMI (0x75)
+
 #define IMUP_H
 
 #define get_tick_count  storeSysTick

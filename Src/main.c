@@ -34,16 +34,9 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-//#define ORIGIN
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-char hello[]="helloworld";
 
-char cmdData1[]="$PSRF104,42.359544,-71.0935699,0,96000,478200,1819,12,3*0B00"; //init
-char cmdData2[] = "$PSRF103,08,01,00,01*2D00"; //send timing update
-char cmdData3[]="$PSRF105,1*3E00"; //gps debug mode
-uint8_t mpuCmd = 0x75;
-char inImu[32];
 char inData[UART_BUFF_LEN];
 uint16_t len=0;
 
@@ -59,6 +52,16 @@ inv_time_t headingTime;
 
 
 LTDC_ColorKeying_InitTypeDef   LTDC_colorkeying_InitStruct;
+
+origin_t origin_state = {
+  .id = ORIGIN_ID,
+  .pingfrom=0,
+  .pingactive=0,
+  .pingclearedby=0,
+  .gpslock=0,
+  
+};
+  
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -103,7 +106,12 @@ int main(void)
   
   //========================BUTTONS====================
   InitButton(&button1, GPIOE, GPIO_Pin_4);
+#ifdef BOARD_V1
   InitButton(&button2, GPIOE, GPIO_Pin_5);
+#else
+  InitButton(&button2, GPIOA, GPIO_Pin_9);
+#endif
+  
   //=======================END BUTTONS==================
     
     /* LCD Configuration */
@@ -122,40 +130,33 @@ int main(void)
     
     int count = 0;
   
+#ifdef INSIDE
+    origin_state.lati=42.358094;
+    origin_state.longi=-71.094980;
+    origin_state.gpslock=1;
+#endif
 
   /* Infinite loop */
   while (1)
   {
- //   int count = 0;
- //         while(1) {
- //     
- //   // GUI_DrawBackground();
-////    GUI_ClearForeground();
- //   GUI_DrawNodePolar(&n1, 3.14*1.25, count);
- //   delay(200000);
- //   //GUI_DrawBattery(getBatteryStatus());
- //   GUI_ClearNodePolar(&n1, 3.14*1.25, count);
- //   count += 1;
- //   if (count%100 == 0){
- //     count = 0;
- //   }
- //   
- //     }
- //   
+ 
     UpdateButton(&button1);
     UpdateButton(&button2);
     
     if( buttonRisingEdge(&button1)){//right
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3);//yellow
-      //UART_Transmit(&huart4, cmdData1, cmdData1Len, 500);
+      //UART_Transmit(&huart4, gps_init_msg, cmdData1Len, 500);
     }
     
     if(buttonRisingEdge(&button2)){//left
-      
-      //UART_Transmit(&huart4, cmdData2, cmdData2Len, 500);
+      //UART_Transmit(&huart4, gps_get_time_msg, cmdData2Len, 500);
       GPIO_ToggleBits(GPIOA, GPIO_Pin_2); //green
-      
     }
+    
+    if(getReset()){
+      NVIC_SystemReset();
+    }
+    
     
 #ifdef ORIGIN
     long actHeading=0;
@@ -201,15 +202,9 @@ int main(void)
 //      
     
     }
-
     
-    if(rx_buff.newData){
-      memcpy(inData, rx_buff.buffer, rx_buff.length);
-      len = rx_buff.length;
-      GPIO_ToggleBits(GPIOC, GPIO_Pin_3);
-      rx_buff.newData=0;
-      UART_Transmit(UART5, inData, len, 200);
-    }
+    processGPS();
+    
     for(int i =0; i<10; i++){
       if(friends[i]!=0){
         if(friends[i]->newData!=0){
@@ -221,12 +216,13 @@ int main(void)
           UART_Transmit(UART5, tempIdMsg, 3, 500);
           double lat;
           double longi;
-          parseGPS(friends[i]->buffer, &lat, &longi);
+          //parseGPS(friends[i]->buffer, &lat, &longi);
+          lat++;
         }
       }
     }
     
-    //Sensors_I2C_ReadRegister((unsigned char)0x68, (unsigned char)mpuCmd, 1, inImu);
+    //Sensors_I2C_ReadRegister((unsigned char)0x68, (unsigned char)MPU_WHOAMI, 1, inImu);
 
     
     int16_t ha= getBatteryStatus();
