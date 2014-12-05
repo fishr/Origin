@@ -103,7 +103,7 @@ void UART5_Start()
   GPIO_InitStruct.GPIO_Speed = GPIO_High_Speed;
   GPIO_Init(GPIOD, &GPIO_InitStruct);
   
-  huart5.USART_BaudRate = 9600;
+  huart5.USART_BaudRate = 115200;
   huart5.USART_WordLength = USART_WordLength_8b;
   huart5.USART_StopBits = USART_StopBits_1;
   huart5.USART_Parity = USART_Parity_No;
@@ -144,6 +144,15 @@ void UART_Transmit(USART_TypeDef* UARTX, uint8_t* buff, uint16_t buff_len, uint3
     count++;
     buff++;
   }
+}
+
+int8_t hexchartohex(char c){
+  if((c>=0x30)&&(c<0x3A)){
+    return (((uint8_t)c)-0x30);
+  }else if((c>0x40)&&(c<0x47)){
+    return (((uint8_t)c)-0x37);
+  }
+  return -1;
 }
 
 void buff_copy(struct TX_Buff* dest, struct TX_Buff* input){

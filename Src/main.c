@@ -55,8 +55,9 @@ LTDC_ColorKeying_InitTypeDef   LTDC_colorkeying_InitStruct;
 
 origin_t origin_state = {
   .id = ORIGIN_ID,
-  .pingfrom=0,
+  .pingnum=0,
   .pingactive=0,
+  .dididoit=0,
   .pingclearedby=0,
   .gpslock=0,
   
@@ -194,7 +195,7 @@ int main(void)
     }
     
     processGPS();
-    
+    sendMessage();
     /*for(int i =0; i<10; i++){
       if(friends[i]!=0){
         if(friends[i]->newData!=0){

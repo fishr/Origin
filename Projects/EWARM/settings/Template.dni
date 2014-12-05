@@ -12,7 +12,7 @@ ByteLimit=50
 stlinkserialNo=2798FD0D
 stlinkfoundProbes=
 [DebugChecksum]
-Checksum=-1987546370
+Checksum=-718042966
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -75,14 +75,13 @@ SumSortOrder=0
 [Disassemble mode]
 mode=0
 [Breakpoints2]
-Count=0
+Bp0=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\..\Src\imu.c}.378.5" 0 0 1 "" 0 "" 0
+Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\..\Src\xbee.c}.187.3" 0 0 1 "" 0 "" 0
+Count=2
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
 Category=_ 0
-[TermIOLog]
-LoggingEnabled=_ 0
-LogFile=_ ""
 [Aliases]
 A0=_ "../mpl/fusion_9axis.c" ""
 A1=_ "../mpl/quaternion_supervisor.c" ""
@@ -96,3 +95,6 @@ Mode=3
 Graph=0
 Symbiont=0
 Exclusions=
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""

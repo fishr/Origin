@@ -41,6 +41,7 @@ void UART5_IRQHandler(void);
 
 void buff_copy(struct TX_Buff* dest, struct TX_Buff* input);
 
+int8_t hexchartohex(char c);
 
 
 #endif

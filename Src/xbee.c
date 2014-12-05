@@ -112,7 +112,7 @@ void UART5_IRQHandler(void)  //GPS
     xbee_buff.pointer=0;
     xbee_buff.lock=1;
     memcpy(xbee_buff.msg, xbee_buff.buffer, xbee_buff.length);
-    xbee_buff.msg_len=gps_buff.length;
+    xbee_buff.msg_len=xbee_buff.length;
     xbee_buff.lock=0;
     xbee_buff.newData=1;
   }else{
@@ -161,13 +161,13 @@ void sendMessage(void){
   //message should consist of id, time, lat, long, pingid
   uint8_t pingid = 0;
   uint8_t pingclearedid = 0;
-  if(pingactive){
+  if(origin_state.pingactive){
     pingid=origin_state.pingnum;
   }else{
     pingclearedid=origin_state.pingnum;
   }
   char temp[40];
-  uint8_t chars = sprintf(temp, "%c,%02d%02d%02d,%+02.f,%+03.f,%03d,%03d", origin_state.id, 
+  uint8_t chars = sprintf(temp, "%c,%02d%02d%02d,%+02f,%+03f,%03d,%03d", origin_state.id, 
           origin_state.hours, origin_state.minutes, origin_state.seconds, 
           origin_state.lati, origin_state.longi, pingid, pingclearedid);
   
@@ -183,6 +183,9 @@ void sendMessage(void){
     }
   }
   sprintf(origin_state.msg, "$%s*%02X", temp, chksum);
+  //and send it!
+  UART_Transmit(UART5, origin_state.msg, strlen(origin_state.msg), 500);
+}
   
   
 

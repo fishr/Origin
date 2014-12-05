@@ -40,15 +40,6 @@ void UART4_IRQHandler(void)  //GPS
   //USART_ITConfig(UART4, USART_IT_RXNE, ENABLE);
 }
 
-int8_t hexchartohex(char c){
-  if((c>=0x30)&&(c<0x3A)){
-    return (((uint8_t)c)-0x30);
-  }else if((c>0x40)&&(c<0x47)){
-    return (((uint8_t)c)-0x37);
-  }
-  return -1;
-}
-
 void processGPS(void){
   if(gps_buff.newData&&(!gps_buff.lock)){
     uint16_t len=gps_buff.msg_len;
