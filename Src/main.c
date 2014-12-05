@@ -113,15 +113,205 @@ int main(void)
 #endif
   
   //=======================END BUTTONS==================
+
+ 
+  //======================IMU SETUP===========================
+    inv_error_t result;
+    unsigned char accel_fsr,  new_temp = 0;
+    unsigned short gyro_rate, gyro_fsr;
+    unsigned long timestamp;
+    struct int_param_s int_param;
+
+#ifdef COMPASS_ENABLED
+    unsigned char new_compass = 0;
+    unsigned short compass_fsr;
+#endif
+	
+   Set_I2C_Retry(5);
+ 
+  result = mpu_init(&int_param);
+  if (result) {
+      MPL_LOGE("Could not initialize gyro.\n");
+  }
+  
+
+    /* If you're not using an MPU9150 AND you're not using DMP features, this
+     * function will place all slaves on the primary bus.
+     *mpu_set_bypass(1);
+    */
+
+  result = inv_init_mpl();
+  if (result) {
+      MPL_LOGE("Could not initialize MPL.\n");
+  }
+
+    /* Compute 6-axis and 9-axis quaternions. */
+    inv_enable_quaternion();
+    inv_enable_9x_sensor_fusion();
+    /* The MPL expects compass data at a constant rate (matching the rate
+     * passed to inv_set_compass_sample_rate). If this is an issue for your
+     * application, call this function, and the MPL will depend on the
+     * timestamps passed to inv_build_compass instead.
+     */
+      inv_9x_fusion_use_timestamps(1);
+     
+
+    /* Update gyro biases when not in motion.
+     * WARNING: These algorithms are mutually exclusive.
+     */
+    inv_enable_fast_nomot();
+    /* inv_enable_motion_no_motion(); */
+    /* inv_set_no_motion_time(1000); */
+
+    /* Update gyro biases when temperature changes. */
+    inv_enable_gyro_tc();
+
+    /* This algorithm updates the accel biases when in motion. A more accurate
+     * bias measurement can be made when running the self-test (see case 't' in
+     * handle_input), but this algorithm can be enabled if the self-test can't
+     * be executed in your application.
+     */
+     inv_enable_in_use_auto_calibration();
+     
+
+    /* Compass calibration algorithms. */
+    inv_enable_vector_compass_cal();
+    inv_enable_magnetic_disturbance();
+
+    /* Allows use of the MPL APIs in read_from_mpl. */
+    inv_enable_eMPL_outputs();
+
+  result = inv_start_mpl();
+  if (result == INV_ERROR_NOT_AUTHORIZED) {
+      while (1) {
+          MPL_LOGE("Not authorized.\n");
+      }
+  }
+  if (result) {
+      MPL_LOGE("Could not start the MPL.\n");
+  }
+
+    /* Get/set hardware configuration. Start gyro. */
+    /* Wake up all sensors. */
+    mpu_set_sensors(INV_XYZ_GYRO | INV_XYZ_ACCEL | INV_XYZ_COMPASS);
+
+    /* Push both gyro and accel data into the FIFO. */
+    mpu_configure_fifo(INV_XYZ_GYRO | INV_XYZ_ACCEL);
+    mpu_set_sample_rate(DEFAULT_MPU_HZ);
+    /* The compass sampling rate can be less than the gyro/accel sampling rate.
+     * Use this function for proper power management.
+     */
+    mpu_set_compass_sample_rate(1000 / COMPASS_READ_MS);
     
+    /* Read back configuration in case it was set improperly. */
+    mpu_get_sample_rate(&gyro_rate);
+    mpu_get_gyro_fsr(&gyro_fsr);
+    mpu_get_accel_fsr(&accel_fsr);
+    mpu_get_compass_fsr(&compass_fsr);
+    
+    /* Sync driver configuration with MPL. */
+    /* Sample rate expected in microseconds. */
+    inv_set_gyro_sample_rate(1000000L / gyro_rate);
+    inv_set_accel_sample_rate(1000000L / gyro_rate);
+    
+    /* The compass rate is independent of the gyro and accel rates. As long as
+     * inv_set_compass_sample_rate is called with the correct value, the 9-axis
+     * fusion algorithm's compass correction gain will work properly.
+     */
+    inv_set_compass_sample_rate(COMPASS_READ_MS * 1000L);
+
+    /* Set chip-to-body orientation matrix.
+     * Set hardware units to dps/g's/degrees scaling factor.
+     */
+    inv_set_gyro_orientation_and_scale(
+            inv_orientation_matrix_to_scalar(gyro_pdata.orientation),
+            (long)gyro_fsr<<15);
+    inv_set_accel_orientation_and_scale(
+            inv_orientation_matrix_to_scalar(gyro_pdata.orientation),
+            (long)accel_fsr<<15);
+    inv_set_compass_orientation_and_scale(
+            inv_orientation_matrix_to_scalar(compass_pdata.orientation),
+            (long)compass_fsr<<15);
+
+    /* Initialize HAL state variables. */
+    hal.sensors = ACCEL_ON | GYRO_ON | COMPASS_ON;
+    hal.dmp_on = 0;
+    hal.report = 0;
+    hal.rx.cmd = 0;
+    hal.next_pedo_ms = 0;
+    hal.next_compass_ms = 0;
+    hal.next_temp_ms = 0;
+
+  /* Compass reads are handled by scheduler. */
+  get_tick_count(&timestamp);
+
+    /* To initialize the DMP:
+     * 1. Call dmp_load_motion_driver_firmware(). This pushes the DMP image in
+     *    inv_mpu_dmp_motion_driver.h into the MPU memory.
+     * 2. Push the gyro and accel orientation matrix to the DMP.
+     * 3. Register gesture callbacks. Don't worry, these callbacks won't be
+     *    executed unless the corresponding feature is enabled.
+     * 4. Call dmp_enable_feature(mask) to enable different features.
+     * 5. Call dmp_set_fifo_rate(freq) to select a DMP output rate.
+     * 6. Call any feature-specific control functions.
+     *
+     * To enable the DMP, just call mpu_set_dmp_state(1). This function can
+     * be called repeatedly to enable and disable the DMP at runtime.
+     *
+     * The following is a short summary of the features supported in the DMP
+     * image provided in inv_mpu_dmp_motion_driver.c:
+     * DMP_FEATURE_LP_QUAT: Generate a gyro-only quaternion on the DMP at
+     * 200Hz. Integrating the gyro data at higher rates reduces numerical
+     * errors (compared to integration on the MCU at a lower sampling rate).
+     * DMP_FEATURE_6X_LP_QUAT: Generate a gyro/accel quaternion on the DMP at
+     * 200Hz. Cannot be used in combination with DMP_FEATURE_LP_QUAT.
+     * DMP_FEATURE_TAP: Detect taps along the X, Y, and Z axes.
+     * DMP_FEATURE_ANDROID_ORIENT: Google's screen rotation algorithm. Triggers
+     * an event at the four orientations where the screen should rotate.
+     * DMP_FEATURE_GYRO_CAL: Calibrates the gyro data after eight seconds of
+     * no motion.
+     * DMP_FEATURE_SEND_RAW_ACCEL: Add raw accelerometer data to the FIFO.
+     * DMP_FEATURE_SEND_RAW_GYRO: Add raw gyro data to the FIFO.
+     * DMP_FEATURE_SEND_CAL_GYRO: Add calibrated gyro data to the FIFO. Cannot
+     * be used in combination with DMP_FEATURE_SEND_RAW_GYRO.
+     */
+    dmp_load_motion_driver_firmware();
+    dmp_set_orientation(
+        inv_orientation_matrix_to_scalar(gyro_pdata.orientation));
+    dmp_register_tap_cb(tap_cb);
+    dmp_register_android_orient_cb(android_orient_cb);
+    
+    /*
+     * Known Bug -
+     * DMP when enabled will sample sensor data at 200Hz and output to FIFO at the rate
+     * specified in the dmp_set_fifo_rate API. The DMP will then sent an interrupt once
+     * a sample has been put into the FIFO. Therefore if the dmp_set_fifo_rate is at 25Hz
+     * there will be a 25Hz interrupt from the MPU device.
+     *
+     * There is a known issue in which if you do not enable DMP_FEATURE_TAP
+     * then the interrupts will be at 200Hz even if fifo rate
+     * is set at a different rate. To avoid this issue include the DMP_FEATURE_TAP
+     *
+     * DMP sensor fusion works only with gyro at +-2000dps and accel +-2G
+     */
+    hal.dmp_features = DMP_FEATURE_6X_LP_QUAT | DMP_FEATURE_TAP |
+        DMP_FEATURE_ANDROID_ORIENT | DMP_FEATURE_SEND_RAW_ACCEL | DMP_FEATURE_SEND_CAL_GYRO |
+        DMP_FEATURE_GYRO_CAL;
+    dmp_enable_feature(hal.dmp_features);
+    dmp_set_fifo_rate(DEFAULT_MPU_HZ);
+    mpu_set_dmp_state(1);
+    hal.dmp_on = 1;
+    
+    //===============================END IMU============================================
+
     /* LCD Configuration */
     LCD_Config();
     /* Enable The LCD */
     LTDC_Cmd(ENABLE);
     LCD_SetLayer(LCD_FOREGROUND_LAYER);
     GUI_ClearBackground();
-    
-    delay(20000);
+    int count = 0;
+//    delay(20000);
     
     GUI_InitNode(1, 72,  83, 0xe8ec);
     GUI_InitNode(2, 86,  72, 0xfd20);
@@ -139,7 +329,6 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
- 
     UpdateButton(&button1);
     UpdateButton(&button2);
     
@@ -165,17 +354,21 @@ int main(void)
 #endif
     
     if(getSysTick()>tickey){
-      tickey +=51;
+      tickey +=53;
       
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
       //UART_Transmit(idUART5, hello, sizeof(hello)/sizeof(hello[0]), 200);
-  
 
       GUI_UpdateNode(1, degrees*3.1415/180.0+3.14*1.25, count, (count>10), 0);
       GUI_UpdateNode(2, degrees*3.1415/180.0+3.14, count, (count>30), 0);
       GUI_UpdateNode(3, degrees*3.1415/180.0+0, count, (count>50), 0);
       GUI_UpdateArrow(degrees*3.1415/180.0);
       GUI_UpdateBattery(getBatteryStatus());
+      if (count > 50){
+        GUI_UpdateBottomButton(1, 0xe8ec);
+      } else {
+        GUI_UpdateBottomButton(0, 0);
+      }
       GUI_Redraw();
       
 #ifndef ORIGIN
