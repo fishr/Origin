@@ -1,9 +1,11 @@
 #include "gps.h"
 
 
-char gps_init_msg[]="$PSRF104,42.359544,-71.0935699,0,96000,478200,1819,12,3*0B00"; //init
-char gps_get_time_msg[] = "$PSRF103,08,01,00,01*2D00"; //request timing update
+const char gps_init_msg[]="$PSRF104,42.359544,-71.0935699,0,96000,478200,1819,12,3*0B00"; //init
+const char gps_get_time_msg[] = "$PSRF103,08,01,00,01*2D00"; //request timing update
 
+const char gprmc[] = "GPRMC";
+const char delim[1] = {','};
 struct RX_Buff gps_buff;
 
 void UART4_IRQHandler(void)  //GPS
@@ -67,8 +69,6 @@ void processGPS(void){
         ln |=hn<<4;
         if(ln==chksum){
           //yay
-          double lati=0.0;
-          double longi=0.0;
           parseGPS(tempmsg);
           break;
         }else{
@@ -79,22 +79,20 @@ void processGPS(void){
       chksum^=(tempmsg[i])&0x7F;
       i++;
     }
-    
     GPIO_ToggleBits(GPIOC, GPIO_Pin_3);
   }
 }
 
 void parseGPS(char *nmea_string){
   nmea_string+=1;
-  char gprmc[] = "GPRMC";
   char* token;
-  const char delim[1] = {','};
   int i =0;
   token = (char*)strsep (&nmea_string, delim);
   
   //first field is communication type
-  if(strcmp(token, gprmc))
+if(strcmp(token, gprmc)){
     return;
+}
   //nmea_string+=sizeof(token)/sizeof(token[0]);
   //4 and 6 are lat long respectively, they are both 
   //followed by a cardinal direction

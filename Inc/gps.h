@@ -9,7 +9,7 @@
 #define GPS_H
 
 
-extern struct RX_Buff gps_buff;
+//extern struct RX_Buff gps_buff;
 extern char gps_init_msg[];
 extern char gps_get_time_msg[];
 
