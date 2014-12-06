@@ -4,89 +4,89 @@ struct RX_Buff xbee_buff;
 
 /*void UART5_IRQHandler(void)  //XBEE
 { 
-  //USART_ITConfig(UART5, USART_IT_RXNE, DISABLE);
-  //if(USART_GetITStatus(UART5, USART_FLAG_RXNE)==SET){
-  //USART_ClearITPendingBit(UART5, USART_FLAG_RXNE);
-  char input = USART_ReceiveData(UART5);
-  if(tx_buff.rxID<0){
-    tx_buff.rxID=input;
-    idFlag = 1;
-    tx_buff.valid=0;
-    tx_buff.newData=0;
+//USART_ITConfig(UART5, USART_IT_RXNE, DISABLE);
+//if(USART_GetITStatus(UART5, USART_FLAG_RXNE)==SET){
+//USART_ClearITPendingBit(UART5, USART_FLAG_RXNE);
+char input = USART_ReceiveData(UART5);
+if(tx_buff.rxID<0){
+tx_buff.rxID=input;
+idFlag = 1;
+tx_buff.valid=0;
+tx_buff.newData=0;
   }else if(input=='$'){
-    tx_buff.buffer[0]=tx_buff.rxID;
-    tx_buff.pointer=1;
-    tx_buff.buffer[tx_buff.pointer] = input;
-    tx_buff.pointer++;
-    idFlag=0;
+tx_buff.buffer[0]=tx_buff.rxID;
+tx_buff.pointer=1;
+tx_buff.buffer[tx_buff.pointer] = input;
+tx_buff.pointer++;
+idFlag=0;
   }else if(input==0x0A){
-    if((idFlag)||(tx_buff.valid)){
-      idFlag=0;
-      tx_buff.rxID=-1;
-      tx_buff.pointer=1; 
+if((idFlag)||(tx_buff.valid)){
+idFlag=0;
+tx_buff.rxID=-1;
+tx_buff.pointer=1; 
     }else{
-      tx_buff.valid=1;
-      tx_buff.newData=1;
-      tx_buff.buffer[tx_buff.pointer] = input;
-      tx_buff.length = tx_buff.pointer+1;    
-      tx_buff.pointer=1;   
-      idFlag=0;
-      switch(tx_buff.rxID){
+tx_buff.valid=1;
+tx_buff.newData=1;
+tx_buff.buffer[tx_buff.pointer] = input;
+tx_buff.length = tx_buff.pointer+1;    
+tx_buff.pointer=1;   
+idFlag=0;
+switch(tx_buff.rxID){
       case '0':
-        buff_copy(&tx_buff0, &tx_buff);
-        friends[0]=&tx_buff0;
-        break;
+buff_copy(&tx_buff0, &tx_buff);
+friends[0]=&tx_buff0;
+break;
       case '1':
-        buff_copy(&tx_buff1, &tx_buff);
-        friends[1]=&tx_buff1;
-        break;
+buff_copy(&tx_buff1, &tx_buff);
+friends[1]=&tx_buff1;
+break;
       case '2':
-        buff_copy(&tx_buff2, &tx_buff);
-        friends[2]=&tx_buff2;
-        break;
+buff_copy(&tx_buff2, &tx_buff);
+friends[2]=&tx_buff2;
+break;
       case '3':
-        buff_copy(&tx_buff3, &tx_buff);
-        friends[3]=&tx_buff3;
-        break;
+buff_copy(&tx_buff3, &tx_buff);
+friends[3]=&tx_buff3;
+break;
       case '4':
-        buff_copy(&tx_buff4, &tx_buff);
-        friends[4]=&tx_buff4;
-        break;
+buff_copy(&tx_buff4, &tx_buff);
+friends[4]=&tx_buff4;
+break;
       case '5':
-        buff_copy(&tx_buff5, &tx_buff);
-        friends[5]=&tx_buff5;
-        break;
+buff_copy(&tx_buff5, &tx_buff);
+friends[5]=&tx_buff5;
+break;
       case '6':
-        buff_copy(&tx_buff6, &tx_buff);
-        friends[6]=&tx_buff6;
-        break;
+buff_copy(&tx_buff6, &tx_buff);
+friends[6]=&tx_buff6;
+break;
       case '7':
-        buff_copy(&tx_buff7, &tx_buff);
-        friends[7]=&tx_buff7;
-        break;
+buff_copy(&tx_buff7, &tx_buff);
+friends[7]=&tx_buff7;
+break;
       case '8':
-        buff_copy(&tx_buff8, &tx_buff);
-        friends[8]=&tx_buff8;
-        break;
+buff_copy(&tx_buff8, &tx_buff);
+friends[8]=&tx_buff8;
+break;
       case '9':
-        buff_copy(&tx_buff9, &tx_buff);
-        friends[9]=&tx_buff9;
-        break;
+buff_copy(&tx_buff9, &tx_buff);
+friends[9]=&tx_buff9;
+break;
       }
-      tx_buff.rxID=-1;
+tx_buff.rxID=-1;
     }
   }else{
-    if(idFlag){
-      idFlag=0;
-      tx_buff.rxID=-1;
-      tx_buff.pointer=1; 
+if(idFlag){
+idFlag=0;
+tx_buff.rxID=-1;
+tx_buff.pointer=1; 
     }else{
-      tx_buff.buffer[tx_buff.pointer] = input; 
-      (tx_buff.pointer)++;
+tx_buff.buffer[tx_buff.pointer] = input; 
+(tx_buff.pointer)++;
     }
   }
-  //}
-  //USART_ITConfig(UART5, USART_IT_RXNE, ENABLE);
+//}
+//USART_ITConfig(UART5, USART_IT_RXNE, ENABLE);
 }
 */
 
@@ -142,7 +142,7 @@ void processXbee(void){
         ln |=hn<<4;
         if(ln==chksum){
           //yay
-          //parseXbee(tempmsg);
+          parseXbee(tempmsg);
           break;
         }else{
           //break data invalid
@@ -152,24 +152,72 @@ void processXbee(void){
       chksum^=(tempmsg[i])&0x7F;
       i++;
     }
-    
     GPIO_ToggleBits(GPIOC, GPIO_Pin_3);
+  }
+}
+
+void parseXbee(char *xbee_string){
+  xbee_string+=1;
+  char* token;
+  int i =0;
+  uint8_t id;
+  while(i<10?){
+    i++;
+    
+    token = (char*)strsep (&nmea_string, delim);
+    switch(i){
+    case 1:
+      id=atoi(token);
+      if(id>=NEIGHBORS_MAX)
+        return;
+      break;
+    case 2:
+      unsigned long newtime = atol(token);
+      if(origin_state.neighbors[id].lasttime>newtime)
+        return;
+      origin_state.neighbors[id].lasttime=newtime;
+    case 3:
+      float templat=atof(token);
+      //could put a check to see if lat is +/- .01 from kresge
+      if(templat<FLT_MIN)
+        break;
+      origin_state.lati=templat;
+      break;
+    case 4:
+      float templong=atof(token);
+      //could put a check to see if long is +/- .01 from kresge
+      if(templong<FLT_MIN)
+        break;
+      origin_state.longi=templat;
+      if(origin_state.longi>FLT_MIN)
+        origin_state.neighbors[id].active=1;
+      break;
+    default:
+      //this will be catching the rest of the message for now (eg ping stuff)
+    }
   }
 }
 
 void sendMessage(void){
   //message should consist of id, time, lat, long, pingid
   uint8_t pingid = 0;
+  uint8_t ididit = 0;
   uint8_t pingclearedid = 0;
   if(origin_state.pingactive){
     pingid=origin_state.pingnum;
+    ididit=origin_state.whodunnit;
   }else{
     pingclearedid=origin_state.pingnum;
   }
-  char temp[40];
-  uint8_t chars = sprintf(temp, "%c,%02d%02d%02d,%+02f,%+03f,%03d,%03d", origin_state.id, 
-          origin_state.hours, origin_state.minutes, origin_state.seconds, 
-          origin_state.lati, origin_state.longi, pingid, pingclearedid);
+  char temp[50];
+  int16_t hi_int_lat = origin_state.lati;
+  uint32_t low_int_lat = (origin_state.lati-hi_int_lat)*1000000;
+  int16_t hi_int_long = origin_state.longi;
+  uint32_t low_int_long = (origin_state.longi-hi_int_long)*1000000;
+  int8_t chars = sprintf(temp, "%c,%02d%02d%02d,%+03d.%06d,%+04d.%06d,%01d,%02d,%02d", origin_state.id, 
+                         origin_state.hours, origin_state.minutes, origin_state.seconds, 
+                         hi_int_lat, low_int_lat, hi_int_long, low_int_long,
+                         ididit, pingid, pingclearedid);
   
   uint8_t i=0;
   uint8_t chksum =0;
@@ -186,7 +234,7 @@ void sendMessage(void){
   //and send it!
   UART_Transmit(UART5, origin_state.msg, strlen(origin_state.msg), 500);
 }
-  
-  
+
+
 
 

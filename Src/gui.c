@@ -38,6 +38,8 @@ void GUI_ClearBackground(void)
 
 Node * GUI_InitNode(uint16_t ID, uint16_t fname, uint16_t lname, uint16_t color)
 {
+  if(ID>MAXNODES)
+    return NULL;
   nodes[nodeLength].x = centerX;
   nodes[nodeLength].y = centerY; 
   nodes[nodeLength].lastx = centerX;
@@ -52,8 +54,9 @@ Node * GUI_InitNode(uint16_t ID, uint16_t fname, uint16_t lname, uint16_t color)
   return &nodes[nodeLength];
 }
 
-
-uint16_t GUI_GetNode(uint16_t ID)
+//gets the index from the storage array of the given node id
+//returns -1 in the event of a failure
+int16_t GUI_GetNode(uint16_t ID)
 {
   uint16_t i = 0; 
   uint16_t nodeToUpdate;
@@ -90,6 +93,24 @@ void GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t rec
     nodes[nodeToUpdate].sping = nodes[nodeToUpdate].sping*sendPing;
   }
 
+}
+
+void GUI_UpdateNodes(void){
+  for(int i=0; i<NEIGHBORS_MAX; i++){
+    if(origin_state.neighbors[i].active){
+      uint18_t index=GUI_GetNode(i);
+      if(index<0){
+        GUI_InitNode(i, 'R', 'F', i<<i*2);
+      }
+      if(origin_state.gpslock){
+       GUI_UpdateNode(GUI_GetNode(i), getDir(&origin_state.neighbors[i])-(3.1415*origin_state.heading/180.0),
+                     getDist(&origin_state.neighbors[i]), 0, 0);
+      }else{
+       GUI_UpdateNode(GUI_GetNode(i), getDir_fix(&origin_state.neighbors[i])-(3.1415*origin_state.heading/180.0),
+                      getDist_fix(&origin_state.neighbors[i]), 0,0);
+      }
+    }
+  }
 }
 
 void GUI_DrawNode(Node *n)

@@ -57,7 +57,7 @@ origin_t origin_state = {
   .id = ORIGIN_ID,
   .pingnum=0,
   .pingactive=0,
-  .dididoit=0,
+  .whodunnit=0,
   .pingclearedby=0,
   .gpslock=0,
   
@@ -127,15 +127,13 @@ int main(void)
     
     GUI_InitNode(1, 72,  83, 0xe8ec);
     GUI_InitNode(2, 86,  72, 0xfd20);
-    GUI_InitNode(3, 82,  70, 0x001f);
+    GUI_InitNode(3, 'R',  'F', 0x001f);
     
-#ifndef ORIGIN
     int screencount = 0;
-#endif
   
 #ifdef INSIDE
-    origin_state.lati=42.358094;
-    origin_state.longi=-71.094980;
+    origin_state.lati=KRESGE_LAT;
+    origin_state.longi=KRESGE_LONG;
     origin_state.gpslock=1;
 #endif
 
@@ -148,11 +146,18 @@ int main(void)
     if( buttonRisingEdge(&button1)){//right
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3);//yellow
       //UART_Transmit(&huart4, gps_init_msg, cmdData1Len, 500);
+      origin_state.pingnum+=1;
+      origin_state.pingactive=1;
+      origin_state.whodunnit = origin_state.id;
+      origin_state.pingclearedby = 0;
     }
     
     if(buttonRisingEdge(&button2)){//left
       //UART_Transmit(&huart4, gps_get_time_msg, cmdData2Len, 500);
       GPIO_ToggleBits(GPIOA, GPIO_Pin_2); //green
+      if(origin_state.pingactive&&(origin_state.whodunnit != origin_state.id)){
+        origin_state.pingactive=0;
+      }
     }
     
     if(getReset()){
@@ -164,6 +169,7 @@ int main(void)
     long actHeading=0;
     inv_get_sensor_type_heading(&actHeading, &headingAcc, &headingTime);
     degrees=((double)actHeading)/((double)65536.0);
+    origin_state.heading=degrees;
 #endif
     
     if(getSysTick()>tickey){
@@ -171,9 +177,13 @@ int main(void)
       
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
 
-      GUI_UpdateNode(1, degrees*3.1415/180.0+3.14*1.25, screencount, (count>10), 0);
-      GUI_UpdateNode(2, degrees*3.1415/180.0+3.14, screencount, (count>30), 0);
-      GUI_UpdateNode(3, degrees*3.1415/180.0+0, screencount, (count>50), 0);
+#ifndef ORIGIN
+      GUI_UpdateNode(1, degrees*3.1415/180.0+3.14*1.25, screencount, (screencount>10), 0);
+      GUI_UpdateNode(2, degrees*3.1415/180.0+3.14, screencount, (screencount>30), 0);
+      GUI_UpdateNode(3, degrees*3.1415/180.0+0, screencount, (screencount>50), 0);
+#else
+      GUI_UpdateNodes();
+#endif
       GUI_UpdateArrow(degrees*3.1415/180.0);
       GUI_UpdateBattery(getBatteryStatus());
       GUI_DrawTime();
@@ -184,17 +194,22 @@ int main(void)
       }
       GUI_Redraw();
       
-#ifndef ORIGIN
       screencount += 1;
+#ifndef ORIGIN
       degrees += 3.6;
       if (screencount%100 == 0){
         screencount  = 0;
         degrees = 0;
       }
+#else
+      if (screencount%100 == 0){
+        screencount  = 0;
+      }
 #endif
     }
     
     processGPS();
+    processXbee();
     sendMessage();
     /*for(int i =0; i<10; i++){
       if(friends[i]!=0){

@@ -28,6 +28,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include <math.h>
 #include "stm32f429i_discovery_lcd.h"
+#include "latlong.h"
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __GUI_H
@@ -69,8 +70,9 @@ extern "C" {
   
   Node *   GUI_InitNode(uint16_t ID, uint16_t fname,  uint16_t lname, uint16_t color);
   void     GUI_DeinitNode(Node *n);
-  uint16_t GUI_GetNode(uint16_t ID);
+  int16_t  GUI_GetNode(uint16_t ID);
   void     GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t recPing, uint8_t sendPing);
+  void     GUI_UpdateNodes(void)
   void     GUI_DrawNode(Node *n);
   void     GUI_ClearNode(Node n);
 
@@ -91,7 +93,6 @@ extern "C" {
   void     GUI_DrawTime(void);
   
   void     GUI_Redraw(void);
-  
   
 #ifdef __cplusplus
 }
