@@ -5,7 +5,7 @@ const char gps_init_msg[]="$PSRF104,42.359544,-71.0935699,0,96000,478200,1819,12
 const char gps_get_time_msg[] = "$PSRF103,08,01,00,01*2D00"; //request timing update
 
 const char gprmc[] = "GPRMC";
-const char delim[1] = {','};
+static const char delim[] = "*,";
 struct RX_Buff gps_buff;
 
 void UART4_IRQHandler(void)  //GPS
@@ -118,17 +118,3 @@ if(strcmp(token, gprmc)){
   
 }
 
-char *strsep(char **s, const char *ct)
-{
-  char *sbegin = *s;
-  char *end;
-  
-  if (sbegin == NULL)
-    return NULL;
-  
-  end = strpbrk(sbegin, ct);
-  if (end)
-    *end++ = '\0';
-  *s = end;
-  return sbegin;
-}

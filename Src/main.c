@@ -47,7 +47,7 @@ unsigned char  new_temp = 0;
 
 
 long headingData[3];
-uint8_t headingAcc=0;
+int8_t headingAcc=0;
 inv_time_t headingTime;
 
 
@@ -174,6 +174,10 @@ int main(void)
     
     if(getSysTick()>tickey){
       tickey +=53;
+    
+    processGPS();
+    processXbee();
+    sendMessage();
       
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
 
@@ -207,10 +211,6 @@ int main(void)
       }
 #endif
     }
-    
-    processGPS();
-    processXbee();
-    sendMessage();
     /*for(int i =0; i<10; i++){
       if(friends[i]!=0){
         if(friends[i]->newData!=0){

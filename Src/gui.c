@@ -58,9 +58,8 @@ Node * GUI_InitNode(uint16_t ID, uint16_t fname, uint16_t lname, uint16_t color)
 //returns -1 in the event of a failure
 int16_t GUI_GetNode(uint16_t ID)
 {
-  uint16_t i = 0; 
   uint16_t nodeToUpdate;
-  for(i; i<nodeLength; i++)
+  for(uint16_t i=0; i<nodeLength; i++)
   {
     if (nodes[i].id == ID)
     {
@@ -98,7 +97,7 @@ void GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t rec
 void GUI_UpdateNodes(void){
   for(int i=0; i<NEIGHBORS_MAX; i++){
     if(origin_state.neighbors[i].active){
-      uint18_t index=GUI_GetNode(i);
+      int16_t index=GUI_GetNode(i);
       if(index<0){
         GUI_InitNode(i, 'R', 'F', i<<i*2);
       }
@@ -366,8 +365,8 @@ void GUI_Redraw(void)
 {
   //while ((LTDC->CPSR & 0xFFFF) != 0){}
   LTDC_Cmd(DISABLE);
-  uint16_t i = 0; 
-  for(i; i<nodeLength; i++)
+   
+  for(uint16_t i = 0; i<nodeLength; i++)
   {
     GUI_ClearNode(nodes[i]);
   }
@@ -376,8 +375,7 @@ void GUI_Redraw(void)
   GUI_ClearButton();
   GUI_DrawArrow();
   GUI_DrawBackground();
-  i = 0;
-  for(i; i<nodeLength; i++)
+  for(uint16_t i = 0; i<nodeLength; i++)
   {
     GUI_DrawNode(&nodes[i]);
   }

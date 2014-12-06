@@ -2,6 +2,8 @@
 
 struct RX_Buff xbee_buff;
 
+static const char delim[]= "*,";
+
 /*void UART5_IRQHandler(void)  //XBEE
 { 
 //USART_ITConfig(UART5, USART_IT_RXNE, DISABLE);
@@ -161,39 +163,49 @@ void parseXbee(char *xbee_string){
   char* token;
   int i =0;
   uint8_t id;
-  while(i<10?){
+  while(i<9){ //currently 8 fields
     i++;
     
-    token = (char*)strsep (&nmea_string, delim);
+    token = (char*)strsep (&xbee_string, delim);
     switch(i){
     case 1:
+      {
       id=atoi(token);
       if(id>=NEIGHBORS_MAX)
         return;
       break;
+      }
     case 2:
+      {
       unsigned long newtime = atol(token);
       if(origin_state.neighbors[id].lasttime>newtime)
         return;
       origin_state.neighbors[id].lasttime=newtime;
+      break;
+      }
     case 3:
+      {
       float templat=atof(token);
       //could put a check to see if lat is +/- .01 from kresge
-      if(templat<FLT_MIN)
+      if(fabs(templat)<FLT_EPSILON)
         break;
       origin_state.lati=templat;
       break;
+      }
     case 4:
+      {
       float templong=atof(token);
       //could put a check to see if long is +/- .01 from kresge
-      if(templong<FLT_MIN)
+      if(fabs(templong)<FLT_EPSILON)
         break;
-      origin_state.longi=templat;
-      if(origin_state.longi>FLT_MIN)
+      origin_state.longi=templong;
+      if(fabs(origin_state.longi)>FLT_EPSILON)
         origin_state.neighbors[id].active=1;
       break;
+      }
     default:
       //this will be catching the rest of the message for now (eg ping stuff)
+      break;
     }
   }
 }
@@ -210,10 +222,10 @@ void sendMessage(void){
     pingclearedid=origin_state.pingnum;
   }
   char temp[50];
-  int16_t hi_int_lat = origin_state.lati;
-  uint32_t low_int_lat = (origin_state.lati-hi_int_lat)*1000000;
-  int16_t hi_int_long = origin_state.longi;
-  uint32_t low_int_long = (origin_state.longi-hi_int_long)*1000000;
+  int16_t hi_int_lat = (int16_t)trunc(origin_state.lati);
+  uint32_t low_int_lat = (uint32_t)trunc((origin_state.lati-hi_int_lat)*1000000);
+  int16_t hi_int_long = (int16_t)trunc(origin_state.longi);
+  uint32_t low_int_long = (uint32_t)trunc((origin_state.longi-hi_int_long)*1000000);
   int8_t chars = sprintf(temp, "%c,%02d%02d%02d,%+03d.%06d,%+04d.%06d,%01d,%02d,%02d", origin_state.id, 
                          origin_state.hours, origin_state.minutes, origin_state.seconds, 
                          hi_int_lat, low_int_lat, hi_int_long, low_int_long,

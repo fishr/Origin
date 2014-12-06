@@ -10,7 +10,8 @@
    
 extern int hello_rx_flag;
 
-typedef struct RX_Buff{
+typedef struct RX_Buff RX_Buff;
+struct RX_Buff{
   uint8_t newData;
   uint8_t lock;
   uint16_t length;
@@ -20,7 +21,8 @@ typedef struct RX_Buff{
   uint16_t msg_len;
 };
 
-typedef struct TX_Buff{
+typedef struct TX_Buff TX_Buff;
+struct TX_Buff{
   int8_t rxID;
   uint8_t newData;
   uint8_t valid;

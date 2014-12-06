@@ -24,7 +24,8 @@ enum button_state {
 };
 
 /* These are the variables used */
-typedef struct Button{
+typedef struct Button Button;
+struct Button{
 GPIO_TypeDef* port;
 uint16_t pin;
 uint16_t input;       /* 0 or 1 depending on the input signal */

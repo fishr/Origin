@@ -103,7 +103,11 @@ void UART5_Start()
   GPIO_InitStruct.GPIO_Speed = GPIO_High_Speed;
   GPIO_Init(GPIOD, &GPIO_InitStruct);
   
+#ifdef BOARD_V3
   huart5.USART_BaudRate = 115200;
+#else
+  huart5.USART_BaudRate = 9600;
+#endif
   huart5.USART_WordLength = USART_WordLength_8b;
   huart5.USART_StopBits = USART_StopBits_1;
   huart5.USART_Parity = USART_Parity_No;

@@ -11,7 +11,7 @@ struct neighbor_t {
   float longi;
   uint8_t active;
   unsigned long lasttime;
-}
+};
 
 typedef struct origin_t origin_t;
 

@@ -16,6 +16,7 @@
 
 #define ORIGIN  //if this is an origin as opposed to a discovery board
 //#define BOARD_V1  //if this is a V1 circuit board
+#define BOARD_V3
 //#define INSIDE //if the unit will be inside kresge
 
 #endif
