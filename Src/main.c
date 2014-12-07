@@ -42,8 +42,8 @@ uint16_t len=0;
 
 double degrees=0;
 unsigned char  new_temp = 0;
-    unsigned char new_compass = 0;
-    unsigned long timestamp;
+unsigned char new_compass = 0;
+unsigned long timestamp;
 
 
 long headingData[3];
@@ -62,7 +62,7 @@ origin_t origin_state = {
   .gpslock=0,
   
 };
-  
+
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -73,9 +73,6 @@ static void delay(__IO uint32_t nCount);
 #endif /* USE_Delay*/
 
 /* Private functions ---------------------------------------------------------*/
-
-//static unsigned char *mpl_key = (unsigned char*)"eMPL 5.1";
-
 
 /**
 * @brief   Main program
@@ -91,6 +88,7 @@ int main(void)
   Flash_Start();
   
   unsigned long tickey = getSysTick()+1000;
+  
   GPIO_ResetBits(GPIOA, GPIO_Pin_10); //LCD Reset must be held 10us
   GPIO_SetBits(GPIOG, GPIO_Pin_3);  //flash deselect
   GPIO_SetBits(GPIOC, GPIO_Pin_8);  //flash #hold off, we have dedicated pins
@@ -114,29 +112,37 @@ int main(void)
 #endif
   
   //=======================END BUTTONS==================
-
-
-    /* LCD Configuration */
-    LCD_Config();
-    /* Enable The LCD */
-    LTDC_Cmd(ENABLE);
-    LCD_SetLayer(LCD_FOREGROUND_LAYER);
-    GUI_ClearBackground();
-    int count = 0;
-    //delay(20000);
-    
-    GUI_InitNode(1, 72,  83, 0xe8ec);
-    GUI_InitNode(2, 86,  72, 0xfd20);
-    GUI_InitNode(3, 'R',  'F', 0x001f);
-    
-    int screencount = 0;
+  
+  
+  /* LCD Configuration */
+  LCD_Config();
+  /* Enable The LCD */
+  LTDC_Cmd(ENABLE);
+  LCD_SetLayer(LCD_FOREGROUND_LAYER);
+  GUI_ClearBackground();
+  int count = 0;
+  //delay(20000);
+  
+#ifndef ORIGIN    
+  GUI_InitNode(1, 72,  83, 0xe8ec);
+  GUI_InitNode(2, 86,  72, 0xfd20);
+  GUI_InitNode(3, 'R',  'F', 0x001f);
+#endif
+  
+  int screencount = 0;
   
 #ifdef INSIDE
-    origin_state.lati=KRESGE_LAT;
-    origin_state.longi=KRESGE_LONG;
-    origin_state.gpslock=1;
+  origin_state.lati=KRESGE_LAT;
+  origin_state.longi=KRESGE_LONG;
+  origin_state.gpslock=1;
 #endif
-
+  uint8_t gps_init_msg_len = sizeof(gps_init_msg)/sizeof(gps_init_msg[0]);
+  gps_init_msg[gps_init_msg_len-3]=0x0D;
+  gps_init_msg[gps_init_msg_len-2]=0x0A;
+  UART_Transmit(UART4, gps_init_msg, gps_init_msg_len, 500);
+  
+  unsigned long tickey2 = getSysTick()+2000;
+  
   /* Infinite loop */
   while (1)
   {
@@ -172,15 +178,20 @@ int main(void)
     origin_state.heading=degrees;
 #endif
     
+    if(getSysTick()>tickey2){
+      tickey2 +=2000;
+      sendMessage();
+    }
+    
+    
     if(getSysTick()>tickey){
       tickey +=53;
-    
-    processGPS();
-    processXbee();
-    sendMessage();
+      
+      processGPS();
+      processXbee();
       
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
-
+      
 #ifndef ORIGIN
       GUI_UpdateNode(1, degrees*3.1415/180.0+3.14*1.25, screencount, (screencount>10), 0);
       GUI_UpdateNode(2, degrees*3.1415/180.0+3.14, screencount, (screencount>30), 0);
@@ -211,223 +222,207 @@ int main(void)
       }
 #endif
     }
-    /*for(int i =0; i<10; i++){
-      if(friends[i]!=0){
-        if(friends[i]->newData!=0){
-          uint8_t tempIdMsg[3];
-          tempIdMsg[0]=friends[i]->rxID;
-          tempIdMsg[1]=0x0D;
-          tempIdMsg[2]=0x0A;
-          friends[i]->newData=0;
-          UART_Transmit(UART5, tempIdMsg, 3, 500);
-          double lat;
-          double longi;
-          //parseGPS(friends[i]->buffer, &lat, &longi);
-          lat++;
-        }
-      }
-    }
-    */
+
     
     //Sensors_I2C_ReadRegister((unsigned char)0x68, (unsigned char)MPU_WHOAMI, 1, inImu);    
     
     //==================================IMU================================
-     unsigned long sensor_timestamp;
+    unsigned long sensor_timestamp;
     int new_data = 0;
-
+    
     get_tick_count(&timestamp);
-
+    
 #ifdef COMPASS_ENABLED
-        /* We're not using a data ready interrupt for the compass, so we'll
-         * make our compass reads timer-based instead.
-         */
-        if ((timestamp > hal.next_compass_ms) && !hal.lp_accel_mode &&
-            hal.new_gyro && (hal.sensors & COMPASS_ON)) {
-            hal.next_compass_ms = timestamp + COMPASS_READ_MS;
-            new_compass = 1;
+    /* We're not using a data ready interrupt for the compass, so we'll
+    * make our compass reads timer-based instead.
+    */
+    if ((timestamp > hal.next_compass_ms) && !hal.lp_accel_mode &&
+        hal.new_gyro && (hal.sensors & COMPASS_ON)) {
+          hal.next_compass_ms = timestamp + COMPASS_READ_MS;
+          new_compass = 1;
         }
 #endif
-        /* Temperature data doesn't need to be read with every gyro sample.
-         * Let's make them timer-based like the compass reads.
-         */
-        if (timestamp > hal.next_temp_ms) {
-            hal.next_temp_ms = timestamp + TEMP_READ_MS;
-            new_temp = 1;
-        }
-
-    if (hal.motion_int_mode) {
-        /* Enable motion interrupt. */
-        mpu_lp_motion_interrupt(500, 1, 5);
-        /* Notify the MPL that contiguity was broken. */
-        inv_accel_was_turned_off();
-        inv_gyro_was_turned_off();
-        inv_compass_was_turned_off();
-        inv_quaternion_sensor_was_turned_off();
-        /* Wait for the MPU interrupt. */
-        while (!hal.new_gyro) {}
-        /* Restore the previous sensor configuration. */
-        mpu_lp_motion_interrupt(0, 0, 0);
-        hal.motion_int_mode = 0;
+    /* Temperature data doesn't need to be read with every gyro sample.
+    * Let's make them timer-based like the compass reads.
+    */
+    if (timestamp > hal.next_temp_ms) {
+      hal.next_temp_ms = timestamp + TEMP_READ_MS;
+      new_temp = 1;
     }
-
+    
+    if (hal.motion_int_mode) {
+      /* Enable motion interrupt. */
+      mpu_lp_motion_interrupt(500, 1, 5);
+      /* Notify the MPL that contiguity was broken. */
+      inv_accel_was_turned_off();
+      inv_gyro_was_turned_off();
+      inv_compass_was_turned_off();
+      inv_quaternion_sensor_was_turned_off();
+      /* Wait for the MPU interrupt. */
+      while (!hal.new_gyro) {}
+      /* Restore the previous sensor configuration. */
+      mpu_lp_motion_interrupt(0, 0, 0);
+      hal.motion_int_mode = 0;
+    }
+    
     if (!hal.sensors || !hal.new_gyro) {
-        continue;
+      continue;
     }    
-
-        if (hal.new_gyro && hal.lp_accel_mode) {
-            short accel_short[3];
-            long accel[3];
-            mpu_get_accel_reg(accel_short, &sensor_timestamp);
-            accel[0] = (long)accel_short[0];
-            accel[1] = (long)accel_short[1];
-            accel[2] = (long)accel_short[2];
-            inv_build_accel(accel, 0, sensor_timestamp);
-            new_data = 1;
-            hal.new_gyro = 0;
-        } else if (hal.new_gyro && hal.dmp_on) {
-            short gyro[3], accel_short[3], sensors;
-            unsigned char more;
-            long accel[3], quat[4], temperature;
-            /* This function gets new data from the FIFO when the DMP is in
-             * use. The FIFO can contain any combination of gyro, accel,
-             * quaternion, and gesture data. The sensors parameter tells the
-             * caller which data fields were actually populated with new data.
-             * For example, if sensors == (INV_XYZ_GYRO | INV_WXYZ_QUAT), then
-             * the FIFO isn't being filled with accel data.
-             * The driver parses the gesture data to determine if a gesture
-             * event has occurred; on an event, the application will be notified
-             * via a callback (assuming that a callback function was properly
-             * registered). The more parameter is non-zero if there are
-             * leftover packets in the FIFO.
-             */
-            dmp_read_fifo(gyro, accel_short, quat, &sensor_timestamp, &sensors, &more);
-            if (!more)
-                hal.new_gyro = 0;
-            if (sensors & INV_XYZ_GYRO) {
-                /* Push the new data to the MPL. */
-                inv_build_gyro(gyro, sensor_timestamp);
-                new_data = 1;
-                if (new_temp) {
-                    new_temp = 0;
-                    /* Temperature only used for gyro temp comp. */
-                    mpu_get_temperature(&temperature, &sensor_timestamp);
-                    inv_build_temp(temperature, sensor_timestamp);
-                }
-            }
-            if (sensors & INV_XYZ_ACCEL) {
-                accel[0] = (long)accel_short[0];
-                accel[1] = (long)accel_short[1];
-                accel[2] = (long)accel_short[2];
-                inv_build_accel(accel, 0, sensor_timestamp);
-                new_data = 1;
-            }
-            if (sensors & INV_WXYZ_QUAT) {
-                inv_build_quat(quat, 0, sensor_timestamp);
-                new_data = 1;
-            }
-        } else if (hal.new_gyro) {
-            short gyro[3], accel_short[3];
-            unsigned char sensors, more;
-            long accel[3], temperature;
-            /* This function gets new data from the FIFO. The FIFO can contain
-             * gyro, accel, both, or neither. The sensors parameter tells the
-             * caller which data fields were actually populated with new data.
-             * For example, if sensors == INV_XYZ_GYRO, then the FIFO isn't
-             * being filled with accel data. The more parameter is non-zero if
-             * there are leftover packets in the FIFO. The HAL can use this
-             * information to increase the frequency at which this function is
-             * called.
-             */
-            hal.new_gyro = 0;
-            mpu_read_fifo(gyro, accel_short, &sensor_timestamp,
-                &sensors, &more);
-            if (more)
-                hal.new_gyro = 1;
-            if (sensors & INV_XYZ_GYRO) {
-                /* Push the new data to the MPL. */
-                inv_build_gyro(gyro, sensor_timestamp);
-                new_data = 1;
-                if (new_temp) {
-                    new_temp = 0;
-                    /* Temperature only used for gyro temp comp. */
-                    mpu_get_temperature(&temperature, &sensor_timestamp);
-                    inv_build_temp(temperature, sensor_timestamp);
-                }
-            }
-            if (sensors & INV_XYZ_ACCEL) {
-                accel[0] = (long)accel_short[0];
-                accel[1] = (long)accel_short[1];
-                accel[2] = (long)accel_short[2];
-                inv_build_accel(accel, 0, sensor_timestamp);
-                new_data = 1;
-            }
+    
+    if (hal.new_gyro && hal.lp_accel_mode) {
+      short accel_short[3];
+      long accel[3];
+      mpu_get_accel_reg(accel_short, &sensor_timestamp);
+      accel[0] = (long)accel_short[0];
+      accel[1] = (long)accel_short[1];
+      accel[2] = (long)accel_short[2];
+      inv_build_accel(accel, 0, sensor_timestamp);
+      new_data = 1;
+      hal.new_gyro = 0;
+    } else if (hal.new_gyro && hal.dmp_on) {
+      short gyro[3], accel_short[3], sensors;
+      unsigned char more;
+      long accel[3], quat[4], temperature;
+      /* This function gets new data from the FIFO when the DMP is in
+      * use. The FIFO can contain any combination of gyro, accel,
+      * quaternion, and gesture data. The sensors parameter tells the
+      * caller which data fields were actually populated with new data.
+      * For example, if sensors == (INV_XYZ_GYRO | INV_WXYZ_QUAT), then
+      * the FIFO isn't being filled with accel data.
+      * The driver parses the gesture data to determine if a gesture
+      * event has occurred; on an event, the application will be notified
+      * via a callback (assuming that a callback function was properly
+      * registered). The more parameter is non-zero if there are
+      * leftover packets in the FIFO.
+      */
+      dmp_read_fifo(gyro, accel_short, quat, &sensor_timestamp, &sensors, &more);
+      if (!more)
+        hal.new_gyro = 0;
+      if (sensors & INV_XYZ_GYRO) {
+        /* Push the new data to the MPL. */
+        inv_build_gyro(gyro, sensor_timestamp);
+        new_data = 1;
+        if (new_temp) {
+          new_temp = 0;
+          /* Temperature only used for gyro temp comp. */
+          mpu_get_temperature(&temperature, &sensor_timestamp);
+          inv_build_temp(temperature, sensor_timestamp);
         }
+      }
+      if (sensors & INV_XYZ_ACCEL) {
+        accel[0] = (long)accel_short[0];
+        accel[1] = (long)accel_short[1];
+        accel[2] = (long)accel_short[2];
+        inv_build_accel(accel, 0, sensor_timestamp);
+        new_data = 1;
+      }
+      if (sensors & INV_WXYZ_QUAT) {
+        inv_build_quat(quat, 0, sensor_timestamp);
+        new_data = 1;
+      }
+    } else if (hal.new_gyro) {
+      short gyro[3], accel_short[3];
+      unsigned char sensors, more;
+      long accel[3], temperature;
+      /* This function gets new data from the FIFO. The FIFO can contain
+      * gyro, accel, both, or neither. The sensors parameter tells the
+      * caller which data fields were actually populated with new data.
+      * For example, if sensors == INV_XYZ_GYRO, then the FIFO isn't
+      * being filled with accel data. The more parameter is non-zero if
+      * there are leftover packets in the FIFO. The HAL can use this
+      * information to increase the frequency at which this function is
+      * called.
+      */
+      hal.new_gyro = 0;
+      mpu_read_fifo(gyro, accel_short, &sensor_timestamp,
+                    &sensors, &more);
+      if (more)
+        hal.new_gyro = 1;
+      if (sensors & INV_XYZ_GYRO) {
+        /* Push the new data to the MPL. */
+        inv_build_gyro(gyro, sensor_timestamp);
+        new_data = 1;
+        if (new_temp) {
+          new_temp = 0;
+          /* Temperature only used for gyro temp comp. */
+          mpu_get_temperature(&temperature, &sensor_timestamp);
+          inv_build_temp(temperature, sensor_timestamp);
+        }
+      }
+      if (sensors & INV_XYZ_ACCEL) {
+        accel[0] = (long)accel_short[0];
+        accel[1] = (long)accel_short[1];
+        accel[2] = (long)accel_short[2];
+        inv_build_accel(accel, 0, sensor_timestamp);
+        new_data = 1;
+      }
+    }
 #ifdef COMPASS_ENABLED
-        if (new_compass) {
-            short compass_short[3];
-            long compass[3];
-            new_compass = 0;
-            /* For any MPU device with an AKM on the auxiliary I2C bus, the raw
-             * magnetometer registers are copied to special gyro registers.
-             */
-            if (!mpu_get_compass_reg(compass_short, &sensor_timestamp)) {
-                compass[0] = (long)compass_short[0];
-                compass[1] = (long)compass_short[1];
-                compass[2] = (long)compass_short[2];
-                /* NOTE: If using a third-party compass calibration library,
-                 * pass in the compass data in uT * 2^16 and set the second
-                 * parameter to INV_CALIBRATED | acc, where acc is the
-                 * accuracy from 0 to 3.
-                 */
-                inv_build_compass(compass, 0, sensor_timestamp);
-            }
-            new_data = 1;
-        }
+    if (new_compass) {
+      short compass_short[3];
+      long compass[3];
+      new_compass = 0;
+      /* For any MPU device with an AKM on the auxiliary I2C bus, the raw
+      * magnetometer registers are copied to special gyro registers.
+      */
+      if (!mpu_get_compass_reg(compass_short, &sensor_timestamp)) {
+        compass[0] = (long)compass_short[0];
+        compass[1] = (long)compass_short[1];
+        compass[2] = (long)compass_short[2];
+        /* NOTE: If using a third-party compass calibration library,
+        * pass in the compass data in uT * 2^16 and set the second
+        * parameter to INV_CALIBRATED | acc, where acc is the
+        * accuracy from 0 to 3.
+        */
+        inv_build_compass(compass, 0, sensor_timestamp);
+      }
+      new_data = 1;
+    }
 #endif
-        if (new_data) {
-            inv_execute_on_data();
-            /* This function reads bias-compensated sensor data and sensor
-             * fusion outputs from the MPL. The outputs are formatted as seen
-             * in eMPL_outputs.c. This function only needs to be called at the
-             * rate requested by the host.
-             */
-            read_from_mpl();
-        }
-        
- //========================================IMU==================================
+    if (new_data) {
+      inv_execute_on_data();
+      /* This function reads bias-compensated sensor data and sensor
+      * fusion outputs from the MPL. The outputs are formatted as seen
+      * in eMPL_outputs.c. This function only needs to be called at the
+      * rate requested by the host.
+      */
+      read_from_mpl();
+    }
+    
+    //========================================IMU==================================
   }
 }
 
 
 #ifdef  USE_FULL_ASSERT
+
+/**
+* @brief  Reports the name of the source file and the source line number
+*         where the assert_param error has occurred.
+* @param  file: pointer to the source file name
+* @param  line: assert_param error line source number
+* @retval None
+*/
+void assert_failed(uint8_t* file, uint32_t line)
+{ 
+  /* User can add his own implementation to report the file name and line number,
+  ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   
-  /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
-  void assert_failed(uint8_t* file, uint32_t line)
-  { 
-    /* User can add his own implementation to report the file name and line number,
-    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-    
-    /* Infinite loop */
-    while (1)
-    {
-      int g=0;
-    }
+  /* Infinite loop */
+  while (1)
+  {
+    int g=0;
   }
+}
 #endif
-  
+
 
 #ifndef USE_Delay
 /**
-  * @brief  Inserts a delay time.
-  * @param  nCount: specifies the delay time length.
-  * @retval None
-  */
+* @brief  Inserts a delay time.
+* @param  nCount: specifies the delay time length.
+* @retval None
+*/
 static void delay(__IO uint32_t nCount)
 {
   __IO uint32_t index = 0; 
@@ -436,10 +431,10 @@ static void delay(__IO uint32_t nCount)
   }
 }
 #endif /* USE_Delay*/
-  /**
-  * @}
-  */
-  
-  
-  /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-  
+/**
+* @}
+*/
+
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+

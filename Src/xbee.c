@@ -163,7 +163,12 @@ void parseXbee(char *xbee_string){
   char* token;
   int i =0;
   uint8_t id;
-  while(i<9){ //currently 8 fields
+  float templong;
+  float templat;
+  uint8_t pingid;
+  uint8_t pingclearer;
+  unsigned long newtime;
+  while(i<8){ //currently 7 fields
     i++;
     
     token = (char*)strsep (&xbee_string, delim);
@@ -177,7 +182,7 @@ void parseXbee(char *xbee_string){
       }
     case 2:
       {
-      unsigned long newtime = atol(token);
+      newtime = atol(token);
       if(origin_state.neighbors[id].lasttime>newtime)
         return;
       origin_state.neighbors[id].lasttime=newtime;
@@ -185,23 +190,49 @@ void parseXbee(char *xbee_string){
       }
     case 3:
       {
-      float templat=atof(token);
+      templat=atof(token);
       //could put a check to see if lat is +/- .01 from kresge
       if(fabs(templat)<FLT_EPSILON)
-        break;
-      origin_state.lati=templat;
+        return;
+      origin_state.neighbors[id].lati=templat;
       break;
       }
     case 4:
       {
-      float templong=atof(token);
+      templong=atof(token);
       //could put a check to see if long is +/- .01 from kresge
       if(fabs(templong)<FLT_EPSILON)
-        break;
-      origin_state.longi=templong;
-      if(fabs(origin_state.longi)>FLT_EPSILON)
+        return;
+      origin_state.neighbors[id].longi=templong;
+      if(fabs(origin_state.neighbors[id].lati)>FLT_EPSILON)
         origin_state.neighbors[id].active=1;
       break;
+      }
+    case 5: 
+      {
+        pingid = atol(token);
+        if(pingid<origin_state.pingnum){
+          return;
+        }
+        break;
+      }
+    case 6:
+      {
+        if(pingid>origin_state.pingnum){
+          origin_state.pingnum=pingid;
+          origin_state.pingclearedby=0;
+          origin_state.pingactive=1;
+          origin_state.whodunnit = atol(token);
+        }
+        break;
+      }
+    case 7:
+      {
+        pingclearer=atol(token);
+        if(pingclearer==origin_state.pingnum){
+          origin_state.pingclearedby |= 1<<id;
+        }
+        break;
       }
     default:
       //this will be catching the rest of the message for now (eg ping stuff)
@@ -212,24 +243,19 @@ void parseXbee(char *xbee_string){
 
 void sendMessage(void){
   //message should consist of id, time, lat, long, pingid
-  uint8_t pingid = 0;
-  uint8_t ididit = 0;
   uint8_t pingclearedid = 0;
-  if(origin_state.pingactive){
-    pingid=origin_state.pingnum;
-    ididit=origin_state.whodunnit;
-  }else{
+  if(!origin_state.pingactive){
     pingclearedid=origin_state.pingnum;
   }
   char temp[50];
   int16_t hi_int_lat = (int16_t)trunc(origin_state.lati);
-  uint32_t low_int_lat = (uint32_t)trunc((origin_state.lati-hi_int_lat)*1000000);
+  uint32_t low_int_lat = (uint32_t)trunc((origin_state.lati-hi_int_lat)*1000000.0);
   int16_t hi_int_long = (int16_t)trunc(origin_state.longi);
-  uint32_t low_int_long = (uint32_t)trunc((origin_state.longi-hi_int_long)*1000000);
-  int8_t chars = sprintf(temp, "%c,%02d%02d%02d,%+03d.%06d,%+04d.%06d,%01d,%02d,%02d", origin_state.id, 
+  uint32_t low_int_long = (uint32_t)fabs(trunc((origin_state.longi-hi_int_long)*1000000.0));
+  int8_t chars = sprintf(temp, "%d,%02d%02d%02d,%+03d.%06d,%+04d.%06d,%02d,%d,%02d", origin_state.id, 
                          origin_state.hours, origin_state.minutes, origin_state.seconds, 
                          hi_int_lat, low_int_lat, hi_int_long, low_int_long,
-                         ididit, pingid, pingclearedid);
+                         origin_state.pingnum, origin_state.whodunnit, pingclearedid);
   
   uint8_t i=0;
   uint8_t chksum =0;
@@ -242,7 +268,7 @@ void sendMessage(void){
       i++;
     }
   }
-  sprintf(origin_state.msg, "$%s*%02X", temp, chksum);
+  sprintf(origin_state.msg, "$%s*%02X%c%c", temp, chksum, 0x0A, 0x0D);
   //and send it!
   UART_Transmit(UART5, origin_state.msg, strlen(origin_state.msg), 500);
 }

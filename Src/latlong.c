@@ -26,15 +26,15 @@ double getDir_dbl(double lat1, double long1, double lat2, double long2)
 
 double getDist_dbl(double lat1, double lon1, double lat2, double lon2)
 {
-    lon1 = lon1*3.1415 / 180;
-    lat1 = lat1*3.1415 / 180;
-    lon2 = lon2*3.1415 / 180;
-    lat2 = lat2*3.1415 / 180;
+    lon1 = lon1*3.1415 / 180.0;
+    lat1 = lat1*3.1415 / 180.0;
+    lon2 = lon2*3.1415 / 180.0;
+    lat2 = lat2*3.1415 / 180.0;
 
     double dlon = lon2 - lon1;
     double dlat = lat2 - lat1;
 
-    double a = pow(sin(dlat/2), 2) * cos(lat1) * cos(lat2) * pow(sin(dlon/2),2);
+    double a = pow(sin(dlat/2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon/2),2);
     double c = sin(sqrt(a)) * 2;
 
     double m = 6367000 * c;

@@ -1,8 +1,8 @@
 #include "gps.h"
 
 
-const char gps_init_msg[]="$PSRF104,42.359544,-71.0935699,0,96000,478200,1819,12,3*0B00"; //init
-const char gps_get_time_msg[] = "$PSRF103,08,01,00,01*2D00"; //request timing update
+char gps_init_msg[60]="$PSRF104,42.359544,-71.0935699,0,96000,518400,1821,12,3*0B00"; //init
+char gps_get_time_msg[] = "$PSRF103,08,01,00,01*2D00"; //request timing update
 
 const char gprmc[] = "GPRMC";
 static const char delim[] = "*,";

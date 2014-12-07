@@ -51,7 +51,7 @@ Node * GUI_InitNode(uint16_t ID, uint16_t fname, uint16_t lname, uint16_t color)
   nodes[nodeLength].rping = 0;
   nodes[nodeLength].sping = 0;
   nodeLength++;
-  return &nodes[nodeLength];
+  return &nodes[nodeLength-1];
 }
 
 //gets the index from the storage array of the given node id
@@ -63,11 +63,10 @@ int16_t GUI_GetNode(uint16_t ID)
   {
     if (nodes[i].id == ID)
     {
-      nodeToUpdate = i;
-      break;
+      return i;
     }
   }
-  return nodeToUpdate;
+  return -1;
 }
 
 /**
@@ -77,7 +76,7 @@ int16_t GUI_GetNode(uint16_t ID)
   */
 void GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t recPing, uint8_t sendPing)
 {
-  uint16_t nodeToUpdate = GUI_GetNode(ID);
+  int16_t nodeToUpdate = GUI_GetNode(ID);
   
   nodes[nodeToUpdate].x = (int16_t) (centerX+distance*sin(angleRad));
   nodes[nodeToUpdate].y = (int16_t) (centerY+distance*cos(angleRad));
@@ -95,18 +94,27 @@ void GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t rec
 }
 
 void GUI_UpdateNodes(void){
-  for(int i=0; i<NEIGHBORS_MAX; i++){
+  for(int i=1; i<NEIGHBORS_MAX; i++){
     if(origin_state.neighbors[i].active){
       int16_t index=GUI_GetNode(i);
       if(index<0){
         GUI_InitNode(i, 'R', 'F', i<<i*2);
       }
+      uint8_t recPing=0;
+      uint8_t sentPing=0;
+      if(origin_state.pingactive){
+        if((origin_state.whodunnit==ORIGIN_ID)&&!(origin_state.pingclearedby&(1<<i))){
+          recPing=1;
+        }else if(!(origin_state.whodunnit==ORIGIN_ID)){
+          sentPing=1;
+        }
+      }
       if(origin_state.gpslock){
-       GUI_UpdateNode(GUI_GetNode(i), getDir(&origin_state.neighbors[i])-(3.1415*origin_state.heading/180.0),
-                     getDist(&origin_state.neighbors[i]), 0, 0);
+       GUI_UpdateNode(i, getDir(&origin_state.neighbors[i])+(3.1415*origin_state.heading/180.0),
+                     getDist(&origin_state.neighbors[i]), recPing, sentPing);
       }else{
        GUI_UpdateNode(GUI_GetNode(i), getDir_fix(&origin_state.neighbors[i])-(3.1415*origin_state.heading/180.0),
-                      getDist_fix(&origin_state.neighbors[i]), 0,0);
+                      getDist_fix(&origin_state.neighbors[i]), recPing,sentPing);
       }
     }
   }
