@@ -98,7 +98,7 @@ void GUI_UpdateNodes(void){
     if(origin_state.neighbors[i].active){
       int16_t index=GUI_GetNode(i);
       if(index<0){
-        GUI_InitNode(i, 'R', 'F', i<<i*2);
+        GUI_InitNode(i, 'R', 'F', (0xF<<i));
       }
       uint8_t recPing=0;
       uint8_t sentPing=0;
@@ -113,7 +113,7 @@ void GUI_UpdateNodes(void){
        GUI_UpdateNode(i, getDir(&origin_state.neighbors[i])+(3.1415*origin_state.heading/180.0),
                      getDist(&origin_state.neighbors[i]), recPing, sentPing);
       }else{
-       GUI_UpdateNode(GUI_GetNode(i), getDir_fix(&origin_state.neighbors[i])-(3.1415*origin_state.heading/180.0),
+       GUI_UpdateNode(i, getDir_fix(&origin_state.neighbors[i])+(3.1415*origin_state.heading/180.0),
                       getDist_fix(&origin_state.neighbors[i]), recPing,sentPing);
       }
     }
@@ -354,24 +354,26 @@ void GUI_ClearButton(void) {
   * @retval None
   */
 void GUI_DrawTime(void) {
+  LCD_SetTextColor(0x0000);
+  LCD_DrawFullRect(5, 0, 12, 35);
   
   // mins is the number of minutes since midnight. Time will be in 24h time.
-  uint8_t mins = 66;
+  uint16_t mins = origin_state.minutes+origin_state.hours*60;
   
   LCD_SetTextColor(0xFFFF);
   LCD_SetFont(&Font8x12);
   LCD_Currentfonts = &Font8x12;
   
-  LCD_DrawChar( 5,17,&LCD_Currentfonts->table[(mins/60/10 + 16) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(9,17,&LCD_Currentfonts->table[(mins/60/10 + 16) * LCD_Currentfonts->Height]);
   LCD_DrawChar(15,17,&LCD_Currentfonts->table[(mins/60%10 + 16) * LCD_Currentfonts->Height]);
   LCD_DrawChar(20,17,&LCD_Currentfonts->table[26 * LCD_Currentfonts->Height]);
-  LCD_DrawChar(25,17,&LCD_Currentfonts->table[(mins%60/10 + 16) * LCD_Currentfonts->Height]);
-  LCD_DrawChar(30,17,&LCD_Currentfonts->table[(mins%60%10 + 16) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(25,17,&LCD_Currentfonts->table[((mins%60)/10 + 16) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(31,17,&LCD_Currentfonts->table[((mins%60)%10 + 16) * LCD_Currentfonts->Height]);
 }
 
 void GUI_Redraw(void)
 {
-  //while ((LTDC->CPSR & 0xFFFF) != 0){}
+  while ((LTDC->CPSR & 0xFFFF) != 0){}
   LTDC_Cmd(DISABLE);
    
   for(uint16_t i = 0; i<nodeLength; i++)

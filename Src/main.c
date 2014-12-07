@@ -50,7 +50,6 @@ long headingData[3];
 int8_t headingAcc=0;
 inv_time_t headingTime;
 
-
 LTDC_ColorKeying_InitTypeDef   LTDC_colorkeying_InitStruct;
 
 origin_t origin_state = {
@@ -60,7 +59,8 @@ origin_t origin_state = {
   .whodunnit=0,
   .pingclearedby=0,
   .gpslock=0,
-  
+  .lati=KRESGE_LAT,
+  .longi=KRESGE_LONG,
 };
 
 
@@ -121,7 +121,7 @@ int main(void)
   LCD_SetLayer(LCD_FOREGROUND_LAYER);
   GUI_ClearBackground();
   int count = 0;
-  //delay(20000);
+  delay(20000);
   
 #ifndef ORIGIN    
   GUI_InitNode(1, 72,  83, 0xe8ec);
@@ -161,6 +161,7 @@ int main(void)
     if(buttonRisingEdge(&button2)){//left
       //UART_Transmit(&huart4, gps_get_time_msg, cmdData2Len, 500);
       GPIO_ToggleBits(GPIOA, GPIO_Pin_2); //green
+      
       if(origin_state.pingactive&&(origin_state.whodunnit != origin_state.id)){
         origin_state.pingactive=0;
       }
@@ -183,12 +184,12 @@ int main(void)
       sendMessage();
     }
     
-    
-    if(getSysTick()>tickey){
-      tickey +=53;
       
       processGPS();
       processXbee();
+    
+    if(getSysTick()>tickey){
+      tickey +=53;
       
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3); 
       

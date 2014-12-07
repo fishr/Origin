@@ -6,6 +6,6 @@
 
 void ADC_Start(void);
 
-int16_t getBatteryStatus(void);
+uint16_t getBatteryStatus(void);
 
 #endif

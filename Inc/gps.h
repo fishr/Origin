@@ -1,5 +1,6 @@
 #include "user.h"
 #include "uart.h"
+#include "stdio.h"
 #include "origintypes.h"
 #include "latlong.h"
 
@@ -8,7 +9,7 @@
 
 
 //extern struct RX_Buff gps_buff;
-extern char gps_init_msg[60];
+extern char gps_init_msg[61];
 extern char gps_get_time_msg[];
 
 void UART4_IRQHandler(void);

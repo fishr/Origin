@@ -1,5 +1,5 @@
 #include "uart.h"
-
+/*
 int hello_rx_flag = 0;
 struct TX_Buff tx_buff;
 struct TX_Buff tx_buff0;
@@ -13,8 +13,8 @@ struct TX_Buff tx_buff7;
 struct TX_Buff tx_buff8;
 struct TX_Buff tx_buff9;
 uint8_t idFlag = 0;
-
-struct TX_Buff *friends[10];
+*/
+//struct TX_Buff *friends[10];
 
 /* USER CODE END 0 */
 
@@ -50,14 +50,16 @@ void UART4_Start()
   huart4.USART_Parity = USART_Parity_No;
   huart4.USART_Mode = USART_Mode_Rx|USART_Mode_Tx;
   huart4.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-  //huart4.Init.OverSampling = UART_OVERSAMPLING_16;
+  USART_OverSampling8Cmd(UART4, DISABLE);
+  USART_OneBitMethodCmd(UART4, DISABLE);
+
   USART_Init(UART4, &huart4);
   
   
   /* USER CODE BEGIN UART4_MspInit 1 */
   NVIC_InitTypeDef nvic_init;
   nvic_init.NVIC_IRQChannel=UART4_IRQn;
-  nvic_init.NVIC_IRQChannelPreemptionPriority=3;
+  nvic_init.NVIC_IRQChannelPreemptionPriority=2;
   nvic_init.NVIC_IRQChannelCmd=ENABLE;
   NVIC_Init(&nvic_init);
   USART_ClearFlag(UART4, USART_IT_RXNE);
@@ -119,7 +121,7 @@ void UART5_Start()
   /* USER CODE BEGIN UART5_MspInit 1 */
   NVIC_InitTypeDef nvic_init;
   nvic_init.NVIC_IRQChannel=UART5_IRQn;
-  nvic_init.NVIC_IRQChannelPreemptionPriority=2;
+  nvic_init.NVIC_IRQChannelPreemptionPriority=3;
   nvic_init.NVIC_IRQChannelCmd=ENABLE;
   NVIC_Init(&nvic_init);
   
@@ -133,7 +135,7 @@ void UART5_Start()
   
   USART_Cmd(UART5, ENABLE);
   
-  tx_buff.rxID=-1;
+  //tx_buff.rxID=-1;
 }
 
 void UART_Transmit(USART_TypeDef* UARTX, uint8_t* buff, uint16_t buff_len, uint32_t timeout){
@@ -158,7 +160,7 @@ int8_t hexchartohex(char c){
   }
   return -1;
 }
-
+/*
 void buff_copy(struct TX_Buff* dest, struct TX_Buff* input){
   //dest->buffer=input->buffer;
   strcpy(dest->buffer, input->buffer);
@@ -167,4 +169,4 @@ void buff_copy(struct TX_Buff* dest, struct TX_Buff* input){
   dest->pointer=input->pointer;
   dest->rxID=input->rxID;
   dest->valid=input->valid;
-}
+}*/

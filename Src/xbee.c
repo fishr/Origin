@@ -4,95 +4,7 @@ struct RX_Buff xbee_buff;
 
 static const char delim[]= "*,";
 
-/*void UART5_IRQHandler(void)  //XBEE
-{ 
-//USART_ITConfig(UART5, USART_IT_RXNE, DISABLE);
-//if(USART_GetITStatus(UART5, USART_FLAG_RXNE)==SET){
-//USART_ClearITPendingBit(UART5, USART_FLAG_RXNE);
-char input = USART_ReceiveData(UART5);
-if(tx_buff.rxID<0){
-tx_buff.rxID=input;
-idFlag = 1;
-tx_buff.valid=0;
-tx_buff.newData=0;
-  }else if(input=='$'){
-tx_buff.buffer[0]=tx_buff.rxID;
-tx_buff.pointer=1;
-tx_buff.buffer[tx_buff.pointer] = input;
-tx_buff.pointer++;
-idFlag=0;
-  }else if(input==0x0A){
-if((idFlag)||(tx_buff.valid)){
-idFlag=0;
-tx_buff.rxID=-1;
-tx_buff.pointer=1; 
-    }else{
-tx_buff.valid=1;
-tx_buff.newData=1;
-tx_buff.buffer[tx_buff.pointer] = input;
-tx_buff.length = tx_buff.pointer+1;    
-tx_buff.pointer=1;   
-idFlag=0;
-switch(tx_buff.rxID){
-      case '0':
-buff_copy(&tx_buff0, &tx_buff);
-friends[0]=&tx_buff0;
-break;
-      case '1':
-buff_copy(&tx_buff1, &tx_buff);
-friends[1]=&tx_buff1;
-break;
-      case '2':
-buff_copy(&tx_buff2, &tx_buff);
-friends[2]=&tx_buff2;
-break;
-      case '3':
-buff_copy(&tx_buff3, &tx_buff);
-friends[3]=&tx_buff3;
-break;
-      case '4':
-buff_copy(&tx_buff4, &tx_buff);
-friends[4]=&tx_buff4;
-break;
-      case '5':
-buff_copy(&tx_buff5, &tx_buff);
-friends[5]=&tx_buff5;
-break;
-      case '6':
-buff_copy(&tx_buff6, &tx_buff);
-friends[6]=&tx_buff6;
-break;
-      case '7':
-buff_copy(&tx_buff7, &tx_buff);
-friends[7]=&tx_buff7;
-break;
-      case '8':
-buff_copy(&tx_buff8, &tx_buff);
-friends[8]=&tx_buff8;
-break;
-      case '9':
-buff_copy(&tx_buff9, &tx_buff);
-friends[9]=&tx_buff9;
-break;
-      }
-tx_buff.rxID=-1;
-    }
-  }else{
-if(idFlag){
-idFlag=0;
-tx_buff.rxID=-1;
-tx_buff.pointer=1; 
-    }else{
-tx_buff.buffer[tx_buff.pointer] = input; 
-(tx_buff.pointer)++;
-    }
-  }
-//}
-//USART_ITConfig(UART5, USART_IT_RXNE, ENABLE);
-}
-*/
-
-void UART5_IRQHandler(void)  //GPS
+void UART5_IRQHandler(void)  //xbee
 { 
   //USART_ITConfig(UART5, USART_IT_RXNE, DISABLE);
   
@@ -104,7 +16,6 @@ void UART5_IRQHandler(void)  //GPS
   char input = USART_ReceiveData(UART5);
   
   if(input=='$'){
-    xbee_buff.newData=0;
     xbee_buff.pointer=0;
     xbee_buff.buffer[xbee_buff.pointer] = input;
     xbee_buff.pointer++;  
@@ -117,11 +28,11 @@ void UART5_IRQHandler(void)  //GPS
     xbee_buff.msg_len=xbee_buff.length;
     xbee_buff.lock=0;
     xbee_buff.newData=1;
-  }else{
+  }else if(xbee_buff.pointer!=0){
     xbee_buff.buffer[xbee_buff.pointer] = input; 
     (xbee_buff.pointer)++;
   }
-  //USART_ITConfig(UART4, USART_IT_RXNE, ENABLE);
+  //USART_ITConfig(UART5, USART_IT_RXNE, ENABLE);
 }
 
 void processXbee(void){

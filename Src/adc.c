@@ -1,5 +1,9 @@
 #include "adc.h"
 
+
+static uint16_t batt;
+
+
 void ADC_Start(void)
 {
     ADC_InitTypeDef hadc3;
@@ -34,10 +38,11 @@ void ADC_Start(void)
 }
 
 
-int16_t getBatteryStatus(void)
-{    
+uint16_t getBatteryStatus(void)
+{  
+  if(ADC_GetFlagStatus(ADC3, ADC_FLAG_EOC)){
     GPIO_ResetBits(GPIOF, GPIO_Pin_8);
-    int16_t batt = ADC_GetConversionValue(ADC3);
+    batt = ADC_GetConversionValue(ADC3);
     batt = ((batt - 2048)*100)/559; // Maps battery voltage range (3.3,4.2) to (0,100)
     //GPIO_SetBits(GPIOF, GPIO_Pin_8);
     if(batt<0){
@@ -45,5 +50,7 @@ int16_t getBatteryStatus(void)
     }else if(batt>100){
       batt=100;
     }
-    return batt;
+  }
+  
+  return batt;
 }
