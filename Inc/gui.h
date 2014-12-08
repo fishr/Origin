@@ -68,6 +68,9 @@ extern "C" {
   void     GUI_DrawBackground(void);
   void     GUI_ClearBackground(void);
   
+  void     GUI_DrawScale(void);
+  void     GUI_ClearScale(void);
+  
   Node *   GUI_InitNode(uint16_t ID, uint16_t fname,  uint16_t lname, uint16_t color);
   void     GUI_DeinitNode(Node *n);
   int16_t  GUI_GetNode(uint16_t ID);
