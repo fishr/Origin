@@ -47,6 +47,8 @@ unsigned char  new_temp = 0;
 unsigned char new_compass = 0;
 unsigned long timestamp;
 
+uint8_t ijustreset=1;
+
 char gps_init_msg[75]="$PSRF104,42.359544,-71.0935699,0,96000,79200,1822,12,3*36";
 
 long headingData[3];
@@ -255,7 +257,7 @@ origin_state.heading=((double)actHeading[2])/((double)65536.0);
       
       
       GUI_UpdateArrow(-origin_state.heading*3.1415/180.0);
-      GUI_UpdateBattery(getBatteryStatus());
+      GUI_UpdateBattery(getBatteryStatus(), GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_15)==Bit_RESET);
       GUI_DrawTime();
       GUI_DrawButton();
       GUI_Redraw();

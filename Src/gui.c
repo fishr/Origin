@@ -14,6 +14,7 @@ static uint8_t bottomButtonDirty = 0;
 
 static uint16_t nodeLength = 0;
 static double batteryPercent = 50.;
+static uint8_t batteryCharging=0;
 
 static double arrowAngle = 0;
 static double lastArrowAngle = 0;
@@ -165,6 +166,7 @@ void GUI_DrawNode(Node *n)
   LCD_SetTextColor(n->color);
   LCD_DrawFullCircle(n->x, n->y, 20);
   
+  LCD_SetTextColor(0xFFFF);
   if (n->rping > 0)
   {
     for(uint16_t i = 1; i<=(n->rping/PINGDIV); i++)
@@ -178,7 +180,7 @@ void GUI_DrawNode(Node *n)
     }
   }
   
-  LCD_SetTextColor(0xFFFF);
+  LCD_SetTextColor(n->color);
   if (n->sping > 0)
   {
     for(uint16_t i = 1; i<=(n->sping/PINGDIV); i++)
@@ -191,6 +193,7 @@ void GUI_DrawNode(Node *n)
       n->sping = 1;
     }
   }
+  LCD_SetTextColor(0xFFFF);
 
 
   LCD_SetFont(&Avenir);
@@ -215,9 +218,10 @@ void GUI_ClearNode(Node n)
   * @param  None
   * @retval None
   */
-void GUI_UpdateBattery(uint8_t battPercent) 
+void GUI_UpdateBattery(uint8_t battPercent, uint8_t charging) 
 {  
   batteryPercent = (batteryPercent*.99)+(battPercent*.01);
+  batteryCharging = charging;
 }
 
 /**
@@ -245,7 +249,11 @@ void GUI_DrawBattery(void)
   {
     LCD_DrawFullRect(8, 269, 6, ((int)(23 * batteryPercent / 100)));
   }
-
+  
+  if(batteryCharging){
+    LCD_DrawLine(10, 299, 5, 1);
+    LCD_DrawLine(8, 301, 6, 0);
+  }
 }
 
 /**
@@ -256,7 +264,7 @@ void GUI_DrawBattery(void)
 void GUI_ClearBattery(void) 
 {  
   LCD_SetTextColor(0x0000);
-  LCD_DrawFullRect(6, 287, 9, 27);
+  LCD_DrawFullRect(6, 287, 9, 230);
 }
 
 

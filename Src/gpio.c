@@ -89,11 +89,11 @@ void GPIO_Start(){
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
   GPIO_Init(GPIOE, &GPIO_InitStructure);
   
-//    /*Configure GPIO GPIO_Pins : PA15 */
-//
-//  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
-//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
-//  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-//  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-//  GPIO_Init(GPIOA, &GPIO_InitStructure);
+    /*Configure GPIO GPIO_Pins : PA15 */
+
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
   }

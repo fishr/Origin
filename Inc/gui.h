@@ -78,7 +78,7 @@ extern "C" {
   void     GUI_ClearNode(Node n);
 
 
-  void     GUI_UpdateBattery(uint8_t batteryPercent);
+  void     GUI_UpdateBattery(uint8_t batteryPercent, uint8_t charging);
   void     GUI_DrawBattery(void);
   void     GUI_ClearBattery(void);
   

@@ -9,6 +9,7 @@
 #define XBEE_H
 
 //extern struct RX_Buff xbee_buff;
+extern uint8_t ijustreset;
 
 void sendMessage(void);
 void UART5_IRQHandler(void);

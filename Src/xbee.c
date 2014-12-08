@@ -122,6 +122,10 @@ void parseXbee(char *xbee_string){
     case 5: 
       {
         pingid = atol(token);
+        if(ijustreset){
+          ijustreset=0;
+          origin_state.pingnum=pingid;
+        }
         if(pingid<origin_state.pingnum){
           return;
         }
