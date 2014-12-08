@@ -45,6 +45,7 @@ unsigned char  new_temp = 0;
 unsigned char new_compass = 0;
 unsigned long timestamp;
 
+char gps_init_msg[75]="$PSRF104,42.359544,-71.0935699,0,96000,79200,1822,12,3*36";
 
 long headingData[3];
 int8_t headingAcc=0;
@@ -82,6 +83,19 @@ static void delay(__IO uint32_t nCount);
 int main(void)
 {
   SysTick_Config(SystemCoreClock / 1000);
+  
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
+
+  GPIO_InitTypeDef  GPIO_InitStructure;
+
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+  GPIO_Init(GPIOE, &GPIO_InitStructure);
+  
+  GPIO_ResetBits(GPIOE, GPIO_Pin_2);  //start with gps off to make sure it activates when wanted
   
   GPIO_Start();
   ADC_Start();
@@ -136,12 +150,9 @@ int main(void)
   origin_state.longi=KRESGE_LONG;
   origin_state.gpslock=1;
 #endif
-  uint8_t gps_init_msg_len = sizeof(gps_init_msg)/sizeof(gps_init_msg[0]);
-  gps_init_msg[gps_init_msg_len-3]=0x0D;
-  gps_init_msg[gps_init_msg_len-2]=0x0A;
-  UART_Transmit(UART4, gps_init_msg, gps_init_msg_len, 500);
   
-  unsigned long tickey2 = getSysTick()+2000;
+  unsigned long tickey2 = getSysTick()+2000;  //2 second counter
+  unsigned long tickey3 = getSysTick()+4000;  //4 second delay to check gps state
   
   /* Infinite loop */
   while (1)
@@ -162,9 +173,20 @@ int main(void)
       //UART_Transmit(&huart4, gps_get_time_msg, cmdData2Len, 500);
       GPIO_ToggleBits(GPIOA, GPIO_Pin_2); //green
       
+        char setme[80];
+        sprintf(setme, "%s%c%c", gps_init_msg, 0x0D, 0x0A);
+        UART_Transmit(UART4, setme, sizeof(setme)/sizeof(setme[0]), 5000);
+      
       if(origin_state.pingactive&&(origin_state.whodunnit != origin_state.id)){
         origin_state.pingactive=0;
       }
+    }
+    
+    if(!origin_state.gpson &&(getSysTick()>tickey3)){
+      GPIO_ResetBits(GPIOE, GPIO_Pin_2);
+      delay(20000);
+      GPIO_SetBits(GPIOE, GPIO_Pin_2);
+      tickey+=4000;
     }
     
     if(getReset()){
@@ -173,10 +195,15 @@ int main(void)
     
     
 #ifdef ORIGIN
-    long actHeading=0;
-    inv_get_sensor_type_heading(&actHeading, &headingAcc, &headingTime);
-    degrees=((double)actHeading)/((double)65536.0);
-    origin_state.heading=degrees;
+//    long actHeading=0;
+//    inv_get_sensor_type_heading(&actHeading, &headingAcc, &headingTime);
+//    degrees=((double)actHeading)/((double)65536.0);
+//    origin_state.heading=degrees;
+    
+     long actHeading[3] = {0,0,0};
+inv_get_sensor_type_euler(actHeading, &headingAcc, &headingTime);
+degrees=((double)actHeading[2])/((double)65536.0);
+origin_state.heading=degrees;
 #endif
     
     if(getSysTick()>tickey2){
@@ -200,7 +227,9 @@ int main(void)
 #else
       GUI_UpdateNodes();
 #endif
-      GUI_UpdateArrow(degrees*3.1415/180.0);
+      
+      
+      GUI_UpdateArrow(-degrees*3.1415/180.0);
       GUI_UpdateBattery(getBatteryStatus());
       GUI_DrawTime();
       if (count > 50){

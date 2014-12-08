@@ -8,7 +8,7 @@ void UART5_IRQHandler(void)  //xbee
 { 
   //USART_ITConfig(UART5, USART_IT_RXNE, DISABLE);
   
-  if(USART_GetITStatus(UART5, USART_IT_ORE_RX)){
+  if(USART_GetITStatus(UART5, USART_IT_ORE_RX)==SET){
     USART_ClearITPendingBit(UART5, USART_IT_ORE_RX);
   }
   //if(USART_GetITStatus(UART5, USART_FLAG_RXNE)){

@@ -1,8 +1,10 @@
 #include "gps.h"
 
 
-char gps_init_msg[61]="$PSRF104,42.359544,-71.0935699,0,96000,79200,1822,12,3*3600"; //init
-char gps_get_time_msg[] = "$PSRF103,08,01,00,01*2D00"; //request timing update
+//char gps_init_msg[75]="$PSRF104,42.359544,-71.0935699,0,96000,79200,1822,12,3*36"; //init
+
+//char gps_init_msg[75]="$PSRF104,37.3875111,-121.97232,0,96000,237759,1946,12,1*0700";
+//char gps_get_time_msg[] = "$PSRF103,08,01,00,01*2D00"; //request timing update
 
 const char gprmc[] = "GPRMC";
 static const char delim[] = ",*";
@@ -13,7 +15,7 @@ void UART4_IRQHandler(void)  //GPS
 { 
   //USART_ITConfig(UART4, USART_IT_RXNE, DISABLE);
   
-  if(USART_GetITStatus(UART4, USART_IT_ORE_RX)){
+  if(USART_GetITStatus(UART4, USART_IT_ORE_RX)==SET){
     USART_ClearITPendingBit(UART4, USART_IT_ORE_RX);
   }
 //  if(USART_GetITStatus(UART4, USART_IT_RXNE)){
@@ -46,6 +48,7 @@ void processGPS(void){
     uint16_t len=gps_buff.msg_len;
     char tempmsg[UART_BUFF_LEN];
     memcpy(tempmsg, gps_buff.msg, len);
+    origin_state.gpson=1;
     gps_buff.newData=0;
     uint8_t chksum = 0;
     int i=1;

@@ -78,6 +78,9 @@ void GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t rec
 {
   int16_t nodeToUpdate = GUI_GetNode(ID);
   
+  if(distance>100){
+    distance=100;
+  }
   nodes[nodeToUpdate].x = (int16_t) (centerX+distance*sin(angleRad));
   nodes[nodeToUpdate].y = (int16_t) (centerY+distance*cos(angleRad));
   if (recPing > 0 && nodes[nodeToUpdate].rping==0){
@@ -110,10 +113,10 @@ void GUI_UpdateNodes(void){
         }
       }
       if(origin_state.gpslock){
-       GUI_UpdateNode(i, getDir(&origin_state.neighbors[i])+(3.1415*origin_state.heading/180.0),
+       GUI_UpdateNode(i, getDir(&origin_state.neighbors[i])-(3.1415*origin_state.heading/180.0),
                      getDist(&origin_state.neighbors[i]), recPing, sentPing);
       }else{
-       GUI_UpdateNode(i, getDir_fix(&origin_state.neighbors[i])+(3.1415*origin_state.heading/180.0),
+       GUI_UpdateNode(i, getDir_fix(&origin_state.neighbors[i])-(3.1415*origin_state.heading/180.0),
                       getDist_fix(&origin_state.neighbors[i]), recPing,sentPing);
       }
     }

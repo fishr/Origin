@@ -24,6 +24,7 @@ struct origin_t {
   uint16_t pingclearedby;  //bitmask
   unsigned long lasttimestamp;
   uint8_t gpslock;  //bool  //location data is valid
+  uint8_t gpson;
   float lati;
   float longi;
   uint8_t hours;
