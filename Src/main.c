@@ -225,11 +225,11 @@ origin_state.heading=((double)actHeading[2])/((double)65536.0);
       sendMessage();
 #if ORIGIN_ID == USER_ELIZABETH
       if(elizabethStartFlag){
-      origin_state.lati -=2.4100000000023178e-05;
+      origin_state.lati -=(2.4100000000023178e-05)/5;
       if(origin_state.lati<42.358104){
         origin_state.lati=42.358104;
       }
-      origin_state.longi-=1.633333333330711e-05;
+      origin_state.longi-=(1.633333333330711e-05)/5;
       if(origin_state.longi<-71.095135){
         origin_state.longi=-71.095135;
       }
