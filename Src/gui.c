@@ -13,7 +13,7 @@ static uint8_t topButtonDirty = 0;
 static uint8_t bottomButtonDirty = 0;
 
 static uint16_t nodeLength = 0;
-static uint8_t batteryPercent = 50;
+static double batteryPercent = 50.;
 
 static double arrowAngle = 0;
 static double lastArrowAngle = 0;
@@ -187,7 +187,7 @@ void GUI_ClearNode(Node n)
   */
 void GUI_UpdateBattery(uint8_t battPercent) 
 {  
-  batteryPercent = battPercent;
+  batteryPercent = (batteryPercent*.99)+(battPercent*.01);
 }
 
 /**
@@ -199,21 +199,21 @@ void GUI_DrawBattery(void)
 {  
   LCD_SetTextColor(0xFFFF);
   // Horizontal Lines
-  LCD_DrawLine(6, 288, 25, 1);
-  LCD_DrawLine(15, 288, 25, 1);
+  LCD_DrawLine(6, 250, 25, 1);
+  LCD_DrawLine(15, 250, 25, 1);
   // Vertical Lines
-  LCD_DrawLine(7, 287, 8, 0);
-  LCD_DrawLine(7, 313, 8, 0);
+  LCD_DrawLine(7, 249, 8, 0);
+  LCD_DrawLine(7, 275, 8, 0);
   // Positive Terminal
-  LCD_DrawLine(10, 314, 2, 0);
+  LCD_DrawLine(10, 276, 2, 0);
   // Juice Level
   if (batteryPercent > 100)
   {
-    LCD_DrawFullRect(8, 289, 6, 23);
+    LCD_DrawFullRect(8, 251, 6, 23);
   }
-  else if (23 * batteryPercent / 100 > 0)
+  else if (((int)(23 * batteryPercent / 100)) > 0)
   {
-    LCD_DrawFullRect(8, 289, 6, 23 * batteryPercent / 100);
+    LCD_DrawFullRect(8, 251, 6, ((int)(23 * batteryPercent / 100)));
   }
 
 }
@@ -358,7 +358,7 @@ void GUI_ClearButton(void) {
   */
 void GUI_DrawTime(void) {
   LCD_SetTextColor(0x0000);
-  LCD_DrawFullRect(5, 0, 12, 35);
+  LCD_DrawFullRect(5, 0, 12, 37);
   
   // mins is the number of minutes since midnight. Time will be in 24h time.
   uint16_t mins = origin_state.minutes+origin_state.hours*60;

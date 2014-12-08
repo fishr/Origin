@@ -173,26 +173,26 @@ int main(void)
       //UART_Transmit(&huart4, gps_get_time_msg, cmdData2Len, 500);
       GPIO_ToggleBits(GPIOA, GPIO_Pin_2); //green
       
-        char setme[80];
-        sprintf(setme, "%s%c%c", gps_init_msg, 0x0D, 0x0A);
-        UART_Transmit(UART4, setme, sizeof(setme)/sizeof(setme[0]), 5000);
-      
       if(origin_state.pingactive&&(origin_state.whodunnit != origin_state.id)){
         origin_state.pingactive=0;
       }
     }
     
-    if(!origin_state.gpson &&(getSysTick()>tickey3)){
+    if(origin_state.gpson>2 &&(getSysTick()>tickey3)){
       GPIO_ResetBits(GPIOE, GPIO_Pin_2);
       delay(20000);
       GPIO_SetBits(GPIOE, GPIO_Pin_2);
-      tickey+=4000;
+      delay(20000);      
+      char setme[80];
+      sprintf(setme, "%s%c%c", gps_init_msg, 0x0D, 0x0A);
+      UART_Transmit(UART4, setme, sizeof(setme)/sizeof(setme[0]), 5000);
+      origin_state.gpson=0;
+      tickey3+=4000;
     }
     
     if(getReset()){
       NVIC_SystemReset();
     }
-    
     
 #ifdef ORIGIN
 //    long actHeading=0;
@@ -203,7 +203,16 @@ int main(void)
      long actHeading[3] = {0,0,0};
 inv_get_sensor_type_euler(actHeading, &headingAcc, &headingTime);
 degrees=((double)actHeading[2])/((double)65536.0);
-origin_state.heading=degrees;
+//origin_state.heading=degrees;
+
+    long tempyraiture;
+    mpu_get_temperature(&tempyraiture, NULL);
+
+//    short garbage[3];
+//    mpu_get_compass_reg(garbage, NULL);
+//    double compass_angle = atan2(-garbage[0], -garbage[1])*180/3.1415;
+//    //origin_state.heading = .9*degrees + .1*compass_angle;
+//    origin_state.heading = compass_angle;
 #endif
     
     if(getSysTick()>tickey2){
@@ -211,7 +220,6 @@ origin_state.heading=degrees;
       sendMessage();
     }
     
-      
       processGPS();
       processXbee();
     

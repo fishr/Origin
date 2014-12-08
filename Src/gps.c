@@ -48,7 +48,7 @@ void processGPS(void){
     uint16_t len=gps_buff.msg_len;
     char tempmsg[UART_BUFF_LEN];
     memcpy(tempmsg, gps_buff.msg, len);
-    origin_state.gpson=1;
+    origin_state.gpson++;
     gps_buff.newData=0;
     uint8_t chksum = 0;
     int i=1;
