@@ -40,6 +40,8 @@
 char inData[UART_BUFF_LEN];
 uint16_t len=0;
 
+uint8_t elizabethStartFlag=0;
+
 double degrees=0;
 unsigned char  new_temp = 0;
 unsigned char new_compass = 0;
@@ -86,16 +88,16 @@ int main(void)
   
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
 
-  GPIO_InitTypeDef  GPIO_InitStructure;
-
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-  GPIO_Init(GPIOE, &GPIO_InitStructure);
-  
-  GPIO_ResetBits(GPIOE, GPIO_Pin_2);  //start with gps off to make sure it activates when wanted
+//  GPIO_InitTypeDef  GPIO_InitStructure;
+//
+//  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+//  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+//  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+//  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+//  GPIO_Init(GPIOE, &GPIO_InitStructure);
+//  
+//  GPIO_ResetBits(GPIOE, GPIO_Pin_2);  //start with gps off to make sure it activates when wanted
   
   GPIO_Start();
   ADC_Start();
@@ -110,7 +112,7 @@ int main(void)
   GPIO_ResetBits(GPIOC, GPIO_Pin_11); //xbee reset
   GPIO_SetBits(GPIOE, GPIO_Pin_6); //buck enable
   while(getSysTick()<tickey);
-  GPIO_SetBits(GPIOE, GPIO_Pin_2); //gps on/off
+  //GPIO_SetBits(GPIOE, GPIO_Pin_2); //gps on/off
   GPIO_SetBits(GPIOC, GPIO_Pin_11); //xbee reset
   GPIO_SetBits(GPIOA, GPIO_Pin_10);  //LCD unreset
   UART4_Start();
@@ -160,35 +162,39 @@ int main(void)
     UpdateButton(&button1);
     UpdateButton(&button2);
     
-    if( buttonRisingEdge(&button1)){//right
+    if( buttonRisingEdge(&button2)){//right
       GPIO_ToggleBits(GPIOC, GPIO_Pin_3);//yellow
       //UART_Transmit(&huart4, gps_init_msg, cmdData1Len, 500);
       origin_state.pingnum+=1;
       origin_state.pingactive=1;
       origin_state.whodunnit = origin_state.id;
       origin_state.pingclearedby = 0;
+      GUI_UpdateBottomButton(0, GUI_GetNodeColor(origin_state.id));
+
     }
     
-    if(buttonRisingEdge(&button2)){//left
+    if(buttonRisingEdge(&button1)){//left
       //UART_Transmit(&huart4, gps_get_time_msg, cmdData2Len, 500);
       GPIO_ToggleBits(GPIOA, GPIO_Pin_2); //green
       
       if(origin_state.pingactive&&(origin_state.whodunnit != origin_state.id)){
         origin_state.pingactive=0;
+        GUI_UpdateBottomButton(0, GUI_GetNodeColor(origin_state.id));
       }
+      elizabethStartFlag=1;
     }
     
-    if(origin_state.gpson>2 &&(getSysTick()>tickey3)){
-      GPIO_ResetBits(GPIOE, GPIO_Pin_2);
-      delay(20000);
-      GPIO_SetBits(GPIOE, GPIO_Pin_2);
-      delay(20000);      
-      char setme[80];
-      sprintf(setme, "%s%c%c", gps_init_msg, 0x0D, 0x0A);
-      UART_Transmit(UART4, setme, sizeof(setme)/sizeof(setme[0]), 5000);
-      origin_state.gpson=0;
-      tickey3+=4000;
-    }
+//    if(origin_state.gpson<3 &&(getSysTick()>tickey3)){
+//      GPIO_ResetBits(GPIOE, GPIO_Pin_2);
+//      delay(20000);
+//      GPIO_SetBits(GPIOE, GPIO_Pin_2);
+//      //delay(20000);      
+//      //char setme[80];
+//      //sprintf(setme, "%s%c%c", gps_init_msg, 0x0D, 0x0A);
+//      //UART_Transmit(UART4, setme, sizeof(setme)/sizeof(setme[0]), 5000);
+//      origin_state.gpson=0;
+//      tickey3+=4000;
+//    }
     
     if(getReset()){
       NVIC_SystemReset();
@@ -202,8 +208,7 @@ int main(void)
     
      long actHeading[3] = {0,0,0};
 inv_get_sensor_type_euler(actHeading, &headingAcc, &headingTime);
-degrees=((double)actHeading[2])/((double)65536.0);
-//origin_state.heading=degrees;
+origin_state.heading=((double)actHeading[2])/((double)65536.0);
 
     long tempyraiture;
     mpu_get_temperature(&tempyraiture, NULL);
@@ -216,8 +221,20 @@ degrees=((double)actHeading[2])/((double)65536.0);
 #endif
     
     if(getSysTick()>tickey2){
-      tickey2 +=2000;
+      tickey2 +=1000;
       sendMessage();
+#if ORIGIN_ID == USER_ELIZABETH
+      if(elizabethStartFlag){
+      origin_state.lati -=2.4100000000023178e-05;
+      if(origin_state.lati<42.358104){
+        origin_state.lati=42.358104;
+      }
+      origin_state.longi-=1.633333333330711e-05;
+      if(origin_state.longi<-71.095135){
+        origin_state.longi=-71.095135;
+      }
+      }
+#endif
     }
     
       processGPS();
@@ -237,14 +254,10 @@ degrees=((double)actHeading[2])/((double)65536.0);
 #endif
       
       
-      GUI_UpdateArrow(-degrees*3.1415/180.0);
+      GUI_UpdateArrow(-origin_state.heading*3.1415/180.0);
       GUI_UpdateBattery(getBatteryStatus());
       GUI_DrawTime();
-      if (count > 50){
-        GUI_UpdateBottomButton(1, 0xe8ec);
-      } else {
-        GUI_UpdateBottomButton(0, 0);
-      }
+      GUI_DrawButton();
       GUI_Redraw();
       
       screencount += 1;

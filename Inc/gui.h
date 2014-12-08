@@ -71,6 +71,7 @@ extern "C" {
   Node *   GUI_InitNode(uint16_t ID, uint16_t fname,  uint16_t lname, uint16_t color);
   void     GUI_DeinitNode(Node *n);
   int16_t  GUI_GetNode(uint16_t ID);
+  uint16_t GUI_GetNodeColor(uint16_t ID);
   void     GUI_UpdateNode(uint16_t ID, double angleRad, uint16_t distance, uint8_t recPing, uint8_t sendPing);
   void     GUI_UpdateNodes(void);
   void     GUI_DrawNode(Node *n);

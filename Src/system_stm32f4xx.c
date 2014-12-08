@@ -237,7 +237,7 @@ void SystemInit(void)
   RCC->CIR = 0x00000000;
 
 #ifdef DATA_IN_ExtSRAM
-  SystemInit_ExtMemCtl(); 
+  //SystemInit_ExtMemCtl(); 
 #endif /* DATA_IN_ExtSRAM */
          
   /* Configure the System clock source, PLL Multiplier and Divider factors, 

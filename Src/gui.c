@@ -69,6 +69,14 @@ int16_t GUI_GetNode(uint16_t ID)
   return -1;
 }
 
+uint16_t GUI_GetNodeColor(uint16_t ID){
+  
+  int16_t i=GUI_GetNode(ID);
+  if(i<0)
+    return 0;
+  return(nodes[i].color);
+}
+  
 /**
   * @brief Updates node 
   * @param  
@@ -101,15 +109,37 @@ void GUI_UpdateNodes(void){
     if(origin_state.neighbors[i].active){
       int16_t index=GUI_GetNode(i);
       if(index<0){
-        GUI_InitNode(i, 'R', 'F', (0xF<<i));
+        switch(i){
+        case USER_VICTOR:
+          {
+            GUI_InitNode(i, 'V', 'H', (0xfc80));  //FIX COLOR
+            break;
+          }
+        case USER_ELIZABETH:
+          {
+            GUI_InitNode(i, 'E', 'S', (0xE8EC));  //FIX COLOR
+            break;
+          }
+        case USER_NATASHA:
+          {
+            GUI_InitNode(i, 'N', 'B', (0xF<<(i-1)));  //FIX COLOR
+            break;
+          }
+        case USER_CHARLES:
+          {
+            GUI_InitNode(i, 'C', 'V', (0xF<<(i-1)));  //FIX COLOR
+            break;
+          }
+        }
       }
       uint8_t recPing=0;
       uint8_t sentPing=0;
       if(origin_state.pingactive){
         if((origin_state.whodunnit==ORIGIN_ID)&&!(origin_state.pingclearedby&(1<<i))){
           recPing=1;
-        }else if(!(origin_state.whodunnit==ORIGIN_ID)){
+        }else if(!(origin_state.whodunnit==ORIGIN_ID)&&(i==origin_state.whodunnit)){
           sentPing=1;
+          GUI_UpdateBottomButton(1, GUI_GetNodeColor(i));
         }
       }
       if(origin_state.gpslock){
@@ -199,21 +229,21 @@ void GUI_DrawBattery(void)
 {  
   LCD_SetTextColor(0xFFFF);
   // Horizontal Lines
-  LCD_DrawLine(6, 250, 25, 1);
-  LCD_DrawLine(15, 250, 25, 1);
+  LCD_DrawLine(6, 268, 25, 1);
+  LCD_DrawLine(15, 268, 25, 1);
   // Vertical Lines
-  LCD_DrawLine(7, 249, 8, 0);
-  LCD_DrawLine(7, 275, 8, 0);
+  LCD_DrawLine(7, 267, 8, 0);
+  LCD_DrawLine(7, 293, 8, 0);
   // Positive Terminal
-  LCD_DrawLine(10, 276, 2, 0);
+  LCD_DrawLine(10, 294, 2, 0);
   // Juice Level
   if (batteryPercent > 100)
   {
-    LCD_DrawFullRect(8, 251, 6, 23);
+    LCD_DrawFullRect(8, 269, 6, 23);
   }
   else if (((int)(23 * batteryPercent / 100)) > 0)
   {
-    LCD_DrawFullRect(8, 251, 6, ((int)(23 * batteryPercent / 100)));
+    LCD_DrawFullRect(8, 269, 6, ((int)(23 * batteryPercent / 100)));
   }
 
 }
@@ -342,11 +372,11 @@ void GUI_DrawButton(void) {
 void GUI_ClearButton(void) {
   LCD_SetTextColor(0x0000);
   if ((bottomButton.text == 0) && (bottomButtonDirty == 1)){
-    LCD_DrawFullRect(0, 120, 35, 80);
+    LCD_DrawFullRect(0, 120, 35, 81);
     bottomButtonDirty = 0;
   }
   if ((topButton.text == 0) && (topButtonDirty == 1)){
-    LCD_DrawFullRect(205, 120, 35, 80);
+    LCD_DrawFullRect(205, 120, 35, 81);
     topButtonDirty = 0;
   }
 }
@@ -361,7 +391,11 @@ void GUI_DrawTime(void) {
   LCD_DrawFullRect(5, 0, 12, 37);
   
   // mins is the number of minutes since midnight. Time will be in 24h time.
-  uint16_t mins = origin_state.minutes+origin_state.hours*60;
+  
+  int16_t hours = origin_state.hours-5;
+  if(hours<0)
+    hours+=24;
+  uint16_t mins = origin_state.minutes+hours*60;
   
   LCD_SetTextColor(0xFFFF);
   LCD_SetFont(&Font8x12);
