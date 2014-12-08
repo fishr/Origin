@@ -20,15 +20,47 @@ static double lastArrowAngle = 0;
 
 static sFONT *LCD_Currentfonts;
 uint16_t centerX = 120;
-uint16_t centerY = 160;
+uint16_t centerY = 148;
 
 void GUI_DrawBackground(void)
 {
+  uint16_t r1 = 36;
+  uint16_t r2 = 68;
+  uint16_t r3 = 100;
+    
   LCD_SetTextColor(0xFFFF);
-  LCD_DrawFullCircle(centerX, centerY, 2);
-  LCD_DrawCircle(centerX, centerY, 20);
-  LCD_DrawCircle(centerX, centerY, 60);
-  LCD_DrawCircle(centerX, centerY, 100);
+  LCD_DrawFullCircle(centerX, centerY, 4);
+  LCD_DrawCircle(centerX, centerY, r1);
+  LCD_SetTextColor(0x9cd3);
+  LCD_DrawCircle(centerX, centerY, r2);
+  LCD_SetTextColor(0x8C51);
+  LCD_DrawCircle(centerX, centerY, r3);
+  
+  LCD_SetFont(&Avenir);
+  LCD_Currentfonts = &Avenir;
+  
+  LCD_SetTextColor(0x0000);
+  LCD_DrawFullRect(centerX-r1-7, centerY-13, 14, 30);
+  LCD_SetTextColor(0xFFFF);
+  LCD_DrawChar(centerY-13,centerX-r1+12,&LCD_Currentfonts->table[(1+48) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(centerY+2,centerX-r1+12,&LCD_Currentfonts->table[(0+48) * LCD_Currentfonts->Height]);
+  
+  LCD_SetTextColor(0x0000);
+  LCD_DrawFullRect(centerX-r2-7, centerY-18, 14, 45);
+  LCD_SetTextColor(0xef7d);
+  LCD_DrawChar(centerY-18,centerX-r2+12,&LCD_Currentfonts->table[(1+48) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(centerY-3,centerX-r2+12,&LCD_Currentfonts->table[(0+48) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(centerY+12,centerX-r2+12,&LCD_Currentfonts->table[(0+48) * LCD_Currentfonts->Height]);
+  
+  LCD_SetTextColor(0x0000);
+  LCD_DrawFullRect(centerX-r3-7, centerY-28, 14, 75);
+  LCD_SetTextColor(0xdefb);
+  LCD_DrawChar(centerY-28,centerX-r3+12,&LCD_Currentfonts->table[(5+48) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(centerY-13,centerX-r3+12,&LCD_Currentfonts->table[(0+48) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(centerY+2,centerX-r3+12,&LCD_Currentfonts->table[(0+48) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(centerY+17,centerX-r3+12,&LCD_Currentfonts->table[102 * LCD_Currentfonts->Height]);
+  LCD_DrawChar(centerY+28,centerX-r3+12,&LCD_Currentfonts->table[116 * LCD_Currentfonts->Height]);
+
 }
 
 void GUI_ClearBackground(void)
