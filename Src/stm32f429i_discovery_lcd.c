@@ -1089,6 +1089,9 @@ void LCD_WriteBMP(uint32_t BmpAddress)
   */
 void LCD_DrawFullRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height)
 {
+  if ((Width < 1) || (Height < 1)){
+    return;
+  }
   DMA2D_InitTypeDef      DMA2D_InitStruct;
   
   uint32_t  Xaddress = 0; 

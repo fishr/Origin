@@ -5,6 +5,13 @@
 #define PINGDIV 5
 #define PINGRAD 13
 
+#define BATBOTPX 6
+#define BATTOPPX 15
+#define BATLEFTPX 260
+#define BATRIGHTPX BATLEFTPX+27
+
+#define TIMEX 9
+
 static Node nodes[MAXNODES];
 
 static GUIButton topButton;
@@ -191,7 +198,7 @@ void GUI_DrawNode(Node *n)
   {
     for(uint16_t i = 1; i<=(n->sping/PINGDIV); i++)
     {
-      LCD_DrawCircle(n->x, n->y, (uint16_t)(20+PINGRAD*i));
+      LCD_DrawCircle(n->x, n->y, (uint16_t)(20+PINGRAD*(3-i)));
     }
     n->sping++;
     if ((n->sping/PINGDIV)>2)
@@ -237,23 +244,22 @@ void GUI_DrawBattery(void)
 {  
   LCD_SetTextColor(0xFFFF);
   // Horizontal Lines
-  LCD_DrawLine(6, 250, 25, 1);
-  LCD_DrawLine(15, 250, 25, 1);
+  LCD_DrawLine(BATBOTPX, BATLEFTPX+1, BATRIGHTPX-BATLEFTPX-2, 1);
+  LCD_DrawLine(BATTOPPX, BATLEFTPX+1, BATRIGHTPX-BATLEFTPX-2, 1);
   // Vertical Lines
-  LCD_DrawLine(7, 249, 8, 0);
-  LCD_DrawLine(7, 275, 8, 0);
+  LCD_DrawLine(BATBOTPX+1, BATLEFTPX, BATTOPPX-BATBOTPX-1, 0);
+  LCD_DrawLine(BATBOTPX+1, BATRIGHTPX-1, BATTOPPX-BATBOTPX-1, 0);
   // Positive Terminal
-  LCD_DrawLine(10, 276, 2, 0);
+  LCD_DrawLine(BATBOTPX+4, BATRIGHTPX, 2, 0);
   // Juice Level
   if (batteryPercent > 100)
   {
-    LCD_DrawFullRect(8, 251, 6, 23);
+    LCD_DrawFullRect(BATBOTPX+2, BATLEFTPX+2, BATTOPPX-BATBOTPX-3, BATRIGHTPX-BATLEFTPX-4);
   }
-  else if (((int)(23 * batteryPercent / 100)) > 0)
+  else if (round((BATRIGHTPX-BATLEFTPX-4)*batteryPercent/100.0) > 0)
   {
-    LCD_DrawFullRect(8, 251, 6, ((int)(23 * batteryPercent / 100)));
+    LCD_DrawFullRect(BATBOTPX+2, BATLEFTPX+2, BATTOPPX-BATBOTPX-3, (int16_t) round((BATRIGHTPX-BATLEFTPX-4)*batteryPercent/100.0));
   }
-
 }
 
 /**
@@ -264,7 +270,7 @@ void GUI_DrawBattery(void)
 void GUI_ClearBattery(void) 
 {  
   LCD_SetTextColor(0x0000);
-  LCD_DrawFullRect(6, 287, 9, 27);
+  LCD_DrawFullRect(BATBOTPX+2, BATLEFTPX+2, BATTOPPX-BATBOTPX-3, BATRIGHTPX-BATLEFTPX-4); 
 }
 
 
@@ -339,37 +345,37 @@ void GUI_DrawButton(void) {
     LCD_Currentfonts = &Avenir;
     if (bottomButton.text == 1){ //"OK"
       uint16_t width = 50;
-      uint16_t startY = (LCD_PIXEL_HEIGHT-width)/2;
-      uint16_t endY = (LCD_PIXEL_HEIGHT+width)/2;
+      uint16_t startY = centerY-(width)/2;
+      uint16_t endY = centerY+(width)/2;
       LCD_FillTriangle(0, 34, 0, startY-15, startY, startY);
       bottomButtonDirty = 1;
       LCD_FillTriangle(0, 34, 0, endY+15, endY, endY);
       LCD_DrawFullRect(0, startY, 35, width);
       LCD_SetTextColor(bottomButton.color);
-      LCD_DrawChar(147,28,&LCD_Currentfonts->table[79 * LCD_Currentfonts->Height]);
-      LCD_DrawChar(163,28,&LCD_Currentfonts->table[75 * LCD_Currentfonts->Height]);
+      LCD_DrawChar(centerY-13,28,&LCD_Currentfonts->table[79 * LCD_Currentfonts->Height]);
+      LCD_DrawChar(centerY+3,28,&LCD_Currentfonts->table[75 * LCD_Currentfonts->Height]);
     } else if (bottomButton.text == 2){ //"CANCEL"
       uint16_t width = 80;
-      uint16_t startY = (LCD_PIXEL_HEIGHT-width)/2;
-      uint16_t endY = (LCD_PIXEL_HEIGHT+width)/2;
+      uint16_t startY = centerY-(width)/2;
+      uint16_t endY = centerY+(width)/2;
       LCD_FillTriangle(0, 34, 0, startY-15, startY, startY);
       bottomButtonDirty = 1;
       LCD_FillTriangle(0, 34, 0, endY+15, endY, endY);
       LCD_DrawFullRect(0, startY, 35, width);
       LCD_SetTextColor(bottomButton.color);
-      LCD_DrawChar(120,28,&LCD_Currentfonts->table[67 * LCD_Currentfonts->Height]);
-      LCD_DrawChar(134,28,&LCD_Currentfonts->table[65 * LCD_Currentfonts->Height]);
-      LCD_DrawChar(150,28,&LCD_Currentfonts->table[78 * LCD_Currentfonts->Height]);
-      LCD_DrawChar(164,28,&LCD_Currentfonts->table[67 * LCD_Currentfonts->Height]);
-      LCD_DrawChar(178,28,&LCD_Currentfonts->table[69 * LCD_Currentfonts->Height]);
-      LCD_DrawChar(190,28,&LCD_Currentfonts->table[76 * LCD_Currentfonts->Height]);    }
+      LCD_DrawChar(centerY-40,28,&LCD_Currentfonts->table[67 * LCD_Currentfonts->Height]);
+      LCD_DrawChar(centerY-26,28,&LCD_Currentfonts->table[65 * LCD_Currentfonts->Height]);
+      LCD_DrawChar(centerY-10,28,&LCD_Currentfonts->table[78 * LCD_Currentfonts->Height]);
+      LCD_DrawChar(centerY+4,28,&LCD_Currentfonts->table[67 * LCD_Currentfonts->Height]);
+      LCD_DrawChar(centerY+18,28,&LCD_Currentfonts->table[69 * LCD_Currentfonts->Height]);
+      LCD_DrawChar(centerY+30,28,&LCD_Currentfonts->table[76 * LCD_Currentfonts->Height]);    
+    }
   }
   if (topButton.text > 0){
     LCD_SetTextColor(0xdefb);
-    
     uint16_t width = 80;
-    uint16_t startY = (LCD_PIXEL_HEIGHT-width)/2;
-    uint16_t endY = (LCD_PIXEL_HEIGHT+width)/2;
+    uint16_t startY = centerY-(width)/2;
+    uint16_t endY = centerY+(width)/2;
     LCD_FillTriangle(240, 206, 240, startY-15, startY, startY);
     topButtonDirty = 1;
     LCD_FillTriangle(240, 206, 240, endY+15, endY, endY);
@@ -378,17 +384,21 @@ void GUI_DrawButton(void) {
 }
 
 void GUI_ClearButton(void) {
-  LCD_SetTextColor(0x0000);
   if ((bottomButton.text == 0) && (bottomButtonDirty == 1)){
-    LCD_DrawFullRect(0, 120, 35, 80);
+    LCD_SetTextColor(0x0000);
+    uint16_t width = 250;
+    uint16_t startY = centerY-((width)/2);
+    LCD_DrawFullRect(0, startY, 35, width);
     bottomButtonDirty = 0;
   }
   if ((topButton.text == 0) && (topButtonDirty == 1)){
-    LCD_DrawFullRect(205, 120, 35, 80);
+    LCD_SetTextColor(0x0000);
+    uint16_t width = 250;
+    uint16_t startY = centerY-((width)/2);
+    LCD_DrawFullRect(205, startY, 35, width);
     topButtonDirty = 0;
   }
 }
-
 /** 
   * @brief  Displays the time in the lower left hand corner of the screen
   * @param  None
@@ -396,20 +406,20 @@ void GUI_ClearButton(void) {
   */
 void GUI_DrawTime(void) {
   LCD_SetTextColor(0x0000);
-  LCD_DrawFullRect(5, 0, 12, 37);
-  
-  // mins is the number of minutes since midnight. Time will be in 24h time.
-  uint16_t mins = origin_state.minutes+origin_state.hours*60;
-  
+  LCD_DrawFullRect(5, TIMEX-1, 12, 30);
+    
   LCD_SetTextColor(0xFFFF);
   LCD_SetFont(&Font8x12);
   LCD_Currentfonts = &Font8x12;
   
-  LCD_DrawChar(9,17,&LCD_Currentfonts->table[(mins/60/10 + 16) * LCD_Currentfonts->Height]);
-  LCD_DrawChar(15,17,&LCD_Currentfonts->table[(mins/60%10 + 16) * LCD_Currentfonts->Height]);
-  LCD_DrawChar(20,17,&LCD_Currentfonts->table[26 * LCD_Currentfonts->Height]);
-  LCD_DrawChar(25,17,&LCD_Currentfonts->table[((mins%60)/10 + 16) * LCD_Currentfonts->Height]);
-  LCD_DrawChar(31,17,&LCD_Currentfonts->table[((mins%60)%10 + 16) * LCD_Currentfonts->Height]);
+  // mins is the number of minutes since midnight. Time will be in 24h time.
+  uint16_t mins = origin_state.minutes+origin_state.hours*60;
+  
+  LCD_DrawChar(TIMEX,17,&LCD_Currentfonts->table[(mins/60/10 + 16) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(TIMEX+6,17,&LCD_Currentfonts->table[(mins/60%10 + 16) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(TIMEX+11,17,&LCD_Currentfonts->table[26 * LCD_Currentfonts->Height]);
+  LCD_DrawChar(TIMEX+16,17,&LCD_Currentfonts->table[((mins%60)/10 + 16) * LCD_Currentfonts->Height]);
+  LCD_DrawChar(TIMEX+22,17,&LCD_Currentfonts->table[((mins%60)%10 + 16) * LCD_Currentfonts->Height]);
 }
 
 void GUI_Redraw(void)
