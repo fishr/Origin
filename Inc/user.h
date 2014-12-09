@@ -12,7 +12,7 @@
 
 //change these values
 
-#define ORIGIN_ID  USER_CHARLES //MUST BE 1-7, and unique to each band
+#define ORIGIN_ID  USER_ELIZABETH //MUST BE 1-7, and unique to each band
 
 #define RESET_TIME 5000  //hard reset delay for button press
 #define NEIGHBORS_MAX 6
@@ -37,7 +37,7 @@
 
 #define ORIGIN  //if this is an origin as opposed to a discovery board
 //#define BOARD_V1  //if this is a V1 circuit board
-#define BOARD_V3
+//#define BOARD_V3
 
 #if (ORIGIN_ID == USER_VICTOR) || (ORIGIN_ID == USER_NATASHA)|| (ORIGIN_ID == USER_ELIZABETH)
 #define INSIDE //if the unit will be inside kresge

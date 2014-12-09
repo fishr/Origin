@@ -32,9 +32,9 @@ void GUI_DrawBackground(void)
   LCD_SetTextColor(0xFFFF);
   LCD_DrawFullCircle(centerX, centerY, 4);
   LCD_DrawCircle(centerX, centerY, r1);
-  LCD_SetTextColor(0x9cd3);
+  LCD_SetTextColor(0xFFFF);
   LCD_DrawCircle(centerX, centerY, r2);
-  LCD_SetTextColor(0x8C51);
+  LCD_SetTextColor(0xFFFF);
   LCD_DrawCircle(centerX, centerY, r3);
 
 }
@@ -53,12 +53,12 @@ void GUI_DrawScale(void)
   LCD_DrawChar(centerY-13,centerX-r1+12,&LCD_Currentfonts->table[(1+48) * LCD_Currentfonts->Height]);
   LCD_DrawChar(centerY+2,centerX-r1+12,&LCD_Currentfonts->table[(0+48) * LCD_Currentfonts->Height]);
 
-  LCD_SetTextColor(0x9cd3);
+  LCD_SetTextColor(0xFFFF);
   LCD_DrawChar(centerY-18,centerX-r2+12,&LCD_Currentfonts->table[(1+48) * LCD_Currentfonts->Height]);
   LCD_DrawChar(centerY-3,centerX-r2+12,&LCD_Currentfonts->table[(0+48) * LCD_Currentfonts->Height]);
   LCD_DrawChar(centerY+12,centerX-r2+12,&LCD_Currentfonts->table[(0+48) * LCD_Currentfonts->Height]);
 
-  LCD_SetTextColor(0x8C51);
+  LCD_SetTextColor(0xFFFF);
   LCD_DrawChar(centerY-28,centerX-r3+12,&LCD_Currentfonts->table[(5+48) * LCD_Currentfonts->Height]);
   LCD_DrawChar(centerY-13,centerX-r3+12,&LCD_Currentfonts->table[(0+48) * LCD_Currentfonts->Height]);
   LCD_DrawChar(centerY+2,centerX-r3+12,&LCD_Currentfonts->table[(0+48) * LCD_Currentfonts->Height]);
