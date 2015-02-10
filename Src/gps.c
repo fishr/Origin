@@ -114,11 +114,17 @@ if(strcmp(token, gprmc)){
       origin_state.seconds = (uint8_t) trunc(time-10000*origin_state.hours-100*origin_state.minutes);
     }else if(i==3){
 #ifndef INSIDE
-      origin_state.lati=strtod(token, NULL);
+      double lati =strtod(token, NULL);
+      double hours = trunc(lati/100);
+      double minutes=lati-100*hours;
+      origin_state.lati=hours+(minutes/60);
 #endif
     }else if(i==5){
 #ifndef INSIDE
-      origin_state.longi = -1.0*(strtod(token, NULL));
+      double longi =strtod(token, NULL);
+      double hoursl = trunc(longi/100);
+      double minutesl=longi-100*hoursl;
+      origin_state.longi=-1.0*(hoursl+(minutesl/60));
 #endif
     }
   }

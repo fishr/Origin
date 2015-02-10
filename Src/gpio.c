@@ -27,8 +27,8 @@ void GPIO_Start(){
 
   
   ////GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_6|GPIO_Pin_3;
-  //GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_6;
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_6;
+  //GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -81,14 +81,14 @@ void GPIO_Start(){
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
-  
-  //PE3
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-  GPIO_Init(GPIOE, &GPIO_InitStructure);
-  
+//  
+//  //PE3
+//    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+//  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+//  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+//  GPIO_Init(GPIOE, &GPIO_InitStructure);
+//  
     /*Configure GPIO GPIO_Pins : PA15 */
 
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;

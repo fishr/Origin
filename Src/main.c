@@ -105,7 +105,7 @@ int main(void)
   ADC_Start();
   Flash_Start();
   
-  unsigned long tickey = getSysTick()+1000;
+  unsigned long tickey = getSysTick()+5000;
   
   GPIO_ResetBits(GPIOA, GPIO_Pin_10); //LCD Reset must be held 10us
   GPIO_SetBits(GPIOG, GPIO_Pin_3);  //flash deselect
@@ -114,7 +114,7 @@ int main(void)
   GPIO_ResetBits(GPIOC, GPIO_Pin_11); //xbee reset
   GPIO_SetBits(GPIOE, GPIO_Pin_6); //buck enable
   while(getSysTick()<tickey);
-  //GPIO_SetBits(GPIOE, GPIO_Pin_2); //gps on/off
+  GPIO_SetBits(GPIOE, GPIO_Pin_2); //gps on/off
   GPIO_SetBits(GPIOC, GPIO_Pin_11); //xbee reset
   GPIO_SetBits(GPIOA, GPIO_Pin_10);  //LCD unreset
   UART4_Start();
